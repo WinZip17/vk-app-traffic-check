@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.css"],"names":[],"mappings":"AAAA,OACI,UAAW,CACX,eACJ,CAEA,UACI,aAAc,CACd,eACJ,CAEA,YACI,iBACJ","file":"main.8a9bee38.chunk.css","sourcesContent":[".photo {\r\n    width: 100%;\r\n    max-width: 460px;\r\n}\r\n\r\n.bl_color {\r\n    color: #13c1d9;\r\n    margin-left: 5px;\r\n}\r\n\r\n.textCenter {\r\n    text-align: center;\r\n}"]}
