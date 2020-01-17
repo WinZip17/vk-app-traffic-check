@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "fcac2232dc93b75388066954a66303e5",
+    "revision": "739685be56f72b1f73707631857614ff",
     "url": "/vk-app-traffic-check/index.html"
   },
   {
