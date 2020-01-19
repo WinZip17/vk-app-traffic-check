@@ -115,7 +115,7 @@ const FullHistory = (props) => {
 				{gibddHistory.mileages.mileages.map((mileages, index) => <div key={index}><p>{index + 1 }) {mileages.mileage / 1000}<span> тыс. км  </span> ({mileages.date})</p></div>)}
 			</div> </Div>}
 
-			{getGibddHistoryDataArr(gibddHistory.mileages, "status") &&  gibddHistory.fines.status === 200 && gibddHistory.fines.fines_v2.length > 0 && <Div><div> <p><strong>Список неоплаченных штрафов</strong></p></div>
+			{getGibddHistoryDataArr(gibddHistory.fines, "status") &&  gibddHistory.fines.status === 200 && gibddHistory.fines.fines_v2.length > 0 && <Div><div> <p><strong>Список неоплаченных штрафов</strong></p></div>
 				{gibddHistory.fines.fines_v2.map((fines, index) => <div key={index}><p>{index + 1 }) {"fine_posted" in fines ? `Штраф отправлен ${fines.date_post}` : `Нарушение от  ${fines.date_decis}`} {fines.koap_text.length > 0 && fines.koap_text} {fines.div_addr.length > 0 && fines.div_addr} {fines.summa.length > 0 && fines.summa + " ₽"}</p></div>)}
 			</Div>}
 
