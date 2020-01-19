@@ -22,11 +22,28 @@
     "@vkontakte/icons": "^1.10.0",
     "@vkontakte/vk-connect": "^1.8.1",
     "@vkontakte/vkui": "^2.30.7",
+    "@vroomlabs/vin-validate": "^1.0.2",
     "babel-eslint": "^10.0.3",
     "chalk": "^2.4.2",
     "core-js": "^3.1.4",
+    "dateformat": "^3.0.3",
+    "gh-pages": "^2.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "react-input-mask": "^2.0.4",
+    "vin-validator": "^1.0.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

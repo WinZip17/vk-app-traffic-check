@@ -1,0 +1,62 @@
+.photo {
+    width: 100%;
+    max-width: 460px;
+}
+
+.bl_color {
+    color: #13c1d9;
+    margin-left: 5px;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+a {
+    font-style: italic;
+}
+
+.red_circle {
+    width: 7px;
+    height: 7px;
+    background-color: #ff0000;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    /* margin-top: 5px; */
+    padding-left: 0 !important;
+    padding-top: 0 !important;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.green_circle {
+    width: 7px;
+    height: 7px;
+    background-color: #3fb8af;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    /* margin-top: 5px; */
+    padding-left: 0 !important;
+    padding-top: 0 !important;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.yellow_circle {
+    width: 7px;
+    height: 7px;
+    background-color: orange;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    /* margin-top: 5px; */
+    padding-left: 0 !important;
+    padding-top: 0 !important;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+

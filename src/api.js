@@ -1,20 +1,35 @@
 
 
-const preview_data = () = {
-    fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=5')
+export const preview_data = (number, setPreviewData, setPopout, setIsValidNumber) => {
+    fetch(`https://data.gibdd-proverka.ru/check/auto/prerequest/?vin_grz=${number}&key=Yu8fJszHk4p73pvc`)
     .then(function(response) {
         return response.json();
     })
     .then(function(data) {
-        console.log(data);
-        if(data.success) {
-            // process success response
+        if("error" in data) {
+            setIsValidNumber(false)
+            setPopout(null)
         } else {
-            // proccess server errors
+            setPreviewData(data)
+            setPopout(null)
         }
     })
 }
 
-const gibdd_history = () = {
+export const gibdd_history = (number, setGibddHistory, setPopout, setIsValidNumber, setActivePanel) => {
+    fetch(`https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv`)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if("error" in data) {
+                setIsValidNumber(false)
+                setPopout(null)
+            } else {
+                setGibddHistory(data)
+                setActivePanel('FullHistory')
+                setPopout(null)
+            }
+        })
 
 }
