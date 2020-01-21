@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b466c891c9ff4828576d035b865315a7",
+    "revision": "b3f427d8c8d05d636bd1b65d53e0933b",
     "url": "/vk-app-traffic-check/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/vk-app-traffic-check/static/css/2.4e89ce74.chunk.css"
   },
   {
-    "revision": "d023b8329146a1e35338",
+    "revision": "9b8bb227274670185224",
     "url": "/vk-app-traffic-check/static/css/main.681d50a9.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/vk-app-traffic-check/static/js/2.666c8e74.chunk.js"
   },
   {
-    "revision": "d023b8329146a1e35338",
-    "url": "/vk-app-traffic-check/static/js/main.a86e5316.chunk.js"
+    "revision": "9b8bb227274670185224",
+    "url": "/vk-app-traffic-check/static/js/main.069bcdde.chunk.js"
   },
   {
     "revision": "fc265d245dd105f67020",
