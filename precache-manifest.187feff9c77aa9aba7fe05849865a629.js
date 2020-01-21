@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "61532049120df0286b56e1bfb563df33",
+    "revision": "b466c891c9ff4828576d035b865315a7",
     "url": "/vk-app-traffic-check/index.html"
   },
   {
-    "revision": "9b275478d794d0478fa7",
+    "revision": "4f493121e132f88b50f5",
     "url": "/vk-app-traffic-check/static/css/2.4e89ce74.chunk.css"
   },
   {
-    "revision": "8ce878b4424b90272aab",
-    "url": "/vk-app-traffic-check/static/css/main.116ed365.chunk.css"
+    "revision": "d023b8329146a1e35338",
+    "url": "/vk-app-traffic-check/static/css/main.681d50a9.chunk.css"
   },
   {
-    "revision": "9b275478d794d0478fa7",
-    "url": "/vk-app-traffic-check/static/js/2.d843e5fc.chunk.js"
+    "revision": "4f493121e132f88b50f5",
+    "url": "/vk-app-traffic-check/static/js/2.666c8e74.chunk.js"
   },
   {
-    "revision": "8ce878b4424b90272aab",
-    "url": "/vk-app-traffic-check/static/js/main.705165ae.chunk.js"
+    "revision": "d023b8329146a1e35338",
+    "url": "/vk-app-traffic-check/static/js/main.a86e5316.chunk.js"
   },
   {
     "revision": "fc265d245dd105f67020",
