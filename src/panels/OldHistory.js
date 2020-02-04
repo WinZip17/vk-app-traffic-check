@@ -10,76 +10,50 @@ import dateformat from 'dateformat'
 //eslint-disable-next-line import/no-webpack-loader-syntax
 import Svg2 from 'react-svg-loader!../img/svg.html';
 import {damageClass, getCircleColor, getGibddHistoryDataArr, modifyUrl} from "../util";
-import {Menu} from "../Menu";
-import {get_name_browser} from "../App";
-
-export const getNewUrlImg = (url) => {
-	let index = url.split("map=")
-	return `https://check.gibdd.ru/proxy/check/auto/images/cache/${index[1]}.png`
-}
+import {getNewUrlImg} from "./FullHistory";
 
 
 const osName = platform();
 
-const FullHistory = (props) => {
-	const {id,  previousPanel, isPreview, setActivePanel, setHeight, getPreviewReport, activePanel, isMobPlatform, setPopout} = props
-	let previewData = isPreview ? props.previewDataPresent : props.previewData
-	let gibddHistory = isPreview ? props.gibddHistoryPresent : props.gibddHistory
+const OldHistory = (props) => {
+	const {id, go, oldHistoryArr, idHistory, setHeight} = props
+	const gibddHistory = oldHistoryArr[idHistory]
 
-	const groupClass = `${get_name_browser() ? "fix-menu-group-mozilla" : "fix-menu-group" }`
 	useEffect(() => {
 		setHeight(4000)
 	}, []);
 
-	const getNamePreviewDataArr = (name) => {
-		let arr = []
-		if (previewData) {
-			for (let key in previewData) (
-				arr.push(key)
-			)
-		}
-		return arr.includes(name) && previewData[name].length > 0
-	}
-
 	let wellDate = new Date();
 
 	return <Panel id={id}>
-		{!isPreview ?		<PanelHeader
-			left={<HeaderButton onClick={() => {
-				setActivePanel(previousPanel)
-				setHeight(2000)
-			}}>
+		<PanelHeader
+			left={<HeaderButton onClick={go} data-to="my-checks">
 				{osName === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
 			</HeaderButton>}
 		>
 			История автомобиля
 		</PanelHeader>
-		 : 		<PanelHeader noShadow={true}><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
-		}
-		{isPreview && <Menu getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>}
+		<Group>
 
-
-		<Group className={!isPreview ? "" : groupClass}>
-
-			<Div><h1>{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"model") && gibddHistory.history.gibdd_base.vehicle.model}{getNamePreviewDataArr("year") && ", " + previewData.year}</h1></Div>
+			<Div><h1>{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"model") && gibddHistory.history.gibdd_base.vehicle.model}{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"year") && ", " + gibddHistory.history.gibdd_base.vehicle.year}</h1></Div>
 			<Div>{"Дата проверки  " + dateformat(wellDate, 'dd.mm.yyyy')}</Div>
 			{getGibddHistoryDataArr(gibddHistory, "VIN") && <Div><span className='text-bold'>{"VIN: " + gibddHistory.VIN}</span></Div>}
 			{getGibddHistoryDataArr(gibddHistory, "num") && <Div><span className='text-bold'>{"Гос. номер: " + gibddHistory.num}</span></Div>}
 			{getGibddHistoryDataArr(gibddHistory, "sts") && <Div><span className='text-bold'>{"СТС: " + gibddHistory.sts}</span></Div>}
-			{getNamePreviewDataArr("image") && <Div><img src={modifyUrl(previewData.image)} alt='photo' className='photo'/></Div>}
-			{getNamePreviewDataArr("category") && <Div><span><i>Категория ТС: </i>{previewData.category + "  "}</span></Div>}
+			{gibddHistory.imgs && getGibddHistoryDataArr(gibddHistory.imgs, "status") && gibddHistory.imgs.status === 200 && gibddHistory.imgs.photo.length > 0 && <Div><img src={modifyUrl(gibddHistory.imgs.photo[0].src)} alt='photo' className='photo'/></Div>}
+			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"category") && <Div><span><i>Категория ТС: </i>{gibddHistory.history.gibdd_base.vehicle.category}</span></Div>}
 			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "year") && <Div><span><i>Год выпуска: </i>{gibddHistory.history.gibdd_base.vehicle.year}</span></Div>}
 			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "color") && <Div><span><i>Цвет: </i>{gibddHistory.history.gibdd_base.vehicle.color}</span></Div>}
-			{getNamePreviewDataArr("wheel") && <Div><span><i>Руль: </i>{previewData.wheel}</span></Div>}
-			{getNamePreviewDataArr("weight") && <Div><span><i>Масса (без нагрузки/макс. разр.): </i>{previewData.weight}</span></Div>}
+			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"wheel") && <Div><span><i>Руль: </i>{gibddHistory.history.gibdd_base.vehicle.wheel}</span></Div>}
+			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"weight") && <Div><span><i>Масса (без нагрузки/макс. разр.): </i>{gibddHistory.history.gibdd_base.vehicle.weight}</span></Div>}
 			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "type") && <Div><span><i>Тип кузова: </i>{gibddHistory.history.gibdd_base.vehicle.type}</span></Div>}
-			{getNamePreviewDataArr("capacity") ? <Div><span><i>Объем двигателя: : </i>{previewData.capacity + " куб. см"}</span></Div> : getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_volume") && <Div><span>{"Объем двигателя: " + gibddHistory.history.gibdd_base.vehicle.engine_volume + " куб. см"}</span></Div>}
-			{getNamePreviewDataArr("power") ? <Div><span><i>Мощность двигателя: </i>{previewData.power + " л.c."}</span></Div> : getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "power_hp") && <Div><span>{"Мощность двигателя: " + gibddHistory.history.gibdd_base.vehicle.power_hp + " л.c."}</span></Div>}
+			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_volume") && <Div><span><i>Объем двигателя: : </i>{gibddHistory.history.gibdd_base.vehicle.engine_volume + " куб. см"}</span></Div>}
+			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "power_hp") && <Div><span>{"Мощность двигателя: " + gibddHistory.history.gibdd_base.vehicle.power_hp + " л.c."}</span></Div>}
 			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_number") && <Div><span><i>№ двигателя: </i>{gibddHistory.history.gibdd_base.vehicle.engine_number}</span></Div>}
-			{getNamePreviewDataArr("engine_type") && <Div><span><i>Тип двигателя: </i>{previewData.engine_type}</span></Div>}
+			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_type") && <Div><span><i>Тип двигателя: </i>{gibddHistory.history.gibdd_base.vehicle.engine_type}</span></Div>}
 
 			<Div>
-				<p className='fix-margin'><span className='text-bold'>Сводные данные</span></p>
+			<p className='fix-margin'><span className='text-bold'>Сводные данные</span></p>
 			<p><span className={gibddHistory.history.status !== 200 ? getCircleColor(0) : getCircleColor(gibddHistory.history.gibdd_base.ownership_periods.length)}> </span> <i>Количество записей в ПТС: </i>{gibddHistory.history.status === 200 ? <span>{" " + gibddHistory.history.gibdd_base.ownership_periods.length}</span> : " нет информации"}</p>
 			<p><span className={gibddHistory.dtp.status === 200 && gibddHistory.dtp.dtp.accidents.length > 0 ? getCircleColor(3) : getCircleColor(0)}> </span><i>ДТП: </i> {gibddHistory.dtp.status === 200 ? <span>{" " + gibddHistory.dtp.dtp.accidents.length}</span> : " 0"}</p>
 			<p><i>Пробег: </i>{getGibddHistoryDataArr(gibddHistory.mileages, "status") && gibddHistory.mileages.status === 200 && gibddHistory.mileages.mileages.length > 0? <span>{gibddHistory.mileages.mileages[gibddHistory.mileages.mileages.length - 1].mileage / 1000}<span> тыс. км  </span> ({gibddHistory.mileages.mileages[gibddHistory.mileages.mileages.length - 1].date})</span> : " нет информации"}</p>
@@ -106,7 +80,7 @@ const FullHistory = (props) => {
 
 
 			{gibddHistory.imgs && getGibddHistoryDataArr(gibddHistory.imgs, "status") && gibddHistory.imgs.status === 200 && gibddHistory.imgs.photo.length > 0 && <Div><p><span className='text-bold'>Фото</span></p> <div>
-				{gibddHistory.imgs.photo.map((photo, index) => <div key={index}><p>{index + 1 }) {photo.date.length > 0 && dateformat(photo.date, 'dd.mm.yyyy')}</p> <img
+				{gibddHistory.imgs.photo.map((photo, index) => <div key={index}><p>{index + 1 })  {photo.date.length > 0 && dateformat(photo.date, 'dd.mm.yyyy')}</p> <img
 					src={modifyUrl(photo.src)} alt='photo' className='photo'/> </div>)}
 			</div></Div>}
 
@@ -126,4 +100,5 @@ const FullHistory = (props) => {
 	</Panel>
 }
 
-export default FullHistory;
+
+export default OldHistory;

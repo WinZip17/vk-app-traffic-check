@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://winzip17.github.io/vk-app-traffic-check/",
+  "homepage": "./",
   "scripts": {
     "start": "cross-env PORT=10888 HTTPS=true react-scripts start",
     "build": "react-scripts build",
@@ -16,7 +16,8 @@
   "devDependencies": {
     "cross-env": "^5.2.0",
     "react-hot-loader": "^4.9.0",
-    "react-scripts": "^3.1.2"
+    "react-scripts": "^3.1.2",
+    "react-svg-loader": "^3.0.3"
   },
   "dependencies": {
     "@vkontakte/icons": "^1.10.0",
@@ -31,7 +32,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-input-mask": "^2.0.4",
+    "react-scroll": "^1.7.16",
     "vin-validator": "^1.0.0"
   },
   "browserslist": {

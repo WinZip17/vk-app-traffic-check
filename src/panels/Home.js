@@ -1,55 +1,48 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
 import Button from '@vkontakte/vkui/dist/components/Button/Button';
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
-import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
-import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 import FormLayout from "@vkontakte/vkui/dist/es6/components/FormLayout/FormLayout";
 import Input from "@vkontakte/vkui/dist/es6/components/Input/Input";
 import FormStatus from "@vkontakte/vkui/dist/es6/components/FormStatus/FormStatus";
-
+import main from "../img/main.jpg";
+import {Menu} from "../Menu";
+import {get_name_browser} from "../App";
+import * as Scroll from 'react-scroll';
 
 const Home = (props) => {
-	const { id, go, fetchedUser, setPopout, previewData, number, changeNumber, isValidNumber, getPreviewData, getGibddHistory } = props
+	const {id, isMobPlatform, previewData, number, setPopout, setHeight, errorInfo,
+		changeNumber, isValidNumber, getPreviewData, getGibddHistory,
+		activePanel, setActivePanel, price, setPreviousPanel, getPreviewReport} = props
 
-	const Hashtag = <Fragment><span className="bl_color">#</span></Fragment>
+	useEffect(() => {
+		setPreviousPanel(id)
+		previewData ? setHeight(1500) : setHeight(700)
+	}, []);
 
-	const getNamePreviewDataArr = (name) => {
-		let arr = []
-		if (previewData) {
-			for (let key in previewData) (
-				arr.push(key)
-			)
 
-		}
-		return arr.includes(name) && previewData[name].length > 0
-	}
-
-	//disabled={!isValidNumber || !number}
 	return 	<Panel id={id}>
-		<PanelHeader>ГИБДД проверка</PanelHeader>
-		{/*{fetchedUser &&*/}
-		{/*<Group>*/}
-		{/*	<Cell*/}
-		{/*		before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}*/}
-		{/*		description={fetchedUser.city && fetchedUser.city.title ? fetchedUser.city.title : ''}*/}
-		{/*	>*/}
-		{/*		{`${fetchedUser.first_name} ${fetchedUser.last_name}`}*/}
-		{/*	</Cell>*/}
-		{/*</Group>}*/}
-
-		<Group>
+		<PanelHeader noShadow={true}><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
+		<Menu getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform}  setPopout={setPopout}/>
+		<Group className={`${get_name_browser() ? "main-img-text-desktop-mozilla" : "fix-menu-group" }`}>
 			<Div>
-				<h2>Узнай её прошлое, прежде чем взять</h2>
-				<h5>Проверка истории авто по VIN или госномеру за 100₽</h5>
+				{isMobPlatform && <div className="main-img-text">
+					<h3>Узнай её прошлое, <br/><span className='subtext'>прежде чем взять</span></h3>
+					<h5 className='subtext'>Проверка истории авто по VIN <br/>или госномеру за <span className='price-text-header'>{price}₽</span></h5>
+				</div>}
+				{!isMobPlatform && <div className="main-img-text main-img-text-desktop" >
+					<h2 className='header-text'>Узнай её прошлое, <br/><span className='subtext'>прежде чем взять</span></h2>
+					<h3 className='subtext'>Проверка истории авто по VIN <br/>или госномеру за <span className='price-text-header-desktop'>{price}₽</span></h3>
+				</div>}
+				<img src={main} alt='main' className="main-img" />
 			</Div>
 				<FormLayout >
 					<Input status={isValidNumber? "default" : "error"} type="text" value={number} onChange={changeNumber} alignment="center" placeholder='VIN или госномер' />
 					{!isValidNumber && <FormStatus state="error">
-						Некорректный VIN или госномер
+						{errorInfo}
 					</FormStatus>}
 				</FormLayout>
 			<Div>
@@ -58,36 +51,6 @@ const Home = (props) => {
 				</Button>
 			</Div>
 		</Group>
-		{previewData && <Group>
-			<Div className='textCenter'>
-				<h2>
-					{getNamePreviewDataArr("model") && previewData.model}{getNamePreviewDataArr("year") && ", " + previewData.year}
-				</h2>
-				<p>
-					{getNamePreviewDataArr("body_number") && <span>{Hashtag}{"VIN: " + previewData.body_number + "  "}</span>}
-					{getNamePreviewDataArr("plate") && <span>{Hashtag}{"госномер: " + previewData.plate + "  "}</span>}
-					{getNamePreviewDataArr("capacity") && <span>{Hashtag}{previewData.capacity + " куб. см" + "  "}</span>}
-					{getNamePreviewDataArr("power") && <span>{Hashtag}{previewData.power + "  л.с." + "  "}</span>}
-					{getNamePreviewDataArr("wheel") && <span>{Hashtag}{"руль: " + previewData.wheel + "  "}</span>}
-					{getNamePreviewDataArr("category") && <span>{Hashtag}{"Категория ТС: " + previewData.category + "  "}</span>}
-					{getNamePreviewDataArr("weight") && <span>{Hashtag}{"вес: " + previewData.weight + " кг "}</span>}
-					{getNamePreviewDataArr("engine_type") && <span>{Hashtag}{"тип двигателя: " + previewData.engine_type + "  "}</span>}
-				</p>
-				{getNamePreviewDataArr("image") && <img src={previewData.image} alt='photo' className='photo'/>}
-			</Div>
-			<Div className='textCenter'>
-				<h3>В полном отчёте за 100₽ доступно:</h3>
-				<p>
-					{Hashtag}пробег {Hashtag}регистрации {Hashtag}ДТП {Hashtag}ограничения {Hashtag}розыск {Hashtag}данные о залогах {Hashtag}диагностическая карта {Hashtag}ОСАГО {Hashtag}штрафы {Hashtag}фотографии {Hashtag}объявления о продаже {Hashtag}профили на drive2.ru {Hashtag}проверка на работу в такси {Hashtag}характеристики авто
-				</p>
-			</Div>
-
-			<Div>
-				<Button size="xl" disabled={!isValidNumber || !number} onClick={getGibddHistory} >
-					Купить полный отчет
-				</Button>
-			</Div>
-		</Group>}
 	</Panel>
 
 };
