@@ -16,7 +16,6 @@ const Comparison = (props) => {
 		setHeight(2200)
 	}, []);
 
-
 	return <Panel id={id}>
 		<PanelHeader noShadow={true}><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
 		<Menu getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>
@@ -27,7 +26,6 @@ const Comparison = (props) => {
 				<p>Купи дешевле — продай дороже</p>
 			</Div>
 			<div className={!isMobPlatform ? "competitors-content textCenter" : ""}>
-
 				<Div className={`comparison-content-div ${!isMobPlatform && "content-div"}`}>
 					<div className='border-price-block textCenter' >
 						<h3 className='comparison-content-header-active'><a target="_BLANK" href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">НАШ СЕРВИС</a></h3>
@@ -80,7 +78,7 @@ const Comparison = (props) => {
 						<p>есть номер двигателя</p>
 						<p>есть данные диагн. карты</p>
 						<p>есть данные ОСАГО</p>
-						<p className={`${get_name_browser() ? "fix-height-info" : ""}`}><span className='text-bold' >нет</span> объявлений о продаже</p>
+						<p className={`${get_name_browser() ? "fix-height-info" : "fix-height-info3"}`}><span className='text-bold' >нет</span> объявлений о продаже</p>
 						<p><span className='text-bold'>нет</span> ссылок на профили drive2.ru</p>
 						<p>есть проверки авто на штрафы</p>
 						<form action="https://xn----7sbgza7acqhge3n.xn--p1ai/example/" target="_blank">
@@ -101,7 +99,7 @@ const Comparison = (props) => {
 						<p>есть номер двигателя</p>
 						<p><span className='text-bold'>нет</span> данных диагн. карты</p>
 						<p><span className='text-bold'>нет</span> данных ОСАГО</p>
-						<p className={`${get_name_browser() ? "fix-height-info2" : ""}`}><span className='text-bold'>нет</span> объявлений о продаже</p>
+						<p className={`${get_name_browser() ? "fix-height-info2" : "fix-height-info3"}`}><span className='text-bold'>нет</span> объявлений о продаже</p>
 						<p><span className='text-bold'>нет</span> ссылок на профили drive2.ru</p>
 						<p>есть проверки авто на штрафы</p>
 						<form action="https://adaperio.ru/ReportExample" target="_blank">
@@ -122,7 +120,7 @@ const Comparison = (props) => {
 						<p>есть номер двигателя</p>
 						<p>есть данные диагн. карты</p>
 						<p>есть данные ОСАГО</p>
-						<p className={`${get_name_browser() ? "fix-height-info2" : ""}`}><span className='text-bold'>нет</span> объявлений о продаже</p>
+						<p className={`${get_name_browser() ? "fix-height-info2" : "fix-height-info3"}`}><span className='text-bold'>нет</span> объявлений о продаже</p>
 						<p><span className='text-bold'>нет</span> ссылок на профили drive2.ru</p>
 						<p><span className='text-bold'>нет</span> проверки авто на штрафы</p>
 						<form action="https://avtoraport.ru/example" target="_blank">

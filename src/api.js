@@ -24,7 +24,8 @@ export const preview_data = (number, setPreviewData, setPopout, setIsValidNumber
 
 export const gibdd_history = (number, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, user_id = 0, setIsPreview ) => {
     setIsPreview(false)
-    fetch(`https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv&user_id=${user_id}`)
+    let url = user_id === 0 ? `https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv` : `https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv&user_id=${user_id}`
+    fetch(url)
         .then(function(response) {
             return response.json();
         })
@@ -51,7 +52,7 @@ export const get_preview_report = (number, setPreviewDataPresent, setPopout, set
                 setPopout(null)
             } else {
                 setPreviewDataPresent(data)
-                fetch(`https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv&user_id=0`)
+                fetch(`https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv`)
                     .then(function(response) {
                         return response.json();
                     })

@@ -35,3 +35,15 @@ export const modifyUrl = (url) => {
         return url
     }
 }
+
+export const getNewArrFines = (fines) => {
+    let arr = []
+    for (let i = 0; i < fines.length; i++) {
+        if ('status' in fines[i] && fines[i].status === 1) {
+
+        } else {
+            arr.push(fines[i])
+        }
+    }
+    return arr
+}

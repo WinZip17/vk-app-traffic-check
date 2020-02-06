@@ -83,37 +83,3 @@ export const Menu = (props) => {
 
     </FixedLayout>
 }
-
-// export const Menu = (props) => {
-//     const {activePanel, setActivePanel} = props
-//     return <FixedLayout vertical="top">
-//         <Tabs theme="header" type="buttons">
-//             <HorizontalScroll>
-//                 <TabsItem
-//                     onClick={() => setActivePanel('home')}
-//                     selected={activePanel === 'home'}
-//                 >
-//                     <img className='logo' src={logo} alt='logo'/>
-//                 </TabsItem>
-//                 <TabsItem
-//                     onClick={() => setActivePanel('competitors')}
-//                     selected={activePanel === 'competitors'}
-//                 >
-//                     Чем мы лучше конкурентов
-//                 </TabsItem>
-//                 <TabsItem
-//                     onClick={() => setActivePanel('comparison')}
-//                     selected={activePanel === 'comparison'}
-//                 >
-//                     Сравнение цен на рынке
-//                 </TabsItem>
-//                 <TabsItem
-//                     onClick={() => setActivePanel('my-checks')}
-//                     selected={activePanel === 'my-checks'}
-//                 >
-//                     Мои проверки
-//                 </TabsItem>
-//             </HorizontalScroll>
-//         </Tabs>
-//     </FixedLayout>
-// }

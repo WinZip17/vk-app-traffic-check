@@ -6,10 +6,9 @@ import HeaderButton from '@vkontakte/vkui/dist/components/HeaderButton/HeaderBut
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Div from "@vkontakte/vkui/dist/es6/components/Div/Div";
-import dateformat from 'dateformat'
 //eslint-disable-next-line import/no-webpack-loader-syntax
 import Button from "@vkontakte/vkui/dist/components/Button/Button";
-
+import {modifyUrl} from "../util";
 
 const osName = platform();
 
@@ -32,9 +31,6 @@ const PreviewHistiry = (props) => {
 		return arr.includes(name) && previewData[name].length > 0
 	}
 
-
-
-
 	return <Panel id={id}>
 		<PanelHeader
 			left={<HeaderButton onClick={go} data-to="home">
@@ -50,16 +46,16 @@ const PreviewHistiry = (props) => {
 						{getNamePreviewDataArr("model") && previewData.model}{getNamePreviewDataArr("year") && ", " + previewData.year}
 					</h2>
 					<p>
-						{getNamePreviewDataArr("body_number") && <span>{Hashtag}{"VIN: " + previewData.body_number + "  "}</span>}
+						{getNamePreviewDataArr("body_number") && <span>{Hashtag}{`${previewData.body_number.length === 17? "VIN: " : "Кузов "}` + previewData.body_number + "  "}</span>}
 						{getNamePreviewDataArr("plate") && <span>{Hashtag}{"госномер: " + previewData.plate + "  "}</span>}
 						{getNamePreviewDataArr("capacity") && <span>{Hashtag}{previewData.capacity + " куб. см" + "  "}</span>}
 						{getNamePreviewDataArr("power") && <span>{Hashtag}{previewData.power + "  л.с." + "  "}</span>}
 						{getNamePreviewDataArr("wheel") && <span>{Hashtag}{"руль: " + previewData.wheel + "  "}</span>}
-						{getNamePreviewDataArr("category") && <span>{Hashtag}{"Категория ТС: " + previewData.category + "  "}</span>}
+						{getNamePreviewDataArr("category") && <span>{Hashtag}{"категория ТС: " + previewData.category + "  "}</span>}
 						{getNamePreviewDataArr("weight") && <span>{Hashtag}{"вес: " + previewData.weight + " кг "}</span>}
 						{getNamePreviewDataArr("engine_type") && <span>{Hashtag}{"тип двигателя: " + previewData.engine_type + "  "}</span>}
 					</p>
-					{getNamePreviewDataArr("image") && <img src={previewData.image} alt='photo' className='photo'/>}
+					{getNamePreviewDataArr("image") && <img src={modifyUrl(previewData.image)} alt='photo' className='photo'/>}
 				</Div>
 				<Div className='textCenter'>
 					<h3>В полном отчёте за {price}₽ доступно:</h3>

@@ -5,7 +5,6 @@ import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader
 import {Menu} from "../Menu";
 import Avatar from "@vkontakte/vkui/dist/es6/components/Avatar/Avatar";
 import Cell from "@vkontakte/vkui/dist/components/Cell/Cell";
-import logo from "../img/logo.png"
 import no_image from "../img/no_image.png"
 import {getGibddHistoryDataArr, modifyUrl} from "../util";
 import Div from "@vkontakte/vkui/dist/es6/components/Div/Div";
@@ -21,7 +20,6 @@ const MyChecks = (props) => {
 		getOldHistory()
 	}, []);
 
-
 	return <Panel id={id}>
 		<PanelHeader noShadow={true}><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
 		<Menu getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>
@@ -36,7 +34,8 @@ const MyChecks = (props) => {
 					setActivePanel('OldHistory')
 				}}
 			>
-				<span className="text-bold"> {getGibddHistoryDataArr(auto.history.gibdd_base.vehicle,"model") && auto.history.gibdd_base.vehicle.model}{getGibddHistoryDataArr(auto.history.gibdd_base.vehicle,"year") && ", " + auto.history.gibdd_base.vehicle.year}</span> <br/>
+				<span className="text-bold"> {getGibddHistoryDataArr(auto.history,"gibdd_base") && getGibddHistoryDataArr(auto.history.gibdd_base.vehicle,"model") && auto.history.gibdd_base.vehicle.model}
+				{getGibddHistoryDataArr(auto.history,"gibdd_base") && getGibddHistoryDataArr(auto.history.gibdd_base.vehicle,"year") && ", " + auto.history.gibdd_base.vehicle.year}</span> <br/>
 				{getGibddHistoryDataArr(auto, "num") && <span>{"Госномер: " + auto.num}{getGibddHistoryDataArr(auto, "VIN") && ", "}</span>}{getGibddHistoryDataArr(auto, "VIN") && <span>{"VIN: " + auto.VIN}</span>}
 			</Cell> ) }<List>
 			</List>
