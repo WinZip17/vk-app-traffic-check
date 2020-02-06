@@ -35,7 +35,7 @@ const App = () => {
 	const [isValidNumber, setIsValidNumber] = useState(true);
 	const [isMobPlatform, setIsMobPlatform] = useState(false);
 	const [previousPanel, setPreviousPanel] = useState('home');
-	const [price, setPrice] = useState('99');
+	const [price, setPrice] = useState('0');
 	const [previewDataPresent, setPreviewDataPresent] = useState(undefined);
 	const [gibddHistoryPresent, setGibddHistoryPresent] = useState(undefined);
 	const [isPreview, setIsPreview] = useState(false);
@@ -95,8 +95,9 @@ const App = () => {
 		} else if (number && number === 'SALVA1BD8CH641467' ) {
 			gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
 		} else {
+			price.toString() === "0" ? gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview) : connect.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
 			// gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
-			connect.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
+			// connect.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
 		}
 	};
 

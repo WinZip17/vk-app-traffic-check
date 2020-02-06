@@ -9,8 +9,27 @@ import Div from "@vkontakte/vkui/dist/es6/components/Div/Div";
 import dateformat from 'dateformat'
 //eslint-disable-next-line import/no-webpack-loader-syntax
 import Svg2 from 'react-svg-loader!../img/svg.html';
-import {damageClass, getCircleColor, getGibddHistoryDataArr, getNewArrFines, modifyUrl} from "../util";
+import {
+	damageClass, getCategory,
+	getCircleColor, getEengineType, getEngineVolume,
+	getGibddHistoryDataArr,
+	getNewArrFines,
+	getPhoto,
+	getPhotoHistory, getWeight, getWheel, getYear, getYearInfo,
+	modifyUrl
+} from "../util";
 import {getNewUrlImg} from "./FullHistory";
+
+
+const getModel = (gibddHistory) => {
+	if (getGibddHistoryDataArr(gibddHistory.preview, "model")) {
+		return gibddHistory.preview.model
+	} else if (gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"model") ) {
+		return gibddHistory.history.gibdd_base.vehicle.model
+	} else {
+		return ""
+	}
+}
 
 
 const osName = platform();
@@ -40,22 +59,22 @@ const OldHistory = (props) => {
 		</PanelHeader>
 		<Group>
 
-			<Div><h1>{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"model") && gibddHistory.history.gibdd_base.vehicle.model}{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"year") && ", " + gibddHistory.history.gibdd_base.vehicle.year}</h1></Div>
-			{gibddHistory.date && <Div>{"Дата проверки  " + gibddHistory.date}</Div>}
-			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory, "VIN") && <Div><span className='text-bold'>{`${gibddHistory.VIN.length === 17? "VIN: " : "Кузов "}` + gibddHistory.VIN}</span></Div>}
+			<Div><h1>{getModel(gibddHistory)}{getYear(gibddHistory)}</h1></Div>
+			{gibddHistory.date && <Div>{"Дата проверки:  " + gibddHistory.date}</Div>}
+			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory, "VIN") && <Div><span className='text-bold'>{`${gibddHistory.VIN.length === 17? "VIN: " : "Кузов: "}` + gibddHistory.VIN}</span></Div>}
 			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory, "num") && <Div><span className='text-bold'>{"Госномер: " + gibddHistory.num}</span></Div>}
 			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory, "sts") && <Div><span className='text-bold'>{"СТС: " + gibddHistory.sts}</span></Div>}
-			{gibddHistory.imgs && getGibddHistoryDataArr(gibddHistory.imgs, "status") && gibddHistory.imgs.status === 200 && gibddHistory.imgs.photo.length > 0 && <Div><img src={modifyUrl(gibddHistory.imgs.photo[0].src)} alt='photo' className='photo'/></Div>}
-			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"category") && <Div><span><i>Категория ТС: </i>{gibddHistory.history.gibdd_base.vehicle.category}</span></Div>}
-			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "year") && <Div><span><i>Год выпуска: </i>{gibddHistory.history.gibdd_base.vehicle.year}</span></Div>}
+			{!!getPhotoHistory(gibddHistory) && <Div><img src={getPhoto(gibddHistory)} alt='photo' className='photo'/></Div>}
+			{!!getCategory(gibddHistory) && <Div><span><i>Категория ТС: </i>{getCategory(gibddHistory)}</span></Div>}
+			{!!getYearInfo(gibddHistory) && <Div><span><i>Год выпуска: </i>{getYearInfo(gibddHistory)}</span></Div>}
 			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "color") && <Div><span><i>Цвет: </i>{gibddHistory.history.gibdd_base.vehicle.color}</span></Div>}
-			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"wheel") && <Div><span><i>Руль: </i>{gibddHistory.history.gibdd_base.vehicle.wheel}</span></Div>}
-			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"weight") && <Div><span><i>Масса (без нагрузки/макс. разр.): </i>{gibddHistory.history.gibdd_base.vehicle.weight}</span></Div>}
+			{!!getWheel(gibddHistory) && <Div><span><i>Руль: </i>{getWheel(gibddHistory)}</span></Div>}
+			{!!getWeight(gibddHistory) && <Div><span><i>Масса (без нагрузки/макс. разр.): </i>{getWeight(gibddHistory)}</span></Div>}
 			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "type") && <Div><span><i>Тип кузова: </i>{gibddHistory.history.gibdd_base.vehicle.type}</span></Div>}
-			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_volume") && <Div><span><i>Объем двигателя: : </i>{gibddHistory.history.gibdd_base.vehicle.engine_volume + " куб. см"}</span></Div>}
+			{!!getEngineVolume(gibddHistory) && <Div><span><i>Объем двигателя: : </i>{getEngineVolume(gibddHistory) + " куб. см"}</span></Div>}
 			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "power_hp") && <Div><span>{"Мощность двигателя: " + gibddHistory.history.gibdd_base.vehicle.power_hp + " л.c."}</span></Div>}
 			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_number") && <Div><span><i>№ двигателя: </i>{gibddHistory.history.gibdd_base.vehicle.engine_number}</span></Div>}
-			{gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_type") && <Div><span><i>Тип двигателя: </i>{gibddHistory.history.gibdd_base.vehicle.engine_type}</span></Div>}
+			{!!getEengineType(gibddHistory) && <Div><span><i>Тип двигателя: </i>{getEengineType(gibddHistory)}</span></Div>}
 
 			<Div>
 				<p className='fix-margin'><span className='text-bold'>Сводные данные</span></p>
@@ -94,11 +113,11 @@ const OldHistory = (props) => {
 			</div> </Div>}
 
 			{gibddHistory.autoru && getGibddHistoryDataArr(gibddHistory.autoru, "status") && gibddHistory.autoru.status === 200 && gibddHistory.autoru.bulletin_boards.length > 0 && <Div><p><span className='text-bold'>Объявления о продаже</span></p> <div>
-				{gibddHistory.autoru.bulletin_boards.map((bulletin_boards, index) => <div key={index}><p>{index + 1 }) {bulletin_boards.date.length > 0 && <span> {bulletin_boards.date}, </span>}  {bulletin_boards.model.length > 0 && <span> {bulletin_boards.model} г.в., </span>} {bulletin_boards.mileage.length > 0 && <span> {bulletin_boards.mileage}, </span>} {bulletin_boards.price.length > 0 && <span> {bulletin_boards.price}, </span>} {bulletin_boards.link.length > 0 && <a className='font-style-normal' href={bulletin_boards.link}> {bulletin_boards.link} </a>}</p></div>)}
+				{gibddHistory.autoru.bulletin_boards.map((bulletin_boards, index) => <div key={index}><p>{index + 1 }) {bulletin_boards.date.length > 0 && <span> {bulletin_boards.date}, </span>}  {bulletin_boards.model.length > 0 && <span> {bulletin_boards.model} г.в., </span>} {bulletin_boards.mileage.length > 0 && <span> {bulletin_boards.mileage.replace(/&nbsp;/g, ' ')}, </span>} {bulletin_boards.price.length > 0 && <span> {bulletin_boards.price.replace(/&nbsp;/g, ' ')}, </span>} {bulletin_boards.link.length > 0 && <a className='font-style-normal' href={bulletin_boards.link}> {bulletin_boards.link} </a>}</p></div>)}
 			</div></Div>}
 
 			{newFines && newFines.length > 0 && <Div><div> <p><span className='text-bold'>Список неоплаченных штрафов</span></p></div>
-				{newFines.map((fines, index) => <div key={index}><p>{index + 1 }) {"date_post" in fines && `Штраф отправлен ${fines.date_post}`} {"date_decis" in fines && `Нарушение от  ${fines.date_decis}`} {"koap_text" in fines && fines.koap_text.length > 0 && fines.koap_text} {"div_addr" in fines && fines.div_addr.length > 0 && fines.div_addr} {fines.summa.toString().length > 0 && fines.summa + " ₽"}</p></div>)}
+				{newFines.map((fines, index) => <div key={index}><p>{index + 1 }) {"date_post" in fines && `Штраф отправлен ${fines.date_post}`}{"date_decis" in fines && `, Нарушение от  ${fines.date_decis}`} {"koap_text" in fines && fines.koap_text.length > 0 && fines.koap_text}{"div_addr" in fines && fines.div_addr.length > 0 && ", " + fines.div_addr + ", "}{fines.summa.toString().length > 0 && <span className='text-bold'>{fines.summa} ₽</span>}</p></div>)}
 			</Div>}
 		</Group>
 	</Panel>

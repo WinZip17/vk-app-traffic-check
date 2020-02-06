@@ -68,9 +68,9 @@ const FullHistory = (props) => {
 
 		<Group className={!isPreview ? "" : groupClass}>
 
-			<Div><h1>{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"model") && gibddHistory.history.gibdd_base.vehicle.model}{getNamePreviewDataArr("year") && ", " + previewData.year}</h1></Div>
+			<Div><h1>{getNamePreviewDataArr("model") && previewData.model}{!getNamePreviewDataArr("model") && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"model") && gibddHistory.history.gibdd_base.vehicle.model}{getNamePreviewDataArr("year") && ", " + previewData.year}</h1></Div>
 			<Div>{"Дата проверки  " + dateformat(wellDate, 'dd.mm.yyyy')}</Div>
-			{getGibddHistoryDataArr(gibddHistory, "VIN") && <Div><span className='text-bold'>{`${gibddHistory.VIN.length === 17? "VIN: " : "Кузов "}` + gibddHistory.VIN}</span></Div>}
+			{getGibddHistoryDataArr(gibddHistory, "VIN") && <Div><span className='text-bold'>{`${gibddHistory.VIN.length === 17? "VIN: " : "Кузов: "}` + gibddHistory.VIN}</span></Div>}
 			{getGibddHistoryDataArr(gibddHistory, "num") && <Div><span className='text-bold'>{"Госномер: " + gibddHistory.num}</span></Div>}
 			{getGibddHistoryDataArr(gibddHistory, "sts") && <Div><span className='text-bold'>{"СТС: " + gibddHistory.sts}</span></Div>}
 			{getNamePreviewDataArr("image") && <Div><img src={modifyUrl(previewData.image)} alt='photo' className='photo'/></Div>}
@@ -122,11 +122,11 @@ const FullHistory = (props) => {
 			</div> </Div>}
 
 			{gibddHistory.autoru && getGibddHistoryDataArr(gibddHistory.autoru, "status") && gibddHistory.autoru.status === 200 && gibddHistory.autoru.bulletin_boards.length > 0 && <Div><p><span className='text-bold'>Объявления о продаже</span></p> <div>
-				{gibddHistory.autoru.bulletin_boards.map((bulletin_boards, index) => <div key={index}><p>{index + 1 }) {bulletin_boards.date.length > 0 && <span> {bulletin_boards.date}, </span>}  {bulletin_boards.model.length > 0 && <span> {bulletin_boards.model} г.в., </span>} {bulletin_boards.mileage.length > 0 && <span> {bulletin_boards.mileage}, </span>} {bulletin_boards.price.length > 0 && <span> {bulletin_boards.price}, </span>} {bulletin_boards.link.length > 0 && <a className='font-style-normal' href={bulletin_boards.link}> {bulletin_boards.link} </a>}</p></div>)}
+				{gibddHistory.autoru.bulletin_boards.map((bulletin_boards, index) => <div key={index}><p>{index + 1 }) {bulletin_boards.date.length > 0 && <span> {bulletin_boards.date}, </span>}  {bulletin_boards.model.length > 0 && <span> {bulletin_boards.model} г.в., </span>} {bulletin_boards.mileage.length > 0 && <span> {bulletin_boards.mileage.replace(/&nbsp;/g, ' ')}, </span>} {bulletin_boards.price.length > 0 && <span> {bulletin_boards.price.replace(/&nbsp;/g, ' ')}, </span>} {bulletin_boards.link.length > 0 && <a className='font-style-normal' href={bulletin_boards.link}> {bulletin_boards.link} </a>}</p></div>)}
 			</div></Div>}
 
 			{newFines && newFines.length > 0 && <Div><div> <p><span className='text-bold'>Список неоплаченных штрафов</span></p></div>
-				{newFines.map((fines, index) => <div key={index}><p>{index + 1 }) {"date_post" in fines && `Штраф отправлен ${fines.date_post}`} {"date_decis" in fines && `Нарушение от  ${fines.date_decis}`} {"koap_text" in fines && fines.koap_text.length > 0 && fines.koap_text} {"div_addr" in fines && fines.div_addr.length > 0 && fines.div_addr} {fines.summa.toString().length > 0 && fines.summa + " ₽"}</p></div>)}
+				{newFines.map((fines, index) => <div key={index}><p>{index + 1 }) {"date_post" in fines && `Штраф отправлен ${fines.date_post}`}{"date_decis" in fines && `, Нарушение от  ${fines.date_decis}`} {"koap_text" in fines && fines.koap_text.length > 0 && fines.koap_text}{"div_addr" in fines && fines.div_addr.length > 0 && ", " + fines.div_addr + ", "}{fines.summa.toString().length > 0 && <span className='text-bold'>{fines.summa} ₽</span>}</p></div>)}
 			</Div>}
 
 		</Group>

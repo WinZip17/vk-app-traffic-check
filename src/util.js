@@ -1,3 +1,4 @@
+import no_image from "./img/no_image.png";
 
 export const getGibddHistoryDataArr = (object, name) => {
     let arr = []
@@ -46,4 +47,95 @@ export const getNewArrFines = (fines) => {
         }
     }
     return arr
+}
+
+
+export const getPhoto = (auto) => {
+    if (getGibddHistoryDataArr(auto.preview,"image")) {
+        return modifyUrl(auto.preview.image)
+    } else if (auto.imgs && getGibddHistoryDataArr(auto.imgs, "status") && auto.imgs.status === 200 && auto.imgs.photo.length > 0){
+        return modifyUrl(auto.imgs.photo[0].src)
+    } else {
+        return no_image
+    }
+}
+
+export const getPhotoHistory = (auto) => {
+    if (getGibddHistoryDataArr(auto.preview,"image")) {
+        return modifyUrl(auto.preview.image)
+    } else if (auto.imgs && getGibddHistoryDataArr(auto.imgs, "status") && auto.imgs.status === 200 && auto.imgs.photo.length > 0){
+        return modifyUrl(auto.imgs.photo[0].src)
+    } else {
+        return false
+    }
+}
+
+export const getYear = (gibddHistory) => {
+    if (getGibddHistoryDataArr(gibddHistory.preview, "year")) {
+        return ", " + gibddHistory.preview.year
+    } else if (gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"year")) {
+        return ", " + gibddHistory.history.gibdd_base.vehicle.year
+    } else {
+        return false
+    }
+}
+
+export const getYearInfo = (gibddHistory) => {
+    if (getGibddHistoryDataArr(gibddHistory.preview, "year")) {
+        return gibddHistory.preview.year
+    } else if (gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"year")) {
+        return gibddHistory.history.gibdd_base.vehicle.year
+    } else {
+        return false
+    }
+}
+
+export const getCategory = (gibddHistory) => {
+    if (getGibddHistoryDataArr(gibddHistory.preview, "category")) {
+        return gibddHistory.preview.category
+    } else if (gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"category")) {
+        return gibddHistory.history.gibdd_base.vehicle.category
+    } else {
+        return false
+    }
+}
+
+export const getWheel = (gibddHistory) => {
+    if (getGibddHistoryDataArr(gibddHistory.preview, "wheel")) {
+        return gibddHistory.preview.wheel
+    } else if (gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"wheel")) {
+        return gibddHistory.history.gibdd_base.vehicle.wheel
+    } else {
+        return false
+    }
+}
+
+export const getWeight = (gibddHistory) => {
+    if (getGibddHistoryDataArr(gibddHistory.preview, "weight")) {
+        return gibddHistory.preview.weight
+    } else if (gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"weight")) {
+        return gibddHistory.history.gibdd_base.vehicle.weight
+    } else {
+        return false
+    }
+}
+
+export const getEngineVolume = (gibddHistory) => {
+    if (getGibddHistoryDataArr(gibddHistory.preview, "capacity")) {
+        return gibddHistory.preview.capacity
+    } else if (gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_volume")) {
+        return gibddHistory.history.gibdd_base.vehicle.engine_volume
+    } else {
+        return false
+    }
+}
+
+export const getEengineType = (gibddHistory) => {
+    if (getGibddHistoryDataArr(gibddHistory.preview, "engine_type")) {
+        return gibddHistory.preview.engine_type
+    } else if (gibddHistory.history && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_type")) {
+        return gibddHistory.history.gibdd_base.vehicle.engine_type
+    } else {
+        return false
+    }
 }

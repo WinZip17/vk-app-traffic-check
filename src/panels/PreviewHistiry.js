@@ -46,14 +46,14 @@ const PreviewHistiry = (props) => {
 						{getNamePreviewDataArr("model") && previewData.model}{getNamePreviewDataArr("year") && ", " + previewData.year}
 					</h2>
 					<p>
-						{getNamePreviewDataArr("body_number") && <span>{Hashtag}{`${previewData.body_number.length === 17? "VIN: " : "Кузов "}` + previewData.body_number + "  "}</span>}
-						{getNamePreviewDataArr("plate") && <span>{Hashtag}{"госномер: " + previewData.plate + "  "}</span>}
+						{getNamePreviewDataArr("body_number") && <span>{Hashtag}{`${previewData.body_number.length === 17? "VIN: " : "Кузов: "}` + previewData.body_number + "  "}</span>}
+						{getNamePreviewDataArr("plate") && <span>{Hashtag}{"Госномер: " + previewData.plate + "  "}</span>}
 						{getNamePreviewDataArr("capacity") && <span>{Hashtag}{previewData.capacity + " куб. см" + "  "}</span>}
 						{getNamePreviewDataArr("power") && <span>{Hashtag}{previewData.power + "  л.с." + "  "}</span>}
-						{getNamePreviewDataArr("wheel") && <span>{Hashtag}{"руль: " + previewData.wheel + "  "}</span>}
-						{getNamePreviewDataArr("category") && <span>{Hashtag}{"категория ТС: " + previewData.category + "  "}</span>}
-						{getNamePreviewDataArr("weight") && <span>{Hashtag}{"вес: " + previewData.weight + " кг "}</span>}
-						{getNamePreviewDataArr("engine_type") && <span>{Hashtag}{"тип двигателя: " + previewData.engine_type + "  "}</span>}
+						{/*{getNamePreviewDataArr("wheel") && <span>{Hashtag}{"Руль: " + previewData.wheel + "  "}</span>}*/}
+						{/*{getNamePreviewDataArr("category") && <span>{Hashtag}{"Категория ТС: " + previewData.category + "  "}</span>}*/}
+						{/*{getNamePreviewDataArr("weight") && <span>{Hashtag}{"Вес: " + previewData.weight + " кг "}</span>}*/}
+						{/*{getNamePreviewDataArr("engine_type") && <span>{Hashtag}{"Тип двигателя: " + previewData.engine_type + "  "}</span>}*/}
 					</p>
 					{getNamePreviewDataArr("image") && <img src={modifyUrl(previewData.image)} alt='photo' className='photo'/>}
 				</Div>
