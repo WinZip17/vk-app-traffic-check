@@ -96,8 +96,7 @@ const App = () => {
 			gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
 		} else {
 			price.toString() === "0" ? gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview) : connect.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
-			// gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
-			// connect.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
+     			// connect.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
 		}
 	};
 

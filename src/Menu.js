@@ -22,7 +22,7 @@ export const Menu = (props) => {
                     Чем мы лучше конкурентов
                 </ActionSheetItem>
                 <ActionSheetItem className='pointer' autoclose onClick={() => setActivePanel('comparison')}>
-                    Сравнение цен на рынке
+                    Сравнение цен
                 </ActionSheetItem>
                 <ActionSheetItem className='pointer' autoclose onClick={() => getPreviewReport()}>
                     Пример отчёта
@@ -60,7 +60,7 @@ export const Menu = (props) => {
                     selected={activePanel === 'comparison'}
                     className='pointer'
                 >
-                    Сравнение цен на рынке
+                    Сравнение цен
                 </TabsItem>
                 <TabsItem
                     onClick={() => getPreviewReport()}

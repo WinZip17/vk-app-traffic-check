@@ -117,7 +117,7 @@ const OldHistory = (props) => {
 			</div></Div>}
 
 			{newFines && newFines.length > 0 && <Div><div> <p><span className='text-bold'>Список неоплаченных штрафов</span></p></div>
-				{newFines.map((fines, index) => <div key={index}><p>{index + 1 }) {"date_post" in fines && `Штраф отправлен ${fines.date_post}`}{"date_decis" in fines && `, Нарушение от  ${fines.date_decis}`} {"koap_text" in fines && fines.koap_text.length > 0 && fines.koap_text}{"div_addr" in fines && fines.div_addr.length > 0 && ", " + fines.div_addr + ", "}{fines.summa.toString().length > 0 && <span className='text-bold'>{fines.summa} ₽</span>}</p></div>)}
+				{newFines.map((fines, index) => <div key={index}><p>{index + 1 }) {"date_post" in fines && `Штраф отправлен ${fines.date_post}`}{"date_decis" in fines && `, Нарушение от ${fines.date_decis}`}{"koap_text" in fines && fines.koap_text.length > 0 && ", " + fines.koap_text}{"div_addr" in fines && fines.div_addr.length > 0 && ", " + fines.div_addr}{fines.summa.toString().length > 0 && <span>, <span className='text-bold'>{fines.summa} ₽</span></span>}</p></div>)}
 			</Div>}
 		</Group>
 	</Panel>
