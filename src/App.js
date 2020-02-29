@@ -13,6 +13,8 @@ import Comparison from "./panels/Comparison";
 import Competitors from "./panels/Competitors";
 import OldHistory from "./panels/OldHistory";
 import PreviewHistiry from "./panels/PreviewHistiry";
+import bridge from '@vkontakte/vk-bridge';
+
 
 let app_id = 0
 let group_id = 161851419
@@ -28,7 +30,7 @@ export function get_name_browser(){
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
 	const [fetchedUser, setUser] = useState(null);
-	const [popout, setPopout] = useState(<ScreenSpinner size='large' />); //<ScreenSpinner size='large' />
+	const [popout, setPopout] = useState(<div className='spinner-shell'><ScreenSpinner size='large' /></div>); //<div className='spinner-shell'><ScreenSpinner size='large' /></div>
 	const [previewData, setPreviewData] = useState(undefined);
 	const [gibddHistory, setGibddHistory] = useState(undefined);
 	const [number, setNumber] = useState('');
@@ -42,33 +44,39 @@ const App = () => {
 	const [idHistory, setIdHistory] = useState(0);
 	const [oldHistoryArr, setOldHistoryArr] = useState(undefined);
 	const [errorInfo,setErrorInfo] = useState("Некорректный VIN или госномер");
+	const [myParam,setMyParam] = useState("");
+	const [scheme,setScheme] = useState("");
 
 	useEffect(() => {
 		const urlParams = new URLSearchParams(window.location.search);
-		const myParam = urlParams.get('vk_platform');
+		setMyParam(urlParams.get('vk_platform'));
 		app_id = urlParams.get('vk_app_id');
-		myParam !== "desktop_web" && setIsMobPlatform(true)
-		connect.subscribe((e) => {
-			switch (e.detail.type) {
+		urlParams.get('vk_platform') !== "desktop_web" && setIsMobPlatform(true)
+		bridge.subscribe(({ detail: { type, data }}) => {
+			switch (type) {
 				case 'VKWebAppUpdateConfig':
 					let schemeAttribute = document.createAttribute('scheme');
-					schemeAttribute.value = e.detail.data.scheme ? e.detail.data.scheme : 'client_light';
+					schemeAttribute.value = data.scheme ? data.scheme : 'bright_light';
+					setScheme(data.scheme ? data.scheme : 'bright_light')
 					document.body.attributes.setNamedItem(schemeAttribute);
 					break;
 				case 'VKWebAppOpenPayFormResult':
-					if (e.detail.data.status) {
+					if (data.status) {
+						setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 						getInfo()
+					} else {
+						setPopout(null)
 					}
 					break;
 				case 'VKWebAppOpenPayFormFailed':
 					setPopout(null)
 					break;
 				default:
-					console.log(e.detail.type);
+					console.log(type);
 			}
 		});
 		async function fetchData() {
-			const user = await connect.sendPromise('VKWebAppGetUserInfo');
+			const user = await bridge.send('VKWebAppGetUserInfo');
 			setUser(user);
 			userId = user.id
 			setPopout(null);
@@ -78,37 +86,46 @@ const App = () => {
 	}, []);
 
 	const setHeight = (height) => {
-		connect.send("VKWebAppResizeWindow", { "height": height});
+		bridge.send("VKWebAppResizeWindow", { "height": height});
 	}
 
 	const getPreviewData = () => {
-		setPopout(<ScreenSpinner size='large' />)
+		setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 		setPreviewData(undefined)
 		setGibddHistory(undefined)
 		preview_data(number, setPreviewData, setPopout, setIsValidNumber, setHeight, setIsPreview, setErrorInfo, setActivePanel)
 	};
 
+
+
 	const getGibddHistory = () => {
-		setPopout(<ScreenSpinner size='large' />)
+
 		if (number && number === 'О111ЕХ102' ) {
+			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 			gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
 		} else if (number && number === 'SALVA1BD8CH641467' ) {
+			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 			gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
 		} else {
-			price.toString() === "0" ? gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview) : connect.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
+			if (price.toString() === "0") {
+				setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
+				gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
+			} else {
+				bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
+			}
      			// connect.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
 		}
 	};
 
 	const getOldHistory = () => {
-			setPopout(<ScreenSpinner size='large' />)
+			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 			old_history(fetchedUser.id, setOldHistoryArr, setActivePanel, setPopout)
 	};
 
 	const getPreviewReport = () => {
 		setIsPreview(true)
 		if (previewDataPresent === undefined) {
-			setPopout(<ScreenSpinner size='large' />)
+			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 			get_preview_report("О111ЕХ102", setPreviewDataPresent, setPopout, setHeight, setGibddHistoryPresent, setActivePanel)
 		} else {
 			setActivePanel('FullHistory')
@@ -173,23 +190,31 @@ const App = () => {
 				  number={number} changeNumber={changeNumber} isValidNumber={isValidNumber} getPreviewReport={getPreviewReport}
 				  getPreviewData={getPreviewData} getGibddHistory={getGibddHistory} isMobPlatform={isMobPlatform}
 				  activePanel={activePanel} setActivePanel={setActivePanel} price={price} setPreviousPanel={setPreviousPanel} setHeight={setHeight}
+				  myParam={myParam}
 			/>
 			<MyChecks id='my-checks' activePanel={activePanel} setActivePanel={setActivePanel} setPreviousPanel={setPreviousPanel}
 					  getOldHistory={getOldHistory} setHeight={setHeight} oldHistoryArr={oldHistoryArr} popout={popout}
-					  setIdHistory={setIdHistory} isMobPlatform={isMobPlatform} setPopout={setPopout} getPreviewReport={getPreviewReport} />
+					  setIdHistory={setIdHistory} isMobPlatform={isMobPlatform} setPopout={setPopout} getPreviewReport={getPreviewReport}
+					  myParam={scheme}/>
 			<Comparison id='comparison' activePanel={activePanel} setActivePanel={setActivePanel} setPreviousPanel={setPreviousPanel}
-						isMobPlatform={isMobPlatform} getPreviewReport={getPreviewReport} price={price} setHeight={setHeight} setPopout={setPopout} />
+						isMobPlatform={isMobPlatform} getPreviewReport={getPreviewReport} price={price} setHeight={setHeight} setPopout={setPopout}
+						myParam={scheme}/>
 			<Competitors id='competitors' activePanel={activePanel} setActivePanel={setActivePanel} setPreviousPanel={setPreviousPanel}
 						 getPreviewReport={getPreviewReport} price={price} isMobPlatform={isMobPlatform} setHeight={setHeight}
-						 setPopout={setPopout} getPreviewData={getPreviewData}/>
+						 setPopout={setPopout} getPreviewData={getPreviewData}
+						 myParam={scheme}/>
 			<FullHistory id='FullHistory' previousPanel={previousPanel} setActivePanel={setActivePanel} gibddHistory={gibddHistory} previewData={previewData}
 						 isMobPlatform={isMobPlatform} previewDataPresent={previewDataPresent} gibddHistoryPresent={gibddHistoryPresent}
 						 isPreview={isPreview} setIsPreview={setIsPreview} setHeight={setHeight} getPreviewData={getPreviewData}
-						 getPreviewReport={getPreviewReport} activePanel={activePanel} setPopout={setPopout}/>
+						 getPreviewReport={getPreviewReport} activePanel={activePanel} setPopout={setPopout}
+						 myParam={scheme}/>
 			<OldHistory id='OldHistory' go={go} oldHistoryArr={oldHistoryArr} gibddHistory={gibddHistory}
 						 isMobPlatform={isMobPlatform} idHistory={idHistory} setHeight={setHeight} getPreviewReport={getPreviewReport}
-						activePanel={activePanel} setActivePanel={setActivePanel} setPopout={setPopout}/>
-			<PreviewHistiry id='PreviewHistiry' go={go} setHeight={setHeight} previewData={previewData} isValidNumber={isValidNumber} getGibddHistory={getGibddHistory} price={price}  />
+						activePanel={activePanel} setActivePanel={setActivePanel} setPopout={setPopout}
+						myParam={scheme}/>
+			<PreviewHistiry id='PreviewHistiry' go={go} setHeight={setHeight} previewData={previewData}
+							isValidNumber={isValidNumber} getGibddHistory={getGibddHistory} price={price}
+							number={number} myParam={myParam}/>
 		</View>
 	);
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import FixedLayout from "@vkontakte/vkui/dist/components/FixedLayout/FixedLayout";
 import Tabs from '@vkontakte/vkui/dist/components/Tabs/Tabs';
 import HorizontalScroll from '@vkontakte/vkui/dist/components/HorizontalScroll/HorizontalScroll';
@@ -13,7 +13,7 @@ import {get_name_browser} from "./App";
 const osName = platform();
 
 export const Menu = (props) => {
-    const {activePanel, setActivePanel, isMobPlatform, setPopout, getPreviewReport} = props
+    const {activePanel, setActivePanel, isMobPlatform, setPopout, getPreviewReport, myParam} = props
 
     const openMobMenu = () => {
         setPopout(
@@ -36,9 +36,9 @@ export const Menu = (props) => {
     }
 
     return <FixedLayout vertical="top">
-        {isMobPlatform ? <Tabs theme="header" type="buttons" className='fixed-layout'>
-            <img className='logo' src={logo} alt='logo' onClick={() => setActivePanel('home')} />
-            <Icon28Menu className='gamburger pointer' onClick={openMobMenu} />
+        {isMobPlatform ? <Tabs theme="header" type="segmented" className='fixed-layout fix-menu-mobile'>
+            <img className='logo pointer' src={logo} alt='logo' onClick={() => setActivePanel('home')} />
+            <Icon28Menu className="pointer" onClick={openMobMenu} />
         </Tabs> : <Tabs theme="header" type="buttons">
             <HorizontalScroll className={!get_name_browser() ? '' : 'fix-horizontal-scroll-mozilla'}>
                 <TabsItem

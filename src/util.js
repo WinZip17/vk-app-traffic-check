@@ -139,3 +139,7 @@ export const getEengineType = (gibddHistory) => {
         return false
     }
 }
+
+export const newDateFormat = (date) => {
+    return new Date(date).toLocaleString("ru-RU", {year: 'numeric', month: 'numeric', day: 'numeric'})
+}

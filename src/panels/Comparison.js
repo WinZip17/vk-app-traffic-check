@@ -9,7 +9,7 @@ import {get_name_browser} from "../App";
 
 const Comparison = (props) => {
 	const {id, activePanel, setActivePanel, setPopout,
-		setPreviousPanel, isMobPlatform, getPreviewReport, price, setHeight} = props
+		setPreviousPanel, isMobPlatform, getPreviewReport, price, setHeight, myParam} = props
 
 	useEffect(() => {
 		setPreviousPanel(id)
@@ -18,7 +18,7 @@ const Comparison = (props) => {
 
 	return <Panel id={id}>
 		<PanelHeader noShadow={true}><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
-		<Menu getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>
+		<Menu myParam={myParam} getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>
 		<Group className={`${get_name_browser() ? "fix-menu-group-mozilla" : "fix-menu-group" }`}>
 			<Div className="textCenter">
 				<h3>Сравнение цен на рынке</h3>

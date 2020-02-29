@@ -27,6 +27,7 @@
     text-decoration: none;
     font-style: normal;
     color: var(--header_text) !important;
+    font-weight: 600;
 }
 
 .bl_color {
@@ -342,8 +343,27 @@ body, h1, h2, h3, h4, h5, h6, p, span {
     /*padding-bottom: 3px !important;*/
 }
 
-.PopoutWrapper__container {
+/*.PopoutWrapper__container {*/
+/*    background-color: black;*/
+/*    opacity: 0.6;*/
+/*    height:100%;*/
+/*}*/
+
+.spinner-shell {
     background-color: black;
     opacity: 0.6;
     height:100%;
+    width: 100%;
+}
+
+.ActionSheet   {
+    opacity: 1;
+}
+
+
+.fix-menu-mobile > div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

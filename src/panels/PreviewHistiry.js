@@ -1,24 +1,30 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {platform, IOS, Group} from '@vkontakte/vkui';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
-import HeaderButton from '@vkontakte/vkui/dist/components/HeaderButton/HeaderButton';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Div from "@vkontakte/vkui/dist/es6/components/Div/Div";
-//eslint-disable-next-line import/no-webpack-loader-syntax
 import Button from "@vkontakte/vkui/dist/components/Button/Button";
 import {modifyUrl} from "../util";
+import PanelHeaderButton from "@vkontakte/vkui/dist/components/PanelHeaderButton/PanelHeaderButton";
 
 const osName = platform();
 
 const PreviewHistiry = (props) => {
-	const {id, go, setHeight, previewData,  getGibddHistory, price} = props
+	const {id, go, setHeight, previewData,  getGibddHistory, price, number, myParam} = props
 	const Hashtag = <Fragment><span className="bl_color">#</span></Fragment>
+	const [isIOS, setIsIOS] = useState(false);
 
 	useEffect(() => {
 		setHeight(1000)
 	}, []);
+
+	useEffect(() => {
+		if (myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) {
+			setIsIOS(true)
+		}
+	}, [myParam]);
 
 	const getNamePreviewDataArr = (name) => {
 		let arr = []
@@ -33,9 +39,9 @@ const PreviewHistiry = (props) => {
 
 	return <Panel id={id}>
 		<PanelHeader
-			left={<HeaderButton onClick={go} data-to="home">
+			left={<PanelHeaderButton onClick={go} data-to="home">
 				{osName === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
-			</HeaderButton>}
+			</PanelHeaderButton>}
 		>
 			История автомобиля
 		</PanelHeader>
@@ -65,9 +71,11 @@ const PreviewHistiry = (props) => {
 				</Div>
 
 				<Div>
-					<Button name="top" size="xl" onClick={getGibddHistory} >
+					{isIOS ? <a target="_blank" className='text-decoration-none' href={`https://xn----8sbbfchakv0a5blnd.xn--p1ai/?vin_or_num=${number}&miniapp=true`}><Button name="top" size="xl" >
 						Купить полный отчёт
-					</Button>
+					</Button></a>: <Button name="top" size="xl" onClick={getGibddHistory} >
+						Купить полный отчёт
+					</Button>}
 				</Div>
 		</Group>
 	</Panel>

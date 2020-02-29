@@ -2,11 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {platform, IOS, Group} from '@vkontakte/vkui';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
-import HeaderButton from '@vkontakte/vkui/dist/components/HeaderButton/HeaderButton';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Div from "@vkontakte/vkui/dist/es6/components/Div/Div";
-import dateformat from 'dateformat'
 //eslint-disable-next-line import/no-webpack-loader-syntax
 import Svg2 from 'react-svg-loader!../img/svg.html';
 import {
@@ -16,9 +14,10 @@ import {
 	getNewArrFines,
 	getPhoto,
 	getPhotoHistory, getWeight, getWheel, getYear, getYearInfo,
-	modifyUrl
+	modifyUrl, newDateFormat
 } from "../util";
 import {getNewUrlImg} from "./FullHistory";
+import PanelHeaderButton from "@vkontakte/vkui/dist/components/PanelHeaderButton/PanelHeaderButton";
 
 
 const getModel = (gibddHistory) => {
@@ -51,9 +50,9 @@ const OldHistory = (props) => {
 
 	return <Panel id={id}>
 		<PanelHeader
-			left={<HeaderButton onClick={go} data-to="my-checks">
-				{osName === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
-			</HeaderButton>}
+			left={<PanelHeaderButton onClick={go} data-to="my-checks">
+				{osName === IOS ? <Icon28ChevronBack className="pointer" /> : <Icon24Back className="pointer"/>}
+			</PanelHeaderButton>}
 		>
 			История автомобиля
 		</PanelHeader>
@@ -91,7 +90,7 @@ const OldHistory = (props) => {
 			</Div>
 
 			{gibddHistory.history && gibddHistory.history.status === 200 && gibddHistory.history.gibdd_base.ownership_periods.length > 0 && <Div><p><span className='text-bold'>История записей в ПТС</span></p> <div>
-				{gibddHistory.history.gibdd_base.ownership_periods.map((ownership_periods, index) => <div key={index}><p>{index + 1 }) {ownership_periods.from.length > 0 && <span> {dateformat(ownership_periods.from, 'dd.mm.yyyy')} - </span>}{ownership_periods.to.length > 0 && <span> {ownership_periods.to === "Настоящее время" || ownership_periods.to === "н.в." ? ownership_periods.to : dateformat(ownership_periods.to, 'dd.mm.yyyy')}, </span>} {ownership_periods.simple_person_type.length > 0 && <span> {ownership_periods.simple_person_type === "Natural"? 'физическое лицо' : 'юридическое лицо'} </span>} </p></div>)}
+				{gibddHistory.history.gibdd_base.ownership_periods.map((ownership_periods, index) => <div key={index}><p>{index + 1 }) {ownership_periods.from.length > 0 && <span> {newDateFormat(ownership_periods.from)} - </span>}{ownership_periods.to.length > 0 && <span> {ownership_periods.to === "Настоящее время" || ownership_periods.to === "н.в." ? ownership_periods.to : newDateFormat(ownership_periods.to)}, </span>} {ownership_periods.simple_person_type.length > 0 && <span> {ownership_periods.simple_person_type === "Natural"? 'физическое лицо' : 'юридическое лицо'} </span>} </p></div>)}
 			</div></Div>}
 
 			{gibddHistory.dtp && getGibddHistoryDataArr(gibddHistory.dtp, "status") && gibddHistory.dtp.status === 200 && gibddHistory.dtp.dtp.accidents.length > 0 && <Div><div> <p><span className='text-bold'>История ДТП (ГИБДД)</span></p></div>
@@ -104,7 +103,7 @@ const OldHistory = (props) => {
 
 
 			{gibddHistory.imgs && getGibddHistoryDataArr(gibddHistory.imgs, "status") && gibddHistory.imgs.status === 200 && gibddHistory.imgs.photo.length > 0 && <Div><p><span className='text-bold'>Фото</span></p> <div>
-				{gibddHistory.imgs.photo.map((photo, index) => <div key={index}><p>{index + 1 })  {photo.date.length > 0 && dateformat(photo.date, 'dd.mm.yyyy')}</p> <img
+				{gibddHistory.imgs.photo.map((photo, index) => <div key={index}><p>{index + 1 })  {photo.date.length > 0 && newDateFormat(photo.date)}</p> <img
 					src={modifyUrl(photo.src)} alt='photo' className='photo'/> </div>)}
 			</div></Div>}
 

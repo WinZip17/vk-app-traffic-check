@@ -12,7 +12,7 @@ import {get_name_browser} from "../App";
 
 const MyChecks = (props) => {
 	const {id, activePanel, setActivePanel, setPreviousPanel, isMobPlatform,
-		getOldHistory, setHeight, oldHistoryArr, popout, setIdHistory, setPopout, getPreviewReport} = props
+		getOldHistory, setHeight, oldHistoryArr, popout, setIdHistory, setPopout, getPreviewReport, myParam} = props
 
 	const [oldHistoryArrRevers, seOldHistoryArrRevers] = useState([]);
 	useEffect(() => {
@@ -27,7 +27,7 @@ const MyChecks = (props) => {
 
 	return <Panel id={id}>
 		<PanelHeader noShadow={true}><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
-		<Menu getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>
+		<Menu myParam={myParam} getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>
 		{oldHistoryArrRevers && oldHistoryArrRevers.length > 0 ? <Group className={`${get_name_browser() ? "fix-menu-group-mozilla" : "fix-menu-group" }`}>
 			{oldHistoryArrRevers.map((auto, index) => <Cell
 				before={<Avatar size={60} src={getPhoto(oldHistoryArrRevers[index])} className='auto-ico'/>}

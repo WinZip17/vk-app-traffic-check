@@ -16,7 +16,7 @@ import * as Scroll from 'react-scroll';
 const Home = (props) => {
 	const {id, isMobPlatform, previewData, number, setPopout, setHeight, errorInfo,
 		changeNumber, isValidNumber, getPreviewData, getGibddHistory,
-		activePanel, setActivePanel, price, setPreviousPanel, getPreviewReport} = props
+		activePanel, setActivePanel, price, setPreviousPanel, getPreviewReport, myParam} = props
 
 	useEffect(() => {
 		setPreviousPanel(id)
@@ -26,7 +26,7 @@ const Home = (props) => {
 
 	return 	<Panel id={id}>
 		<PanelHeader noShadow={true}><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
-		<Menu getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform}  setPopout={setPopout}/>
+		<Menu myParam={myParam} getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform}  setPopout={setPopout}/>
 		<Group className={`${get_name_browser() ? "main-img-text-desktop-mozilla" : "fix-menu-group" }`}>
 			<Div>
 				{isMobPlatform && <div className="main-img-text">
