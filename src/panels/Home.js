@@ -20,7 +20,7 @@ const Home = (props) => {
 
 	useEffect(() => {
 		setPreviousPanel(id)
-		previewData ? setHeight(1500) : setHeight(700)
+		setHeight(700)
 	}, []);
 
 
@@ -35,7 +35,7 @@ const Home = (props) => {
 				</div>}
 				{!isMobPlatform && <div className="main-img-text main-img-text-desktop" >
 					<h2 className='header-text'>Узнай её прошлое, <br/><span className='subtext'>прежде чем взять</span></h2>
-					<h3 className='subtext'>Проверка истории авто по VIN <br/>или госномеру за <span className='price-text-header-desktop'>{price}₽</span></h3>
+					<h3 className='subtext'>Проверка истории авто по VIN <br/>или госномеру за <span className='price-text-header-desktop'>{price}<span className='arial'>₽</span></span></h3>
 				</div>}
 				<img src={main} alt='main' className="main-img" />
 			</Div>

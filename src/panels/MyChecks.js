@@ -12,7 +12,7 @@ import {get_name_browser} from "../App";
 
 const MyChecks = (props) => {
 	const {id, activePanel, setActivePanel, setPreviousPanel, isMobPlatform,
-		getOldHistory, setHeight, oldHistoryArr, popout, setIdHistory, setPopout, getPreviewReport, myParam} = props
+		getOldHistory, setHeight, oldHistoryArr, popout, setIdHistory, setPopout, getPreviewReport, myParam, setIsOldHistory} = props
 
 	const [oldHistoryArrRevers, seOldHistoryArrRevers] = useState([]);
 	useEffect(() => {
@@ -36,12 +36,13 @@ const MyChecks = (props) => {
 				key={index}
 				onClick={() => {
 					setIdHistory(index)
-					setActivePanel('OldHistory')
+					setActivePanel('FullHistory')
+					setIsOldHistory(true)
 				}}
 			>
 				<span className="text-bold">
-					{auto.date && auto.date.length > 0 && 'Проверка: ' + auto.date + "  "}
-					{getGibddHistoryDataArr(auto.preview,"model") && auto.preview.model}{!getGibddHistoryDataArr(auto.preview,"model") && auto.history && getGibddHistoryDataArr(auto.history.gibdd_base.vehicle,"model") && auto.history.gibdd_base.vehicle.model}{getYear(auto)}</span> <br/>
+
+					{getGibddHistoryDataArr(auto.preview,"model") && auto.preview.model}{!getGibddHistoryDataArr(auto.preview,"model") && auto.history && getGibddHistoryDataArr(auto.history.gibdd_base.vehicle,"model") && auto.history.gibdd_base.vehicle.model}{getYear(auto)}{auto.date && auto.date.length > 0 && ' (' + auto.date + ")"}</span> <br/>
 					{getGibddHistoryDataArr(auto, "num") && <span>{"Госномер: " + auto.num}{getGibddHistoryDataArr(auto, "VIN") && ", "}</span>}{getGibddHistoryDataArr(auto, "VIN") && <span>{`${auto.VIN.length === 17? "VIN: " : "Кузов: "}` + auto.VIN}</span>}
 			</Cell> ) }<List>
 			</List>

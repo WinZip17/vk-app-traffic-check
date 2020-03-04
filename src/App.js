@@ -41,7 +41,8 @@ const App = () => {
 	const [previewDataPresent, setPreviewDataPresent] = useState(undefined);
 	const [gibddHistoryPresent, setGibddHistoryPresent] = useState(undefined);
 	const [isPreview, setIsPreview] = useState(false);
-	const [idHistory, setIdHistory] = useState(0);
+	const [isOldHistory, setIsOldHistory] = useState(false);
+	const [idHistory, setIdHistory] = useState(null);
 	const [oldHistoryArr, setOldHistoryArr] = useState(undefined);
 	const [errorInfo,setErrorInfo] = useState("Некорректный VIN или госномер");
 	const [myParam,setMyParam] = useState("");
@@ -99,7 +100,8 @@ const App = () => {
 
 
 	const getGibddHistory = () => {
-
+		setIsOldHistory(false)
+		setIsPreview(false)
 		if (number && number === 'О111ЕХ102' ) {
 			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 			gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
@@ -118,12 +120,15 @@ const App = () => {
 	};
 
 	const getOldHistory = () => {
+		setIsOldHistory(true)
+		setIsPreview(false)
 			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 			old_history(fetchedUser.id, setOldHistoryArr, setActivePanel, setPopout)
 	};
 
 	const getPreviewReport = () => {
 		setIsPreview(true)
+		setIsOldHistory(false)
 		if (previewDataPresent === undefined) {
 			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 			get_preview_report("О111ЕХ102", setPreviewDataPresent, setPopout, setHeight, setGibddHistoryPresent, setActivePanel)
@@ -195,7 +200,7 @@ const App = () => {
 			<MyChecks id='my-checks' activePanel={activePanel} setActivePanel={setActivePanel} setPreviousPanel={setPreviousPanel}
 					  getOldHistory={getOldHistory} setHeight={setHeight} oldHistoryArr={oldHistoryArr} popout={popout}
 					  setIdHistory={setIdHistory} isMobPlatform={isMobPlatform} setPopout={setPopout} getPreviewReport={getPreviewReport}
-					  myParam={scheme}/>
+					  myParam={scheme} setIsOldHistory={setIsOldHistory}/>
 			<Comparison id='comparison' activePanel={activePanel} setActivePanel={setActivePanel} setPreviousPanel={setPreviousPanel}
 						isMobPlatform={isMobPlatform} getPreviewReport={getPreviewReport} price={price} setHeight={setHeight} setPopout={setPopout}
 						myParam={scheme}/>
@@ -206,13 +211,13 @@ const App = () => {
 			<FullHistory id='FullHistory' previousPanel={previousPanel} setActivePanel={setActivePanel} gibddHistory={gibddHistory} previewData={previewData}
 						 isMobPlatform={isMobPlatform} previewDataPresent={previewDataPresent} gibddHistoryPresent={gibddHistoryPresent}
 						 isPreview={isPreview} setIsPreview={setIsPreview} setHeight={setHeight} getPreviewData={getPreviewData}
-						 getPreviewReport={getPreviewReport} activePanel={activePanel} setPopout={setPopout}
-						 myParam={scheme}/>
-			<OldHistory id='OldHistory' go={go} oldHistoryArr={oldHistoryArr} gibddHistory={gibddHistory}
-						 isMobPlatform={isMobPlatform} idHistory={idHistory} setHeight={setHeight} getPreviewReport={getPreviewReport}
-						activePanel={activePanel} setActivePanel={setActivePanel} setPopout={setPopout}
-						myParam={scheme}/>
-			<PreviewHistiry id='PreviewHistiry' go={go} setHeight={setHeight} previewData={previewData}
+						 getPreviewReport={getPreviewReport} activePanel={activePanel} setPopout={setPopout} oldHistoryArr={oldHistoryArr}
+						 myParam={scheme} isOldHistory={isOldHistory} idHistory={idHistory}/>
+			{/*<OldHistory id='OldHistory' go={go} oldHistoryArr={oldHistoryArr} gibddHistory={gibddHistory}*/}
+			{/*			 isMobPlatform={isMobPlatform} idHistory={idHistory} setHeight={setHeight} getPreviewReport={getPreviewReport}*/}
+			{/*			activePanel={activePanel} setActivePanel={setActivePanel} setPopout={setPopout}*/}
+			{/*			myParam={scheme}/>*/}
+			<PreviewHistiry fetchedUser={fetchedUser} id='PreviewHistiry' go={go} setHeight={setHeight} previewData={previewData}
 							isValidNumber={isValidNumber} getGibddHistory={getGibddHistory} price={price}
 							number={number} myParam={myParam}/>
 		</View>

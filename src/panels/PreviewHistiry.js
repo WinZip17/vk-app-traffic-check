@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState, useRef} from 'react';
 import {platform, IOS, Group} from '@vkontakte/vkui';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
@@ -12,13 +12,19 @@ import PanelHeaderButton from "@vkontakte/vkui/dist/components/PanelHeaderButton
 const osName = platform();
 
 const PreviewHistiry = (props) => {
-	const {id, go, setHeight, previewData,  getGibddHistory, price, number, myParam} = props
+	const {id, go, setHeight, previewData,  getGibddHistory, price, number, myParam, fetchedUser} = props
 	const Hashtag = <Fragment><span className="bl_color">#</span></Fragment>
 	const [isIOS, setIsIOS] = useState(false);
+	const img = useRef(null);
 
 	useEffect(() => {
-		setHeight(1000)
-	}, []);
+		if (previewData.image && previewData.image.length > 0 && img) {
+			setHeight(450 + img.current.height)
+		} else {
+			setHeight(270)
+		}
+	}, [previewData, img]);
+
 
 	useEffect(() => {
 		if (myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) {
@@ -40,7 +46,7 @@ const PreviewHistiry = (props) => {
 	return <Panel id={id}>
 		<PanelHeader
 			left={<PanelHeaderButton onClick={go} data-to="home">
-				{osName === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
+				{osName === IOS ? <Icon28ChevronBack className="pointer" /> : <Icon24Back className="pointer" />}
 			</PanelHeaderButton>}
 		>
 			История автомобиля
@@ -61,7 +67,7 @@ const PreviewHistiry = (props) => {
 						{/*{getNamePreviewDataArr("weight") && <span>{Hashtag}{"Вес: " + previewData.weight + " кг "}</span>}*/}
 						{/*{getNamePreviewDataArr("engine_type") && <span>{Hashtag}{"Тип двигателя: " + previewData.engine_type + "  "}</span>}*/}
 					</p>
-					{getNamePreviewDataArr("image") && <img src={modifyUrl(previewData.image)} alt='photo' className='photo'/>}
+					{getNamePreviewDataArr("image") && <img  ref={img} src={modifyUrl(previewData.image)} alt='photo' className='photo'/>}
 				</Div>
 				<Div className='textCenter'>
 					<h3>В полном отчёте за {price}₽ доступно:</h3>
@@ -71,7 +77,7 @@ const PreviewHistiry = (props) => {
 				</Div>
 
 				<Div>
-					{isIOS ? <a target="_blank" className='text-decoration-none' href={`https://xn----8sbbfchakv0a5blnd.xn--p1ai/?vin_or_num=${number}&miniapp=true`}><Button name="top" size="xl" >
+					{isIOS ? <a target="_blank" className='text-decoration-none' href={`https://xn----8sbbfchakv0a5blnd.xn--p1ai/?vin_or_num=${number}&user_id=${fetchedUser.id}&miniapp=true`}><Button name="top" size="xl" >
 						Купить полный отчёт
 					</Button></a>: <Button name="top" size="xl" onClick={getGibddHistory} >
 						Купить полный отчёт

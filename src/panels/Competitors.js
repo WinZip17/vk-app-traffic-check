@@ -44,7 +44,7 @@ const Competitors = (props) => {
 
 				<Div className={!isMobPlatform ? "content-div" : "textCenter"}>
 					<span className={`icon-circle ${!isMobPlatform && "icon-circle-desktop"}`} data-icon="3"/>
-					<h3>Стоимость {price}₽</h3>
+					<h3>Стоимость {price}<span className='arial'>₽</span></h3>
 					<p>Невысокая стоимость проверки истории автомобиля обусловлена тем, что мы не берем деньги за те данные, которые доступны нам бесплатно</p>
 				</Div>
 			</div>

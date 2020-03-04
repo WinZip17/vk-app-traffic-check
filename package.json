@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@vkontakte/icons": "^1.16.3",
-    "@vkontakte/vk-bridge": "^2.0.3",
+    "@vkontakte/vk-bridge": "^2.0.6",
     "@vkontakte/vk-connect": "^1.9.1",
     "@vkontakte/vkui": "^3.4.1",
     "@vroomlabs/vin-validate": "^1.0.2",

@@ -21,9 +21,21 @@ const osName = platform();
 
 
 const FullHistory = (props) => {
-	const {id,  previousPanel, isPreview, setActivePanel, setHeight, getPreviewReport, activePanel, isMobPlatform, setPopout, myParam} = props
-	let previewData = isPreview ? props.previewDataPresent : props.previewData
-	let gibddHistory = isPreview ? props.gibddHistoryPresent : props.gibddHistory
+	const {id,  previousPanel, isPreview, setActivePanel, setHeight, getPreviewReport, activePanel,
+		isMobPlatform, setPopout, myParam, isOldHistory, oldHistoryArr, idHistory} = props
+	let previewData
+	let gibddHistory
+	if (isOldHistory && idHistory) {
+		previewData = oldHistoryArr[idHistory].previewData
+		gibddHistory = oldHistoryArr[idHistory]
+	} else {
+		previewData = isPreview ? props.previewDataPresent : props.previewData
+		gibddHistory = isPreview ? props.gibddHistoryPresent : props.gibddHistory
+	}
+
+
+
+
 	let [newFines, setNewFines] = useState([]);
 
 	const groupClass = `${get_name_browser() ? "fix-menu-group-mozilla" : "fix-menu-group" }`
@@ -62,6 +74,7 @@ const FullHistory = (props) => {
 		</PanelHeader>
 		 : 		<PanelHeader noShadow={true}><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
 		}
+
 		{isPreview && <Menu myParam={myParam} getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>}
 
 
@@ -89,12 +102,12 @@ const FullHistory = (props) => {
 				{gibddHistory.history && <p><span className={gibddHistory.history.status !== 200 ? getCircleColor(0) : getCircleColor(gibddHistory.history.gibdd_base.ownership_periods.length)}> </span> <i>Количество записей в ПТС: </i>{gibddHistory.history.status === 200 ? <span>{" " + gibddHistory.history.gibdd_base.ownership_periods.length}</span> : " нет информации"}</p>}
 				{gibddHistory.dtp && <p><span className={gibddHistory.dtp.status === 200 && gibddHistory.dtp.dtp.accidents.length > 0 ? getCircleColor(3) : getCircleColor(0)}> </span><i>ДТП: </i> {gibddHistory.dtp.status === 200 ? <span>{" " + gibddHistory.dtp.dtp.accidents.length}</span> : " 0"}</p>}
 				{gibddHistory.mileages && <p><i>Пробег: </i>{getGibddHistoryDataArr(gibddHistory.mileages, "status") && gibddHistory.mileages.status === 200 && gibddHistory.mileages.mileages.length > 0? <span>{gibddHistory.mileages.mileages[gibddHistory.mileages.mileages.length - 1].mileage / 1000}<span> тыс. км  </span> ({gibddHistory.mileages.mileages[gibddHistory.mileages.mileages.length - 1].date})</span> : " нет информации"}</p>}
-				{gibddHistory.restrict && <p><span className={gibddHistory.restrict.status === 200 && gibddHistory.restrict.restrict.length > 0 ? getCircleColor(3) : getCircleColor(0)}> </span><i>Ограничения ГИБДД: </i> {gibddHistory.restrict.status === 200 && gibddHistory.restrict.restrict.length > 0 ? <span>{gibddHistory.restrict.restrict[gibddHistory.restrict.restrict.length - 1].restrict_type + "  "} ({gibddHistory.restrict.restrict[gibddHistory.restrict.restrict.length - 1].restrict_osn + "  " + gibddHistory.restrict.restrict[gibddHistory.restrict.restrict.length - 1].region_name})</span>: " Нет"}</p>}
+				{gibddHistory.restrict && <p><span className={gibddHistory.restrict.status === 200 && gibddHistory.restrict.restrict.length > 0 ? getCircleColor(3) : getCircleColor(0)}> </span><i>Ограничения ГИБДД: </i> {gibddHistory.restrict.status === 200 && gibddHistory.restrict.restrict.length > 0 ? <span>{gibddHistory.restrict.restrict[gibddHistory.restrict.restrict.length - 1].restrict_type + "  "} ({gibddHistory.restrict.restrict[gibddHistory.restrict.restrict.length - 1].restrict_osn + "  " + gibddHistory.restrict.restrict[gibddHistory.restrict.restrict.length - 1].region_name})</span>: " нет"}</p>}
 				{gibddHistory.zalogi && <p><span className={gibddHistory.zalogi.status !== 200 ? getCircleColor(1) : getCircleColor(3)}> </span><i>Залог: </i> {gibddHistory.zalogi.status === 200 ? <span>{gibddHistory.zalogi.zalogi.map((zalogi, index) => <div key={index}><p>В залоге {zalogi.pledgees} c {zalogi.register_date}</p></div>)}</span> : " нет"}</p>}
 				{gibddHistory.wanted && <p><span className={gibddHistory.wanted.status !== 200 ? getCircleColor(1) : getCircleColor(3)}> </span><i>Розыск: </i> {gibddHistory.wanted.status === 200 ? <span>{gibddHistory.wanted.wanted.map((wanted, index) => <div key={index}><span>В розыске с {wanted.date_add}, {wanted.region}</span></div>)}</span> : " нет"}</p>}
-				<p><span className={newFines && newFines.length > 0 ? getCircleColor(3) : getCircleColor(1)}> </span><i>Неоплаченные штрафы: </i> {newFines && newFines.length > 0 ? <span>{newFines.length}</span> : " нет"}</p>
+				<p><span className={newFines && newFines.length > 0 ? getCircleColor(3) : getCircleColor(1)}> </span><i>Неоплаченные штрафы: </i> {newFines && newFines.length > 0 ? <span>{newFines.length}</span> : " 0"}</p>
 				{gibddHistory.eaisto && gibddHistory.eaisto.status === 200 && <p>{gibddHistory.eaisto.diagnose_cards.length === 1 ? <i>Диагностическая карта: </i>  : <i>Диагностические карты: </i>}<span>{gibddHistory.eaisto.diagnose_cards.map((wanted, index) => wanted.number.length > 0 && <span key={index}>№{wanted.number}{wanted.start_date.length > 0 && wanted.end_date.length > 0 && ", "} {wanted.start_date.length > 0 && wanted.start_date + " - "} {wanted.start_date.length > 0 && wanted.end_date + "  "}</span>)}</span></p>}
-				{gibddHistory.taxi && <p><span className={gibddHistory.taxi && gibddHistory.taxi.status === 200 ? getCircleColor(3) : getCircleColor(1)}> </span> <i> Такси: </i>{gibddHistory.taxi && gibddHistory.wanted.status === 200 ? "Да" : " нет"}</p>}
+				{gibddHistory.taxi && <p><span className={gibddHistory.taxi && gibddHistory.taxi.status === 200 ? getCircleColor(3) : getCircleColor(1)}> </span> <i> Такси: </i>{gibddHistory.taxi && gibddHistory.taxi.status === 200 ? "Да" : " нет"}</p>}
 				{gibddHistory.rsa && gibddHistory.rsa.status === 200 &&  <p> <i>ОСАГО: </i>{gibddHistory.rsa.rsa.company_name}, серия {" " + gibddHistory.rsa.rsa.policy_serial + " "}№{gibddHistory.rsa.rsa.policy_number + " "} {gibddHistory.rsa.rsa.policy_status}</p>}
 			</Div>
 

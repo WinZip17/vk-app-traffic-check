@@ -367,3 +367,7 @@ body, h1, h2, h3, h4, h5, h6, p, span {
     flex-direction: row;
     justify-content: space-between;
 }
+
+.arial {
+    font-family: Arial, sans-serif !important;
+}
