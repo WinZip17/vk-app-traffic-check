@@ -22,8 +22,7 @@ export const preview_data = (number, setPreviewData, setPopout, setIsValidNumber
     })
 }
 
-export const gibdd_history = (number, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, user_id = 0, setIsPreview ) => {
-    setIsPreview(false)
+export const gibdd_history = (number, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, user_id = 0 ) => {
     let url = user_id === 0 ? `https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv` : `https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv&user_id=${user_id}`
     fetch(url)
         .then(function(response) {
@@ -42,27 +41,17 @@ export const gibdd_history = (number, setGibddHistory, setPopout, setIsValidNumb
 
 }
 
-export const get_preview_report = (number, setPreviewDataPresent, setPopout, setHeight, setGibddHistoryPresent, setActivePanel) => {
-    fetch(`https://data.gibdd-proverka.ru/check/auto/prerequest/?vin_grz=${number}&key=Yu8fJszHk4p73pvc`)
+export const get_preview_report = (number, setPopout, setHeight, setGibddHistory, setActivePanel) => {
+
+    fetch(`https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv`)
         .then(function(response) {
             return response.json();
         })
         .then(function(data) {
-            if("error" in data) {
-                setPopout(null)
-            } else {
-                setPreviewDataPresent(data)
-                fetch(`https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv`)
-                    .then(function(response) {
-                        return response.json();
-                    })
-                    .then(function(data) {
-                        setGibddHistoryPresent(data)
-                        setActivePanel('FullHistory')
-                        setHeight(4000)
-                        setPopout(null)
-                    })
-            }
+            setGibddHistory(data)
+            setActivePanel('FullHistory')
+            setHeight(4000)
+            setPopout(null)
         })
 }
 

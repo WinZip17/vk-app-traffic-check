@@ -19,9 +19,9 @@ const PreviewHistiry = (props) => {
 
 	useEffect(() => {
 		if (previewData.image && previewData.image.length > 0 && img) {
-			setHeight(450 + img.current.height)
+			setHeight(470 + img.current.height)
 		} else {
-			setHeight(270)
+			setHeight(290)
 		}
 	}, [previewData, img]);
 
@@ -73,6 +73,11 @@ const PreviewHistiry = (props) => {
 					<h3>В полном отчёте за {price}₽ доступно:</h3>
 					<p>
 						{Hashtag}пробег {Hashtag}регистрации {Hashtag}ДТП {Hashtag}ограничения {Hashtag}розыск {Hashtag}данные о залогах {Hashtag}диагностическая карта {Hashtag}ОСАГО {Hashtag}штрафы {Hashtag}фотографии {Hashtag}объявления о продаже {Hashtag}профили на drive2.ru {Hashtag}проверка на работу в такси {Hashtag}характеристики авто
+					</p>
+				</Div>
+				<Div className='textCenter'>
+					<p>
+						Формирование отчёта занимает от 1 до 5 минут
 					</p>
 				</Div>
 

@@ -25,6 +25,8 @@ const osName = platform();
 
 const getSVG = (history, damage) => {
 	let category = getGibddHistoryDataArr(history,"category") ? history.category : "B"
+	console.log(category)
+
 	if (category === "C") {
 		return <SvgBig className={`svg-margin ${damageClass(damage)}`}/>
 	} else if (category === "D") {
@@ -50,7 +52,7 @@ const FullHistory = (props) => {
 			setGibddHistory(oldHistoryArr[idHistory])
 		} else if (props.gibddHistory) {
 			setPreviewData(props.gibddHistory.preview)
-			setGibddHistory(props.gibddHistory)
+			setPreviewData(props.gibddHistory)
 		}
 	}, [oldHistoryArr, props.gibddHistory]);
 
@@ -130,46 +132,12 @@ const FullHistory = (props) => {
 			} else if (gibddHistory.history.status === 200 && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle,"model")) {
 				setModel(gibddHistory.history.gibdd_base.vehicle.model)
 			}
-
-			//year
-			if (getNamePreviewDataArr("year")) {
-				setYear(gibddHistory.preview.year)
-			} else if (gibddHistory.history.status === 200 && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "year")) {
-				setYear(gibddHistory.history.gibdd_base.vehicle.year)
-			}
-
-			//VIN
-			if  (getGibddHistoryDataArr(gibddHistory, "VIN")) {
-				setVIN(gibddHistory.VIN)
-			}
-
-			//num
-			if  (getGibddHistoryDataArr(gibddHistory, "num")) {
-				setNum(gibddHistory.num)
-			}
-
-			//sts
-			if  (getGibddHistoryDataArr(gibddHistory, "sts")) {
-				setSts(gibddHistory.sts)
-			}
-
-
-			//image
-			if (getNamePreviewDataArr("image")) {
-				setImage(gibddHistory.preview.image)
-			}
-
-			//category
-			if (getNamePreviewDataArr("category")) {
-				setCategory(gibddHistory.preview.category)
-			} else if (gibddHistory.history.status === 200 && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "category")) {
-				setCategory(gibddHistory.history.gibdd_base.vehicle.category)
-			}
-
 		}
 	}, [gibddHistory]);
 
-	console.log(VIN)
+
+	console.log(getNamePreviewDataArr('model'))
+	console.log(model)
 	return <Panel id={id}>
 		{!isPreview ? <PanelHeader
 			left={<PanelHeaderButton onClick={() => {
@@ -187,16 +155,16 @@ const FullHistory = (props) => {
 		{isPreview && <Menu myParam={myParam} getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>}
 
 
-		{gibddHistory && <Group className={!isPreview ? "" : groupClass}>
+		{previewData && gibddHistory && <Group className={!isPreview ? "" : groupClass}>
 
-			<Div><h1>{model}{year && ", " + year}</h1></Div>
+			<Div><h1>{model}{getNamePreviewDataArr("year") && ", " + previewData.year}</h1></Div>
 			<Div>Дата проверки  {isOldHistory ? gibddHistory.date : newDateFormat(wellDate)}</Div>
-			{VIN && <Div><span className='text-bold'>{`${VIN.length === 17 ? "VIN: " : "Кузов: "}` + VIN}</span></Div>}
-			{num && <Div><span className='text-bold'>{"Госномер: " + num}</span></Div>}
-			{sts && <Div><span className='text-bold'>{"СТС: " + sts}</span></Div>}
-			{image && <Div><img src={modifyUrl(image)} alt='photo' className='photo'/></Div>}
-			{category && <Div><span><i>Категория ТС: </i>{category}</span></Div>}
-			{year && <Div><span><i>Год выпуска: </i>{year}</span></Div>}
+			{getGibddHistoryDataArr(gibddHistory, "VIN") && <Div><span className='text-bold'>{`${gibddHistory.VIN.length === 17? "VIN: " : "Кузов: "}` + gibddHistory.VIN}</span></Div>}
+			{getGibddHistoryDataArr(gibddHistory, "num") && <Div><span className='text-bold'>{"Госномер: " + gibddHistory.num}</span></Div>}
+			{getGibddHistoryDataArr(gibddHistory, "sts") && <Div><span className='text-bold'>{"СТС: " + gibddHistory.sts}</span></Div>}
+			{getNamePreviewDataArr("image") && <Div><img src={modifyUrl(previewData.image)} alt='photo' className='photo'/></Div>}
+			{getNamePreviewDataArr("category") && <Div><span><i>Категория ТС: </i>{previewData.category + "  "}</span></Div>}
+			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "year") && <Div><span><i>Год выпуска: </i>{gibddHistory.history.gibdd_base.vehicle.year}</span></Div>}
 			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "color") && <Div><span><i>Цвет: </i>{gibddHistory.history.gibdd_base.vehicle.color}</span></Div>}
 			{getNamePreviewDataArr("wheel") && <Div><span><i>Руль: </i>{previewData.wheel}</span></Div>}
 			{getNamePreviewDataArr("weight") && <Div><span><i>Масса (без нагрузки/макс. разр.): </i>{previewData.weight}</span></Div>}

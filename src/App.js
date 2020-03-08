@@ -11,7 +11,6 @@ import {get_preview_report, getPrice, gibdd_history, old_history, preview_data} 
 import MyChecks from "./panels/MyChecks";
 import Comparison from "./panels/Comparison";
 import Competitors from "./panels/Competitors";
-import OldHistory from "./panels/OldHistory";
 import PreviewHistiry from "./panels/PreviewHistiry";
 import bridge from '@vkontakte/vk-bridge';
 
@@ -131,7 +130,7 @@ const App = () => {
 		setIsOldHistory(false)
 		if (previewDataPresent === undefined) {
 			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
-			get_preview_report("О111ЕХ102", setPreviewDataPresent, setPopout, setHeight, setGibddHistoryPresent, setActivePanel)
+			get_preview_report("О111ЕХ102", setPopout, setHeight, setGibddHistory, setActivePanel)
 		} else {
 			setActivePanel('FullHistory')
 		}

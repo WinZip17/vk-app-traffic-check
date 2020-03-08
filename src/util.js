@@ -13,6 +13,8 @@ export const getGibddHistoryDataArr = (object, name) => {
     return arr.includes(name) && object[name] && object[name].length > 0
 }
 
+
+
 export const getCircleColor = (length) => {
     if (length > 2) {
         return 'red_circle'

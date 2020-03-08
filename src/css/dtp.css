@@ -40,3 +40,127 @@
 .V224 .L .selected .id_24 { fill: red; }
 .V125 .L .selected .id_25 { fill: yellow; }
 .V225 .L .selected .id_25 { fill: red; }
+
+
+.B * { fill: none; }
+
+.B .path path, .path polygon, .path rect,
+.B .path circle, .path line { fill: none; stroke: #000000; stroke-width: 1; stroke-linejoin: round; }
+.B .path .fill { fill: #000000; }
+
+.B .w05 { stroke-width: 0.5 !important; }
+.B .w2 { stroke-width: 2 !important; }
+
+.B polygon.well { fill: #000000; stroke: none; }
+.B .well path { fill: #000000; stroke: none; }
+.B .well circle { stroke-width: 0.5; }
+
+.B .red { fill: red !important; }
+.B .white { fill: white !important; }
+.B .yellow { fill: yellow !important; }
+.B .dashdot { fill: none; stroke: #7C7C7C; stroke-width: 1.5; stroke-dasharray: 7; }
+
+.B .selected  { stroke: none; stroke-width: 0; }
+.B .hover { opacity: 0.01; fill: #FFFFFF; }
+
+.V130 .B .selected .id_01 { fill: yellow; }
+.V230 .B .selected .id_01 { fill: red; }
+.V131 .B .selected .id_02 { fill: yellow; }
+.V231 .B .selected .id_02 { fill: red; }
+.V132 .B .selected .id_03 { fill: yellow; }
+.V232 .B .selected .id_03 { fill: red; }
+.V133 .B .selected .id_04 { fill: yellow; }
+.V233 .B .selected .id_04 { fill: red; }
+.V134 .B .selected .id_05 { fill: yellow; }
+.V234 .B .selected .id_05 { fill: red; }
+.V135 .B .selected .id_06 { fill: yellow; }
+.V235 .B .selected .id_06 { fill: red; }
+.V136 .B .selected .id_07 { fill: yellow; }
+.V236 .B .selected .id_07 { fill: red; }
+.V137 .B .selected .id_08 { fill: yellow; }
+.V237 .B .selected .id_08 { fill: red; }
+.V138 .B .selected .id_09 { fill: yellow; }
+.V238 .B .selected .id_09 { fill: red; }
+.V139 .B .selected .id_10 { fill: yellow; }
+.V239 .B .selected .id_10 { fill: red; }
+.V140 .B .selected .id_11 { fill: yellow; }
+.V240 .B .selected .id_11 { fill: red; }
+.V141 .B .selected .id_12 { fill: yellow; }
+.V241 .B .selected .id_12 { fill: red; }
+.V142 .B .selected .id_13 { fill: yellow; }
+.V242 .B .selected .id_13 { fill: red; }
+.V143 .B .selected .id_14 { fill: yellow; }
+.V243 .B .selected .id_14 { fill: red; }
+
+
+
+
+.F * { fill: none; }
+
+.F .path path, .path polygon, .path rect,
+.F .path circle, .path line, .path polyline,
+.F .path ellipse { fill: none; stroke: #000000; stroke-width: 1; stroke-linejoin: round; }
+.F .path .fill { fill: #000000; }
+
+.F .w0 { stroke: none !important; }
+.F .w05 { stroke-width: 0.5 !important; }
+.F .w15 { stroke-width: 1.5 !important; }
+.F .w2 { stroke-width: 2 !important; }
+
+.F polygon.well { fill: #000000; stroke: none; }
+.F .well path { fill: #000000; stroke: none; }
+.F .well circle	{ stroke-width: 0.5; }
+
+
+
+.F .red { fill: red !important; }
+.F .white { fill: white !important; }
+.F .yellow { fill: yellow !important; }
+.F .dashdot { fill: none; stroke: #7C7C7C; stroke-width: 1.5; stroke-dasharray: 7; }
+
+
+.F .selected * { stroke: none; stroke-width: 0; }
+.F .hover * { opacity: 0.01; fill: #FFFFFF; }
+
+.V160 .F .selected .id_01 { fill: yellow; }
+.V260 .F .selected .id_01 { fill: red; }
+.V161 .F .selected .id_02 { fill: yellow; }
+.V261 .F .selected .id_02 { fill: red; }
+.V162 .F .selected .id_03 { fill: yellow; }
+.V262 .F .selected .id_03 { fill: red; }
+.V163 .F .selected .id_04 { fill: yellow; }
+.V263 .F .selected .id_04 { fill: red; }
+.V164 .F .selected .id_05 { fill: yellow; }
+.V264 .F .selected .id_05 { fill: red; }
+.V165 .F .selected .id_06 { fill: yellow; }
+.V265 .F .selected .id_06 { fill: red; }
+.V166 .F .selected .id_07 { fill: yellow; }
+.V266 .F .selected .id_07 { fill: red; }
+.V167 .F .selected .id_08 { fill: yellow; }
+.V267 .F .selected .id_08 { fill: red; }
+.V168 .F .selected .id_09 { fill: yellow; }
+.V268 .F .selected .id_09 { fill: red; }
+.V169 .F .selected .id_10 { fill: yellow; }
+.V269 .F .selected .id_10 { fill: red; }
+.V170 .F .selected .id_11 { fill: yellow; }
+.V270 .F .selected .id_11 { fill: red; }
+.V171 .F .selected .id_12 { fill: yellow; }
+.V271 .F .selected .id_12 { fill: red; }
+.V172 .F .selected .id_13 { fill: yellow; }
+.V272 .F .selected .id_13 { fill: red; }
+.V173 .F .selected .id_14 { fill: yellow; }
+.V273 .F .selected .id_14 { fill: red; }
+.V174 .F .selected .id_15 { fill: yellow; }
+.V274 .F .selected .id_15 { fill: red; }
+.V175 .F .selected .id_16 { fill: yellow; }
+.V275 .F .selected .id_16 { fill: red; }
+.V176 .F .selected .id_17 { fill: yellow; }
+.V276 .F .selected .id_17 { fill: red; }
+.V177 .F .selected .id_18 { fill: yellow; }
+.V277 .F .selected .id_18 { fill: red; }
+.V178 .F .selected .id_19 { fill: yellow; }
+.V278 .F .selected .id_19 { fill: red; }
+.V179 .F .selected .id_20 { fill: yellow; }
+.V279 .F .selected .id_20 { fill: red; }
+.V180 .F .selected .id_21 { fill: yellow; }
+.V280 .F .selected .id_21 { fill: red; }
