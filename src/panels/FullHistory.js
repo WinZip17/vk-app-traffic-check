@@ -57,7 +57,6 @@ const FullHistory = (props) => {
 
 	//data
 	const [model, setModel] = useState(null);
-	const [verificationDate, setVerificationDate] = useState(null);
 	const [VIN, setVIN] = useState(null);
 	const [num, setNum] = useState(null);
 	const [sts, setSts] = useState(null);
@@ -76,39 +75,25 @@ const FullHistory = (props) => {
 	const [dtpCount, setDtpCount] = useState(null);
 	const [mileages, setMileages] = useState(null);
 	const [restrict, setRestrict] = useState(null);
-	const [zalogiCount, setZalogiCount] = useState(null);
-	const [wantedCount, setWantedCount] = useState(null);
-	const [newFinesCount, setNewFinesCount] = useState(null);
+	const [zalogi, setZalogi] = useState(null);
+	const [wanted, setWanted] = useState(null);
 	const [diagnose_cards, setDiagnose_cards] = useState(null);
-	const [taxiCount, setTaxiCount] = useState(null);
+	const [taxi, setTaxi] = useState(false);
 	const [rsa, setRsa] = useState(null);
 
 	//разделы - массивы
+	const [ownership_periodsArr, setOwnership_periods] = useState([]);
 	const [dtpArr, setDtpArr] = useState([]);
-	const [mileagesArr, setMileagesArr] = useState([]);
 	const [imgsArr, setImgsArr] = useState([]);
 	const [drive2Arr, setDrive2Arr] = useState([]);
 	const [autoruArr, setAutoruArr] = useState([]);
 	const [newFinesArr, setNewFinesArr] = useState([]);
 
-
-
-
-
-
-
-	let [newFines, setNewFines] = useState([]);
-
 	const groupClass = `${get_name_browser() ? "fix-menu-group-mozilla" : "fix-menu-group" }`
-	useEffect(() => {
-		setHeight(4000)
-	}, []);
 
 	useEffect(() => {
-		if (gibddHistory && getGibddHistoryDataArr(gibddHistory.fines, "status") &&  gibddHistory.fines.status === 200 && gibddHistory.fines.fines_v2.length > 0) {
-			setNewFines(getNewArrFines(gibddHistory.fines.fines_v2))
-		}
-	}, [gibddHistory]);
+		setHeight(4050)
+	}, []);
 
 	const getNamePreviewDataArr = (name) => {
 		let arr = []
@@ -166,10 +151,135 @@ const FullHistory = (props) => {
 				setCategory(gibddHistory.history.gibdd_base.vehicle.category)
 			}
 
+			//color
+			if (gibddHistory.history.status === 200 && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "color")) {
+				setColor(gibddHistory.history.gibdd_base.vehicle.color)
+			}
+
+			//wheel
+			if (getNamePreviewDataArr("wheel")) {
+				setWheel(gibddHistory.preview.wheel)
+			} else if (gibddHistory.history.status === 200 && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "wheel")) {
+				setWheel(gibddHistory.history.gibdd_base.vehicle.wheel)
+			}
+
+			//weight
+			if (getNamePreviewDataArr("weight")) {
+				setWeight(gibddHistory.preview.weight)
+			} else if (gibddHistory.history.status === 200 && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "weight")) {
+				setWeight(gibddHistory.history.gibdd_base.vehicle.weight)
+			}
+
+
+			//type
+			if (gibddHistory.history.status === 200 && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "type")) {
+				setType(gibddHistory.history.gibdd_base.vehicle.type)
+			}
+
+			//capacity
+			if (getNamePreviewDataArr("capacity")) {
+				setCapacity(gibddHistory.preview.capacity)
+			} else if (gibddHistory.history.status === 200 && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_volume")) {
+				setCapacity(gibddHistory.history.gibdd_base.vehicle.engine_volume)
+			}
+
+			//power
+			if (getNamePreviewDataArr("power")) {
+				setPower(gibddHistory.preview.power)
+			} else if (gibddHistory.history.status === 200 && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "power_hp")) {
+				setPower(gibddHistory.history.gibdd_base.vehicle.power_hp)
+			}
+
+			//engine_number
+			if (gibddHistory.history.status === 200 && getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_number")) {
+				setEngine_number(gibddHistory.history.gibdd_base.vehicle.engine_number)
+			}
+
+
+
+			//engine_type
+			if (getNamePreviewDataArr("engine_type")) {
+				setEngine_type(gibddHistory.preview.engine_type)
+			}
+
+
+			//PtsCount ownership_periodsArr
+			if (gibddHistory.history.status === 200 && getGibddHistoryDataArr(gibddHistory.history.gibdd_base, "ownership_periods")) {
+				setPtsCount(gibddHistory.history.gibdd_base.ownership_periods.length)
+				setOwnership_periods(gibddHistory.history.gibdd_base.ownership_periods)
+			}
+
+
+			//dtpCount dtpArr
+			if (gibddHistory.dtp.status === 200 && getGibddHistoryDataArr(gibddHistory.dtp.dtp, "accidents")) {
+				setDtpCount(gibddHistory.dtp.dtp.accidents.length)
+				setDtpArr(gibddHistory.dtp.dtp.accidents)
+			}
+
+
+			//mileages
+			if (gibddHistory.mileages.status === 200 && gibddHistory.mileages.mileages.length > 0) {
+				setMileages(gibddHistory.mileages.mileages)
+			}
+
+
+			//restrict
+			if (gibddHistory.restrict.status === 200 && gibddHistory.restrict.restrict.length > 0) {
+				setRestrict(gibddHistory.restrict.restrict)
+			}
+
+
+			//zalogi
+			if (gibddHistory.zalogi.status === 200 && gibddHistory.zalogi.zalogi.length > 0) {
+				setZalogi(gibddHistory.zalogi.zalogi)
+			}
+
+			//wanted
+			if (gibddHistory.wanted.status === 200 && gibddHistory.wanted.wanted.length > 0) {
+				setWanted(gibddHistory.wanted.wanted)
+			}
+
+			//eaisto
+			if (gibddHistory.eaisto.status === 200 && gibddHistory.eaisto.diagnose_cards.length > 0) {
+				setDiagnose_cards(gibddHistory.eaisto.diagnose_cards)
+			}
+
+			//taxi
+			if (gibddHistory.taxi.status === 200) {
+				setTaxi(true)
+			}
+
+
+			//rsa
+			if (gibddHistory.rsa.status === 200) {
+				setRsa(gibddHistory.rsa.rsa)
+			}
+
+			//imgs
+			if (gibddHistory.imgs.status === 200 && gibddHistory.imgs.photo.length > 0) {
+				setImgsArr(gibddHistory.imgs.photo)
+			}
+
+
+			//drive2Arr
+			if (gibddHistory.drive2.status === 200 && gibddHistory.drive2.drive2.length > 0) {
+				setDrive2Arr(gibddHistory.drive2.drive2)
+			}
+
+			//autoruArr
+			if (gibddHistory.autoru.status === 200 && gibddHistory.autoru.bulletin_boards.length > 0) {
+				setAutoruArr(gibddHistory.autoru.bulletin_boards)
+			}
+
+			//newFinesArr
+			if (gibddHistory.fines.status === 200 && gibddHistory.fines.fines_v2.length > 0) {
+				setNewFinesArr(gibddHistory.fines.fines_v2)
+			}
+
+
 		}
 	}, [gibddHistory]);
 
-	console.log(VIN)
 	return <Panel id={id}>
 		{!isPreview ? <PanelHeader
 			left={<PanelHeaderButton onClick={() => {
@@ -197,57 +307,57 @@ const FullHistory = (props) => {
 			{image && <Div><img src={modifyUrl(image)} alt='photo' className='photo'/></Div>}
 			{category && <Div><span><i>Категория ТС: </i>{category}</span></Div>}
 			{year && <Div><span><i>Год выпуска: </i>{year}</span></Div>}
-			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "color") && <Div><span><i>Цвет: </i>{gibddHistory.history.gibdd_base.vehicle.color}</span></Div>}
-			{getNamePreviewDataArr("wheel") && <Div><span><i>Руль: </i>{previewData.wheel}</span></Div>}
-			{getNamePreviewDataArr("weight") && <Div><span><i>Масса (без нагрузки/макс. разр.): </i>{previewData.weight}</span></Div>}
-			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "type") && <Div><span><i>Тип кузова: </i>{gibddHistory.history.gibdd_base.vehicle.type}</span></Div>}
-			{getNamePreviewDataArr("capacity") ? <Div><span><i>Объем двигателя: : </i>{previewData.capacity + " куб. см"}</span></Div> : getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_volume") && <Div><span>{"Объем двигателя: " + gibddHistory.history.gibdd_base.vehicle.engine_volume + " куб. см"}</span></Div>}
-			{getNamePreviewDataArr("power") ? <Div><span><i>Мощность двигателя: </i>{previewData.power + " л.c."}</span></Div> : getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "power_hp") && <Div><span>{"Мощность двигателя: " + gibddHistory.history.gibdd_base.vehicle.power_hp + " л.c."}</span></Div>}
-			{getGibddHistoryDataArr(gibddHistory.history.gibdd_base.vehicle, "engine_number") && <Div><span><i>№ двигателя: </i>{gibddHistory.history.gibdd_base.vehicle.engine_number}</span></Div>}
-			{getNamePreviewDataArr("engine_type") && <Div><span><i>Тип двигателя: </i>{previewData.engine_type}</span></Div>}
+			{color && <Div><span><i>Цвет: </i>{color}</span></Div>}
+			{wheel && <Div><span><i>Руль: </i>{wheel}</span></Div>}
+			{weight && <Div><span><i>Масса (без нагрузки/макс. разр.): </i>{weight}</span></Div>}
+			{type && <Div><span><i>Тип кузова: </i>{type}</span></Div>}
+			{capacity && <Div><span><i>Объем двигателя: : </i>{capacity + " куб. см"}</span></Div>}
+			{power && <Div><span><i>Мощность двигателя: </i>{power + " л.c."}</span></Div> }
+			{engine_number && <Div><span><i>№ двигателя: </i>{engine_number}</span></Div>}
+			{engine_type && <Div><span><i>Тип двигателя: </i>{engine_type}</span></Div>}
 
 			<Div>
 				<p className='fix-margin'><span className='text-bold'>Сводные данные</span></p>
-				{gibddHistory.history && gibddHistory.history.status === 200 && <p><span className={gibddHistory.history.status !== 200 ? getCircleColor(0) : getCircleColor(gibddHistory.history.gibdd_base.ownership_periods.length)}> </span> <i>Количество записей в ПТС: </i>{gibddHistory.history.status === 200 ? <span>{" " + gibddHistory.history.gibdd_base.ownership_periods.length}</span> : " нет информации"}</p>}
-				{gibddHistory.dtp && <p><span className={gibddHistory.dtp.status === 200 && gibddHistory.dtp.dtp.accidents.length > 0 ? getCircleColor(3) : getCircleColor(1)}> </span><i>ДТП: </i> {gibddHistory.dtp.status === 200 ? <span>{" " + gibddHistory.dtp.dtp.accidents.length}</span> : " 0"}</p>}
-				{gibddHistory.mileages && gibddHistory.mileages.status === 200 && <p><i>Пробег: </i>{getGibddHistoryDataArr(gibddHistory.mileages, "status") && gibddHistory.mileages.status === 200 && gibddHistory.mileages.mileages.length > 0? <span>{gibddHistory.mileages.mileages[gibddHistory.mileages.mileages.length - 1].mileage / 1000}<span> тыс. км  </span> ({gibddHistory.mileages.mileages[gibddHistory.mileages.mileages.length - 1].date})</span> : " нет информации"}</p>}
-				{gibddHistory.restrict && gibddHistory.restrict.status === 200 && <p><span className={gibddHistory.restrict.status === 200 && gibddHistory.restrict.restrict.length > 0 ? getCircleColor(3) : getCircleColor(1)}> </span><i>Ограничения ГИБДД: </i> {gibddHistory.restrict.status === 200 && gibddHistory.restrict.restrict.length > 0 ? <span>{gibddHistory.restrict.restrict[gibddHistory.restrict.restrict.length - 1].restrict_type + "  "} ({gibddHistory.restrict.restrict[gibddHistory.restrict.restrict.length - 1].restrict_osn + "  " + gibddHistory.restrict.restrict[gibddHistory.restrict.restrict.length - 1].region_name})</span>: " Нет"}</p>}
-				{gibddHistory.zalogi &&  <p><span className={gibddHistory.zalogi.status !== 200 ? getCircleColor(1) : getCircleColor(3)}> </span><i>Залог: </i> {gibddHistory.zalogi.status === 200 ? <span>{gibddHistory.zalogi.zalogi.map((zalogi, index) => <div key={index}><p>В залоге {zalogi.pledgees} c {zalogi.register_date}</p></div>)}</span> : " Нет"}</p>}
-				{gibddHistory.wanted && <p><span className={gibddHistory.wanted.status !== 200 ? getCircleColor(1) : getCircleColor(3)}> </span><i>Розыск: </i> {gibddHistory.wanted.status === 200 ? <span>{gibddHistory.wanted.wanted.map((wanted, index) => <div key={index}><span>В розыске с {wanted.date_add}, {wanted.region}</span></div>)}</span> : " Нет"}</p>}
-				<p><span className={newFines && newFines.length > 0 ? getCircleColor(3) : getCircleColor(1)}> </span><i>Неоплаченные штрафы: </i> {newFines && newFines.length > 0 ? <span>{newFines.length}</span> : " 0"}</p>
-				{gibddHistory.eaisto && gibddHistory.eaisto.status === 200 && <p>{gibddHistory.eaisto.diagnose_cards.length === 1 ? <i>Диагностическая карта: </i>  : <i>Диагностические карты: </i>}<span>{gibddHistory.eaisto.diagnose_cards.map((wanted, index) => wanted.number.length > 0 && <span key={index}>№{wanted.number}{wanted.start_date.length > 0 && wanted.end_date.length > 0 && ", "} {wanted.start_date.length > 0 && wanted.start_date + " - "} {wanted.start_date.length > 0 && wanted.end_date + "  "}</span>)}</span></p>}
-				{gibddHistory.taxi && <p><span className={gibddHistory.taxi && gibddHistory.taxi.status === 200 ? getCircleColor(3) : getCircleColor(1)}> </span> <i> Такси: </i>{gibddHistory.taxi && gibddHistory.taxi.status === 200 ? "Да" : " Нет"}</p>}
-				{gibddHistory.rsa && gibddHistory.rsa.status === 200 &&  <p> <i>ОСАГО: </i>{gibddHistory.rsa.rsa.company_name}, серия {" " + gibddHistory.rsa.rsa.policy_serial + " "}№{gibddHistory.rsa.rsa.policy_number + " "} {gibddHistory.rsa.rsa.policy_status}</p>}
+				{ptsCount && <p><span className={!ptsCount ? getCircleColor(0) : getCircleColor(ptsCount)}> </span> <i>Количество записей в ПТС: </i><span>{" " + ptsCount}</span></p>}
+				<p><span className={dtpCount && dtpCount > 0 ? getCircleColor(3) : getCircleColor(1)}> </span><i>ДТП: </i> {dtpCount && dtpCount > 0  ? <span>{" " + dtpCount}</span> : " 0"}</p>
+				{mileages && <p><i>Пробег: </i><span>{mileages[gibddHistory.mileages.mileages.length - 1].mileage / 1000}<span> тыс. км  </span> ({mileages[gibddHistory.mileages.mileages.length - 1].date})</span></p>}
+				<p><span className={restrict ? getCircleColor(3) : getCircleColor(1)}> </span><i>Ограничения ГИБДД: </i> {restrict ? <span>{restrict[restrict.length - 1].restrict_type + "  "} ({restrict[restrict.length - 1].restrict_osn + "  " + restrict[restrict.length - 1].region_name})</span>: " Нет"}</p>
+				<p><span className={zalogi ? getCircleColor(3) : getCircleColor(1)}> </span><i>Залог: </i> {zalogi ? <span>{zalogi.map((zalogi, index) => <div key={index}><p>В залоге {zalogi.pledgees} c {zalogi.register_date}</p></div>)}</span> : " Нет"}</p>
+				<p><span className={wanted ? getCircleColor(3) : getCircleColor(1)}> </span><i>Розыск: </i> {wanted ? <span>{wanted.map((wanted, index) => <div key={index}><span>В розыске с {wanted.date_add}, {wanted.region}</span></div>)}</span> : " Нет"}</p>
+				<p><span className={newFinesArr.length > 0 ? getCircleColor(3) : getCircleColor(1)}> </span><i>Неоплаченные штрафы: </i> {newFinesArr.length > 0 ? <span>{newFinesArr.length}</span> : " 0"}</p>
+				{diagnose_cards && <p>{diagnose_cards.length === 1 ? <i>Диагностическая карта: </i>  : <i>Диагностические карты: </i>}<span>{diagnose_cards.map((card, index) => card.number.length > 0 && <span key={index}>№{card.number}{card.start_date.length > 0 && card.end_date.length > 0 && ", "} {card.start_date.length > 0 && card.start_date + " - "} {card.start_date.length > 0 && card.end_date + "  "}</span>)}</span></p>}
+				<p><span className={taxi ? getCircleColor(3) : getCircleColor(1)}> </span> <i> Такси: </i>{taxi ? "Да" : " Нет"}</p>
+				{rsa &&  <p> <i>ОСАГО: </i>{rsa.company_name}, серия {" " + rsa.policy_serial + " "}№{rsa.policy_number + " "} {rsa.policy_status}</p>}
 			</Div>
 
-			{gibddHistory.history && gibddHistory.history.status === 200 && gibddHistory.history.gibdd_base.ownership_periods.length > 0 && <Div><p><span className='text-bold'>История записей в ПТС</span></p> <div>
-				{gibddHistory.history.gibdd_base.ownership_periods.map((ownership_periods, index) => <div key={index}><p>{index + 1 }) {ownership_periods.from.length > 0 && <span> {newDateFormat(ownership_periods.from)} - </span>}{ownership_periods.to.length > 0 && <span> {ownership_periods.to === "Настоящее время" || ownership_periods.to === "н.в." ? ownership_periods.to : newDateFormat(ownership_periods.to)}, </span>} {ownership_periods.simple_person_type.length > 0 && <span> {ownership_periods.simple_person_type === "Natural"? 'физическое лицо' : 'юридическое лицо'} </span>} </p></div>)}
+			{ownership_periodsArr.length > 0 && <Div><p><span className='text-bold'>История записей в ПТС</span></p> <div>
+				{ownership_periodsArr.map((ownership_periods, index) => <div key={index}><p>{index + 1 }) {ownership_periods.from.length > 0 && <span> {newDateFormat(ownership_periods.from)} - </span>}{ownership_periods.to.length > 0 && <span> {ownership_periods.to === "Настоящее время" || ownership_periods.to === "н.в." ? ownership_periods.to : newDateFormat(ownership_periods.to)}, </span>} {ownership_periods.simple_person_type.length > 0 && <span> {ownership_periods.simple_person_type === "Natural"? 'физическое лицо' : 'юридическое лицо'} </span>} </p></div>)}
 			</div></Div>}
 
-			{gibddHistory.dtp && getGibddHistoryDataArr(gibddHistory.dtp, "status") && gibddHistory.dtp.status === 200 && gibddHistory.dtp.dtp.accidents.length > 0 && <Div><div> <p><span className='text-bold'>История ДТП (ГИБДД)</span></p></div>
-				{gibddHistory.dtp.dtp.accidents.map((accidents, index) => <div key={index}>{index + 1 }) {" " + accidents.accident_type + ", "}{accidents.accident_date_time + ", "}{accidents.region_name + ""} <br/> {accidents.damage_image.length === 0 && accidents.damage_points.length > 0 && getSVG(previewData, accidents.damage_points) } {accidents.damage_image.length > 0 && <img className='img-margin' src={getNewUrlImg(accidents.damage_image[0])} alt='damage' />} </div>)}
+			{dtpArr.length > 0 && <Div><div> <p><span className='text-bold'>История ДТП (ГИБДД)</span></p></div>
+				{dtpArr.map((accidents, index) => <div key={index}>{index + 1 }) {" " + accidents.accident_type + ", "}{accidents.accident_date_time + ", "}{accidents.region_name + ""} <br/> {accidents.damage_image.length === 0 && accidents.damage_points.length > 0 && getSVG(previewData, accidents.damage_points) } {accidents.damage_image.length > 0 && <img className='img-margin' src={getNewUrlImg(accidents.damage_image[0])} alt='damage' />} </div>)}
 			</Div>}
 
-			{gibddHistory.mileages && getGibddHistoryDataArr(gibddHistory.mileages, "status") &&  gibddHistory.mileages.status === 200 && gibddHistory.mileages.mileages.length > 0 && <Div><p><span className='text-bold'>История пробега</span></p><div>
-				{gibddHistory.mileages.mileages.map((mileages, index) => <div key={index}><p>{index + 1 }) {mileages.mileage / 1000}<span> тыс. км  </span> ({mileages.date})</p></div>)}
+			{mileages && <Div><p><span className='text-bold'>История пробега</span></p><div>
+				{mileages.map((mileages, index) => <div key={index}><p>{index + 1 }) {mileages.mileage / 1000}<span> тыс. км  </span> ({mileages.date})</p></div>)}
 			</div> </Div>}
 
 
-			{gibddHistory.imgs && getGibddHistoryDataArr(gibddHistory.imgs, "status") && gibddHistory.imgs.status === 200 && gibddHistory.imgs.photo.length > 0 && <Div><p><span className='text-bold'>Фото</span></p> <div>
-				{gibddHistory.imgs.photo.map((photo, index) => <div key={index}><p>{index + 1 }) {photo.date.length > 0 && newDateFormat(photo.date)}</p> <img
+			{imgsArr.length > 0 && <Div><p><span className='text-bold'>Фото</span></p> <div>
+				{imgsArr.map((photo, index) => <div key={index}><p>{index + 1 }) {photo.date.length > 0 && newDateFormat(photo.date)}</p> <img
 					src={modifyUrl(photo.src)} alt='photo' className='photo'/> </div>)}
 			</div></Div>}
 
-			{gibddHistory.drive2 && getGibddHistoryDataArr(gibddHistory.drive2, "status") && gibddHistory.drive2.status === 200 && gibddHistory.drive2.drive2.length > 0 && <Div><p><span className='text-bold'>Профили на drive2.ru</span></p> <div>
-				{gibddHistory.drive2.drive2.map((drive2, index) => <div key={index}><p>{index + 1 })  <a className='font-style-normal' href={drive2}> {drive2} </a></p></div>)}
+			{drive2Arr.length > 0 && <Div><p><span className='text-bold'>Профили на drive2.ru</span></p> <div>
+				{drive2Arr.map((drive2, index) => <div key={index}><p>{index + 1 })  <a className='font-style-normal' href={drive2}> {drive2} </a></p></div>)}
 			</div> </Div>}
 
-			{gibddHistory.autoru && getGibddHistoryDataArr(gibddHistory.autoru, "status") && gibddHistory.autoru.status === 200 && gibddHistory.autoru.bulletin_boards.length > 0 && <Div><p><span className='text-bold'>Объявления о продаже</span></p> <div>
-				{gibddHistory.autoru.bulletin_boards.map((bulletin_boards, index) => <div key={index}><p>{index + 1 }) {bulletin_boards.date.length > 0 && <span> {bulletin_boards.date}, </span>}  {bulletin_boards.model.length > 0 && <span> {bulletin_boards.model} г.в., </span>} {bulletin_boards.mileage.length > 0 && <span> {bulletin_boards.mileage.replace(/&nbsp;/g, ' ')}, </span>} {bulletin_boards.price.length > 0 && <span> {bulletin_boards.price.replace(/&nbsp;/g, ' ')}, </span>} {bulletin_boards.link.length > 0 && <a className='font-style-normal' href={bulletin_boards.link}> {bulletin_boards.link} </a>}</p></div>)}
+			{autoruArr.length > 0 && <Div><p><span className='text-bold'>Объявления о продаже</span></p> <div>
+				{autoruArr.map((bulletin_boards, index) => <div key={index}><p>{index + 1 }) {bulletin_boards.date.length > 0 && <span> {bulletin_boards.date}, </span>}  {bulletin_boards.model.length > 0 && <span> {bulletin_boards.model} г.в., </span>} {bulletin_boards.mileage.length > 0 && <span> {bulletin_boards.mileage.replace(/&nbsp;/g, ' ')}, </span>} {bulletin_boards.price.length > 0 && <span> {bulletin_boards.price.replace(/&nbsp;/g, ' ')}, </span>} {bulletin_boards.link.length > 0 && <a className='font-style-normal' href={bulletin_boards.link}> {bulletin_boards.link} </a>}</p></div>)}
 			</div></Div>}
 
-			{newFines && newFines.length > 0 && <Div><div> <p><span className='text-bold'>Список неоплаченных штрафов</span></p></div>
-				{newFines.map((fines, index) => <div key={index}><p>{index + 1 }) {"date_post" in fines && `Штраф отправлен ${fines.date_post}`}{"date_decis" in fines && `, Нарушение от ${fines.date_decis}`}{"koap_text" in fines && fines.koap_text.length > 0 && ", " + fines.koap_text}{"div_addr" in fines && fines.div_addr.length > 0 && ", " + fines.div_addr}{fines.summa.toString().length > 0 && <span>, <span className='text-bold'>{fines.summa} ₽</span></span>}</p></div>)}
+			{newFinesArr.length > 0 && <Div><div> <p><span className='text-bold'>Список неоплаченных штрафов</span></p></div>
+				{newFinesArr.map((fines, index) => <div key={index}><p>{index + 1 }) {"date_post" in fines && `Штраф отправлен ${fines.date_post}`}{"date_decis" in fines && `, Нарушение от ${fines.date_decis}`}{"koap_text" in fines && fines.koap_text.length > 0 && ", " + fines.koap_text}{"div_addr" in fines && fines.div_addr.length > 0 && ", " + fines.div_addr}{fines.summa.toString().length > 0 && <span>, <span className='text-bold'>{fines.summa} ₽</span></span>}</p></div>)}
 			</Div>}
 
 		</Group>}

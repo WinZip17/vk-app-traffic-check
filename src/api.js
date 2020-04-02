@@ -1,3 +1,4 @@
+import React from "react";
 
 export const preview_data = (number, setPreviewData, setPopout, setIsValidNumber, setHeight, setIsPreview, setErrorInfo, setActivePanel) => {
     setIsPreview(false)
@@ -16,6 +17,11 @@ export const preview_data = (number, setPreviewData, setPopout, setIsValidNumber
             setPopout(null)
         }else {
             setPreviewData(data)
+            if (data.image && data.image.length > 0) {
+                setHeight(840)
+            } else {
+                setHeight(550)
+            }
             setPopout(null)
             setActivePanel("PreviewHistiry")
         }
@@ -41,6 +47,25 @@ export const gibdd_history = (number, setGibddHistory, setPopout, setIsValidNumb
 
 }
 
+export const gibdd_history_ios = (number, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, user_id = 0, mail ) => {
+    let url = user_id === 0 ? `https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv` : `https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv&user_id=${user_id}&ios=1&email=${mail}`
+    fetch(url)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if("error" in data) {
+                setIsValidNumber(false)
+                setPopout(null)
+            } else {
+                // setGibddHistory(data)
+                // setActivePanel('FullHistory')
+                // setPopout(null)
+            }
+        })
+
+}
+
 export const get_preview_report = (number, setPopout, setHeight, setGibddHistory, setActivePanel) => {
 
     fetch(`https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv`)
@@ -50,7 +75,6 @@ export const get_preview_report = (number, setPopout, setHeight, setGibddHistory
         .then(function(data) {
             setGibddHistory(data)
             setActivePanel('FullHistory')
-            setHeight(4000)
             setPopout(null)
         })
 }

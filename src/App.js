@@ -7,18 +7,24 @@ import './css/app.css';
 import './css/dtp.css';
 import Home from './panels/Home';
 import FullHistory from './panels/FullHistory';
-import {get_preview_report, getPrice, gibdd_history, old_history, preview_data} from "./api";
+import {get_preview_report, getPrice, gibdd_history, gibdd_history_ios, old_history, preview_data} from "./api";
 import MyChecks from "./panels/MyChecks";
 import Comparison from "./panels/Comparison";
 import Competitors from "./panels/Competitors";
 import PreviewHistiry from "./panels/PreviewHistiry";
 import bridge from '@vkontakte/vk-bridge';
+import ActionSheet from "@vkontakte/vkui/dist/components/ActionSheet/ActionSheet";
+import ActionSheetItem from "@vkontakte/vkui/dist/es6/components/ActionSheetItem/ActionSheetItem";
+import {IOS} from "@vkontakte/vkui";
+import Alert from "@vkontakte/vkui/dist/components/Alert/Alert";
 
 
 let app_id = 0
 let group_id = 161851419
-let userId = "";
-let newNumder = 0;
+let userId = ""
+let newNumder = 0
+let isIos = false
+let email = null
 
 export function get_name_browser(){
 	let ua = navigator.userAgent;
@@ -52,6 +58,7 @@ const App = () => {
 		setMyParam(urlParams.get('vk_platform'));
 		app_id = urlParams.get('vk_app_id');
 		urlParams.get('vk_platform') !== "desktop_web" && setIsMobPlatform(true)
+		isIos = urlParams.get('vk_platform') === "mobile_iphone" || myParam === "mobile_iphone_messenger"
 		bridge.subscribe(({ detail: { type, data }}) => {
 			switch (type) {
 				case 'VKWebAppUpdateConfig':
@@ -62,11 +69,29 @@ const App = () => {
 					break;
 				case 'VKWebAppOpenPayFormResult':
 					if (data.status) {
-						setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
-						getInfo()
+						if (email) {
+							getInfoIos(email)
+							setPopout(
+								<Alert
+									actions={[{
+										title: 'Хорошо',
+										autoclose: true,
+										action: () => setPopout( null )
+									}]}
+									onClose={() => setPopout( null )}
+								>
+									<h2>Формирование отчёта занимает от 1 до 5 минут. Отчёт будет отправлен на ваш e-mail и доступен в разделе «Мои проверки»</h2>
+								</Alert>
+							)
+						} else {
+							setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
+							getInfo()
+						}
 					} else {
 						setPopout(null)
 					}
+					break;
+				case 'VKWebAppResizeWindowResult':
 					break;
 				case 'VKWebAppOpenPayFormFailed':
 					setPopout(null)
@@ -112,9 +137,21 @@ const App = () => {
 				setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 				gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
 			} else {
-				bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
+				if (myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) {
+					bridge
+						.send('VKWebAppGetEmail')
+						.then(data => {
+							// Handling received data
+							email = data.email
+							bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
+						})
+						.catch(error => {
+							// Handling an error
+						});
+				} else {
+					bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
+				}
 			}
-     			// connect.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
 		}
 	};
 
@@ -188,11 +225,16 @@ const App = () => {
 		gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
 	}
 
+	const getInfoIos = (mail) => {
+		gibdd_history_ios(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, mail)
+	}
+
+
 	return (
 		<View activePanel={activePanel} popout={popout} >
-			<Home id='home' fetchedUser={fetchedUser} go={go} previewData={previewData} setPopout={setPopout} errorInfo={errorInfo}
+			<Home id='home' fetchedUser={fetchedUser} go={go} setPopout={setPopout} errorInfo={errorInfo}
 				  number={number} changeNumber={changeNumber} isValidNumber={isValidNumber} getPreviewReport={getPreviewReport}
-				  getPreviewData={getPreviewData} getGibddHistory={getGibddHistory} isMobPlatform={isMobPlatform}
+				  getPreviewData={getPreviewData} isMobPlatform={isMobPlatform}
 				  activePanel={activePanel} setActivePanel={setActivePanel} price={price} setPreviousPanel={setPreviousPanel} setHeight={setHeight}
 				  myParam={myParam}
 			/>
@@ -212,10 +254,6 @@ const App = () => {
 						 isPreview={isPreview} setIsPreview={setIsPreview} setHeight={setHeight} getPreviewData={getPreviewData}
 						 getPreviewReport={getPreviewReport} activePanel={activePanel} setPopout={setPopout} oldHistoryArr={oldHistoryArr}
 						 myParam={scheme} isOldHistory={isOldHistory} idHistory={idHistory}/>
-			{/*<OldHistory id='OldHistory' go={go} oldHistoryArr={oldHistoryArr} gibddHistory={gibddHistory}*/}
-			{/*			 isMobPlatform={isMobPlatform} idHistory={idHistory} setHeight={setHeight} getPreviewReport={getPreviewReport}*/}
-			{/*			activePanel={activePanel} setActivePanel={setActivePanel} setPopout={setPopout}*/}
-			{/*			myParam={scheme}/>*/}
 			<PreviewHistiry fetchedUser={fetchedUser} id='PreviewHistiry' go={go} setHeight={setHeight} previewData={previewData}
 							isValidNumber={isValidNumber} getGibddHistory={getGibddHistory} price={price}
 							number={number} myParam={myParam}/>

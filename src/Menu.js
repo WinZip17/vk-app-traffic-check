@@ -19,7 +19,7 @@ export const Menu = (props) => {
         setPopout(
             <ActionSheet onClose={() => setPopout( null )}>
                 <ActionSheetItem className='pointer' autoclose onClick={() => setActivePanel('competitors')} >
-                    Чем мы лучше конкурентов
+                    Чем мы лучше других
                 </ActionSheetItem>
                 <ActionSheetItem className='pointer' autoclose onClick={() => setActivePanel('comparison')}>
                     Сравнение цен
@@ -53,7 +53,7 @@ export const Menu = (props) => {
                     selected={activePanel === 'competitors'}
                     className='pointer'
                 >
-                    Чем мы лучше конкурентов
+                    Чем мы лучше других
                 </TabsItem>
                 <TabsItem
                     onClick={() => setActivePanel('comparison')}

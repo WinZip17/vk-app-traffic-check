@@ -14,13 +14,13 @@ import {get_name_browser} from "../App";
 import * as Scroll from 'react-scroll';
 
 const Home = (props) => {
-	const {id, isMobPlatform, previewData, number, setPopout, setHeight, errorInfo,
-		changeNumber, isValidNumber, getPreviewData, getGibddHistory,
+	const {id, isMobPlatform, number, setPopout, setHeight, errorInfo,
+		changeNumber, isValidNumber, getPreviewData,
 		activePanel, setActivePanel, price, setPreviousPanel, getPreviewReport, myParam} = props
 
 	useEffect(() => {
 		setPreviousPanel(id)
-		setHeight(700)
+		setHeight(750)
 	}, []);
 
 

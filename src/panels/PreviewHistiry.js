@@ -18,11 +18,12 @@ const PreviewHistiry = (props) => {
 	const img = useRef(null);
 
 	useEffect(() => {
-		if (previewData.image && previewData.image.length > 0 && img) {
-			setHeight(470 + img.current.height)
-		} else {
-			setHeight(290)
+		const setHightFunc = () => {
+			if (previewData.image && previewData.image.length > 0 && img && img.current.height > 0) {
+				setHeight(550 + img.current.height)
+			}
 		}
+		setTimeout(setHightFunc, 200);
 	}, [previewData, img]);
 
 
@@ -62,10 +63,6 @@ const PreviewHistiry = (props) => {
 						{getNamePreviewDataArr("plate") && <span>{Hashtag}{"Госномер: " + previewData.plate + "  "}</span>}
 						{getNamePreviewDataArr("capacity") && <span>{Hashtag}{previewData.capacity + " куб. см" + "  "}</span>}
 						{getNamePreviewDataArr("power") && <span>{Hashtag}{previewData.power + "  л.с." + "  "}</span>}
-						{/*{getNamePreviewDataArr("wheel") && <span>{Hashtag}{"Руль: " + previewData.wheel + "  "}</span>}*/}
-						{/*{getNamePreviewDataArr("category") && <span>{Hashtag}{"Категория ТС: " + previewData.category + "  "}</span>}*/}
-						{/*{getNamePreviewDataArr("weight") && <span>{Hashtag}{"Вес: " + previewData.weight + " кг "}</span>}*/}
-						{/*{getNamePreviewDataArr("engine_type") && <span>{Hashtag}{"Тип двигателя: " + previewData.engine_type + "  "}</span>}*/}
 					</p>
 					{getNamePreviewDataArr("image") && <img  ref={img} src={modifyUrl(previewData.image)} alt='photo' className='photo'/>}
 				</Div>
