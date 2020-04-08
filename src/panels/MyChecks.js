@@ -2,22 +2,18 @@ import React, {useEffect, useState} from 'react';
 import { Group, List} from '@vkontakte/vkui';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
-import {Menu} from "../Menu";
 import Avatar from "@vkontakte/vkui/dist/es6/components/Avatar/Avatar";
 import Cell from "@vkontakte/vkui/dist/components/Cell/Cell";
-import no_image from "../img/no_image.png"
-import {getGibddHistoryDataArr, getPhoto, getYear, modifyUrl} from "../util";
+import {getGibddHistoryDataArr, getPhoto, getYear} from "../util";
 import Div from "@vkontakte/vkui/dist/es6/components/Div/Div";
-import {get_name_browser} from "../App";
 
 const MyChecks = (props) => {
-	const {id, activePanel, setActivePanel, setPreviousPanel, isMobPlatform,
-		getOldHistory, setHeight, oldHistoryArr, popout, setIdHistory, setPopout, getPreviewReport, myParam, setIsOldHistory} = props
+	const {id, setActiveStory, setPreviousPanel,
+		getOldHistory, oldHistoryArr, popout, setIdHistory, setIsOldHistory} = props
 
 	const [oldHistoryArrRevers, seOldHistoryArrRevers] = useState([]);
 	useEffect(() => {
 		setPreviousPanel(id)
-		setHeight(900)
 		getOldHistory()
 	}, []);
 
@@ -26,9 +22,8 @@ const MyChecks = (props) => {
 	}, [oldHistoryArr]);
 
 	return <Panel id={id}>
-		<PanelHeader noShadow={true}><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
-		<Menu myParam={myParam} getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>
-		{oldHistoryArrRevers && oldHistoryArrRevers.length > 0 ? <Group className={`${get_name_browser() ? "fix-menu-group-mozilla" : "fix-menu-group" }`}>
+		<PanelHeader><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
+		{oldHistoryArrRevers && oldHistoryArrRevers.length > 0 ? <Group>
 			{oldHistoryArrRevers.map((auto, index) => <Cell
 				before={<Avatar size={60} src={getPhoto(oldHistoryArrRevers[index])} className='auto-ico'/>}
 				expandable
@@ -36,7 +31,7 @@ const MyChecks = (props) => {
 				key={index}
 				onClick={() => {
 					setIdHistory(index)
-					setActivePanel('FullHistory')
+					setActiveStory('FullHistory')
 					setIsOldHistory(true)
 				}}
 			>

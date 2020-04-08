@@ -12,19 +12,10 @@ import PanelHeaderButton from "@vkontakte/vkui/dist/components/PanelHeaderButton
 const osName = platform();
 
 const PreviewHistiry = (props) => {
-	const {id, go, setHeight, previewData,  getGibddHistory, price, number, myParam, fetchedUser} = props
+	const {id, go, previewData,  getGibddHistory, price, number, myParam, fetchedUser} = props
 	const Hashtag = <Fragment><span className="bl_color">#</span></Fragment>
 	const [isIOS, setIsIOS] = useState(false);
 	const img = useRef(null);
-
-	useEffect(() => {
-		const setHightFunc = () => {
-			if (previewData.image && previewData.image.length > 0 && img && img.current.height > 0) {
-				setHeight(550 + img.current.height)
-			}
-		}
-		setTimeout(setHightFunc, 200);
-	}, [previewData, img]);
 
 
 	useEffect(() => {

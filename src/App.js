@@ -17,6 +17,12 @@ import ActionSheet from "@vkontakte/vkui/dist/components/ActionSheet/ActionSheet
 import ActionSheetItem from "@vkontakte/vkui/dist/es6/components/ActionSheetItem/ActionSheetItem";
 import {IOS} from "@vkontakte/vkui";
 import Alert from "@vkontakte/vkui/dist/components/Alert/Alert";
+import Icon28HomeOutline from '@vkontakte/icons/dist/28/home_outline';
+import TabbarItem from "@vkontakte/vkui/dist/components/TabbarItem/TabbarItem";
+import Epic from "@vkontakte/vkui/dist/components/Epic/Epic";
+import Tabbar from "@vkontakte/vkui/dist/components/Tabbar/Tabbar";
+import Icon28HistoryForwardOutline from '@vkontakte/icons/dist/28/history_forward_outline';
+import Icon28MagicWandOutline from '@vkontakte/icons/dist/28/magic_wand_outline';
 
 
 let app_id = 0
@@ -34,6 +40,7 @@ export function get_name_browser(){
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
+	const [activeStory, setActiveStory] = useState('home');
 	const [fetchedUser, setUser] = useState(null);
 	const [popout, setPopout] = useState(<div className='spinner-shell'><ScreenSpinner size='large' /></div>); //<div className='spinner-shell'><ScreenSpinner size='large' /></div>
 	const [previewData, setPreviewData] = useState(undefined);
@@ -118,7 +125,7 @@ const App = () => {
 		setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 		setPreviewData(undefined)
 		setGibddHistory(undefined)
-		preview_data(number, setPreviewData, setPopout, setIsValidNumber, setHeight, setIsPreview, setErrorInfo, setActivePanel)
+		preview_data(number, setPreviewData, setPopout, setIsValidNumber, setIsPreview, setErrorInfo, setActivePanel)
 	};
 
 
@@ -128,14 +135,14 @@ const App = () => {
 		setIsPreview(false)
 		if (number && number === 'О111ЕХ102' ) {
 			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
-			gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
+			gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActiveStory, userId, setIsPreview)
 		} else if (number && number === 'SALVA1BD8CH641467' ) {
 			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
-			gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
+			gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActiveStory, userId, setIsPreview)
 		} else {
 			if (price.toString() === "0") {
 				setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
-				gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
+				gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActiveStory, userId, setIsPreview)
 			} else {
 				if (myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) {
 					bridge
@@ -165,12 +172,8 @@ const App = () => {
 	const getPreviewReport = () => {
 		setIsPreview(true)
 		setIsOldHistory(false)
-		if (previewDataPresent === undefined) {
-			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
-			get_preview_report("О111ЕХ102", setPopout, setHeight, setGibddHistory, setActivePanel)
-		} else {
-			setActivePanel('FullHistory')
-		}
+		setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
+		get_preview_report("О111ЕХ102", setPopout, setGibddHistory, setActiveStory)
 	}
 
 	const changeNumber = (value) => {
@@ -222,42 +225,74 @@ const App = () => {
 	};
 
 	const getInfo = () => {
-		gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, setIsPreview)
+		gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActiveStory, userId, setIsPreview)
 	}
 
 	const getInfoIos = (mail) => {
-		gibdd_history_ios(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, setHeight, userId, mail)
+		gibdd_history_ios(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, userId, mail)
 	}
 
 
 	return (
-		<View activePanel={activePanel} popout={popout} >
-			<Home id='home' fetchedUser={fetchedUser} go={go} setPopout={setPopout} errorInfo={errorInfo}
-				  number={number} changeNumber={changeNumber} isValidNumber={isValidNumber} getPreviewReport={getPreviewReport}
-				  getPreviewData={getPreviewData} isMobPlatform={isMobPlatform}
-				  activePanel={activePanel} setActivePanel={setActivePanel} price={price} setPreviousPanel={setPreviousPanel} setHeight={setHeight}
-				  myParam={myParam}
-			/>
-			<MyChecks id='my-checks' activePanel={activePanel} setActivePanel={setActivePanel} setPreviousPanel={setPreviousPanel}
-					  getOldHistory={getOldHistory} setHeight={setHeight} oldHistoryArr={oldHistoryArr} popout={popout}
-					  setIdHistory={setIdHistory} isMobPlatform={isMobPlatform} setPopout={setPopout} getPreviewReport={getPreviewReport}
-					  myParam={scheme} setIsOldHistory={setIsOldHistory}/>
-			<Comparison id='comparison' activePanel={activePanel} setActivePanel={setActivePanel} setPreviousPanel={setPreviousPanel}
-						isMobPlatform={isMobPlatform} getPreviewReport={getPreviewReport} price={price} setHeight={setHeight} setPopout={setPopout}
-						myParam={scheme}/>
-			<Competitors id='competitors' activePanel={activePanel} setActivePanel={setActivePanel} setPreviousPanel={setPreviousPanel}
-						 getPreviewReport={getPreviewReport} price={price} isMobPlatform={isMobPlatform} setHeight={setHeight}
-						 setPopout={setPopout} getPreviewData={getPreviewData}
-						 myParam={scheme}/>
-			<FullHistory id='FullHistory' previousPanel={previousPanel} setActivePanel={setActivePanel} gibddHistory={gibddHistory} previewData={previewData}
-						 isMobPlatform={isMobPlatform} previewDataPresent={previewDataPresent} gibddHistoryPresent={gibddHistoryPresent}
-						 isPreview={isPreview} setIsPreview={setIsPreview} setHeight={setHeight} getPreviewData={getPreviewData}
-						 getPreviewReport={getPreviewReport} activePanel={activePanel} setPopout={setPopout} oldHistoryArr={oldHistoryArr}
-						 myParam={scheme} isOldHistory={isOldHistory} idHistory={idHistory}/>
-			<PreviewHistiry fetchedUser={fetchedUser} id='PreviewHistiry' go={go} setHeight={setHeight} previewData={previewData}
-							isValidNumber={isValidNumber} getGibddHistory={getGibddHistory} price={price}
-							number={number} myParam={myParam}/>
-		</View>
+		<Epic activeStory={activeStory} tabbar={
+			<Tabbar>
+				<TabbarItem
+					onClick={() => {
+						setActiveStory('home')
+						setActivePanel('home')
+					}}
+					selected={activeStory === 'home'}
+					// data-story="feed"
+					// text="Новости"
+				><Icon28HomeOutline /></TabbarItem>
+				<TabbarItem
+					onClick={() => getPreviewReport()}
+					selected={activeStory === 'FullHistory'}
+					// data-story="notifications"
+					text="Отчёт"
+				><Icon28MagicWandOutline /></TabbarItem>
+				<TabbarItem
+					onClick={() => setActiveStory('my-checks')}
+					selected={activeStory === 'my-checks'}
+					// data-story="more"
+					text="История"
+				><Icon28HistoryForwardOutline /></TabbarItem>
+			</Tabbar>
+		}>
+			<View id='home' activePanel={activePanel} popout={popout}>
+				<Home id='home' errorInfo={errorInfo}
+					  number={number} changeNumber={changeNumber} isValidNumber={isValidNumber}
+					  getPreviewData={getPreviewData} isMobPlatform={isMobPlatform}
+					  setActivePanel={setActivePanel} price={price} setPreviousPanel={setPreviousPanel}
+				/>
+				<Competitors id='competitors' setActivePanel={setActivePanel}
+							 setPreviousPanel={setPreviousPanel}
+							 getPreviewReport={getPreviewReport} price={price} isMobPlatform={isMobPlatform}
+				/>
+				<Comparison id='comparison' setActivePanel={setActivePanel}
+							setPreviousPanel={setPreviousPanel}
+							isMobPlatform={isMobPlatform} getPreviewReport={getPreviewReport} price={price}
+							/>
+				<PreviewHistiry fetchedUser={fetchedUser} id='PreviewHistiry' go={go}
+								previewData={previewData} getGibddHistory={getGibddHistory} price={price}
+								number={number} myParam={myParam}/>
+			</View>
+			<View id='my-checks' activePanel='mc' popout={popout}>
+				<MyChecks id='mc' setActiveStory={setActiveStory}
+						  setPreviousPanel={setPreviousPanel}
+						  getOldHistory={getOldHistory} oldHistoryArr={oldHistoryArr}
+						  popout={popout}
+						  setIdHistory={setIdHistory}
+						  setIsOldHistory={setIsOldHistory}/>
+			</View>
+			<View id='FullHistory' activePanel='fh' popout={popout}>
+				<FullHistory id='fh'
+							 gibddHistory={gibddHistory}
+							 isPreview={isPreview}
+							 oldHistoryArr={oldHistoryArr}
+							 isOldHistory={isOldHistory} idHistory={idHistory}/>
+			</View>
+		</Epic>
 	);
 }
 

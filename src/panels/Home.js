@@ -9,25 +9,23 @@ import FormLayout from "@vkontakte/vkui/dist/es6/components/FormLayout/FormLayou
 import Input from "@vkontakte/vkui/dist/es6/components/Input/Input";
 import FormStatus from "@vkontakte/vkui/dist/es6/components/FormStatus/FormStatus";
 import main from "../img/main.jpg";
-import {Menu} from "../Menu";
-import {get_name_browser} from "../App";
-import * as Scroll from 'react-scroll';
+import Cell from "@vkontakte/vkui/dist/components/Cell/Cell";
+import Icon56ShuffleOutline from '@vkontakte/icons/dist/56/shuffle_outline';
+import Icon56InfoOutline from '@vkontakte/icons/dist/56/info_outline';
 
 const Home = (props) => {
-	const {id, isMobPlatform, number, setPopout, setHeight, errorInfo,
+	const {id, isMobPlatform, number, errorInfo,
 		changeNumber, isValidNumber, getPreviewData,
-		activePanel, setActivePanel, price, setPreviousPanel, getPreviewReport, myParam} = props
+		setActivePanel, price, setPreviousPanel} = props
 
 	useEffect(() => {
 		setPreviousPanel(id)
-		setHeight(750)
 	}, []);
 
 
 	return 	<Panel id={id}>
-		<PanelHeader noShadow={true}><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
-		<Menu myParam={myParam} getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform}  setPopout={setPopout}/>
-		<Group className={`${get_name_browser() ? "main-img-text-desktop-mozilla" : "fix-menu-group" }`}>
+		<PanelHeader><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
+		<Group>
 			<Div>
 				{isMobPlatform && <div className="main-img-text">
 					<h3>Узнай её прошлое, <br/><span className='subtext'>прежде чем взять</span></h3>
@@ -50,6 +48,14 @@ const Home = (props) => {
 					Проверить авто
 				</Button>
 			</Div>
+		</Group>
+		<Group>
+			<Cell before={<Icon56InfoOutline/>} onClick={() => setActivePanel('competitors')}>
+				Чем мы лучше других
+			</Cell>
+			<Cell before={<Icon56ShuffleOutline/>} onClick={() => setActivePanel('comparison')}>
+				Сравнение цен
+			</Cell>
 		</Group>
 	</Panel>
 

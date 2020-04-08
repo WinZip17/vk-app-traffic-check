@@ -175,9 +175,14 @@ body, h1, h2, h3, h4, h5, h6, p, span {
     flex-direction: row;
     flex-wrap: wrap;
     line-height: 1.89;
+    justify-content: space-around;
 }
 
 .content-div {
+    width: 45%;
+}
+
+.сompetitors-content-div {
     width: 30%;
 }
 

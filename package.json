@@ -20,7 +20,7 @@
     "react-svg-loader": "^3.0.3"
   },
   "dependencies": {
-    "@vkontakte/icons": "^1.16.3",
+    "@vkontakte/icons": "^1.20.1",
     "@vkontakte/vk-bridge": "^2.1.6",
     "@vkontakte/vk-connect": "^1.9.1",
     "@vkontakte/vkui": "^3.4.1",

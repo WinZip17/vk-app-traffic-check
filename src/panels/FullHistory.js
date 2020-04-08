@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {platform, IOS, Group} from '@vkontakte/vkui';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
-import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
-import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Div from "@vkontakte/vkui/dist/es6/components/Div/Div";
 //eslint-disable-next-line import/no-webpack-loader-syntax
 import Svg2 from 'react-svg-loader!../img/svg.html';
@@ -11,10 +9,7 @@ import Svg2 from 'react-svg-loader!../img/svg.html';
 import SvgBig from 'react-svg-loader!../img/big-svg.html';
 //eslint-disable-next-line import/no-webpack-loader-syntax
 import SvgBus from 'react-svg-loader!../img/bus-svg.html';
-import {damageClass, getCircleColor, getGibddHistoryDataArr, getNewArrFines, modifyUrl, newDateFormat} from "../util";
-import {Menu} from "../Menu";
-import {get_name_browser} from "../App";
-import PanelHeaderButton from "@vkontakte/vkui/dist/components/PanelHeaderButton/PanelHeaderButton";
+import {damageClass, getCircleColor, getGibddHistoryDataArr, modifyUrl, newDateFormat} from "../util";
 
 export const getNewUrlImg = (url) => {
 	let index = url.split("map=")
@@ -36,8 +31,7 @@ const getSVG = (history, damage) => {
 
 
 const FullHistory = (props) => {
-	const {id,  previousPanel, isPreview, setActivePanel, setHeight, getPreviewReport, activePanel,
-		isMobPlatform, setPopout, myParam, isOldHistory, oldHistoryArr, idHistory} = props
+	const {id,  isPreview, isOldHistory, oldHistoryArr, idHistory} = props
 
 	//infoArr
 	const [previewData, setPreviewData] = useState(undefined);
@@ -89,11 +83,6 @@ const FullHistory = (props) => {
 	const [autoruArr, setAutoruArr] = useState([]);
 	const [newFinesArr, setNewFinesArr] = useState([]);
 
-	const groupClass = `${get_name_browser() ? "fix-menu-group-mozilla" : "fix-menu-group" }`
-
-	useEffect(() => {
-		setHeight(4050)
-	}, []);
 
 	const getNamePreviewDataArr = (name) => {
 		let arr = []
@@ -273,7 +262,15 @@ const FullHistory = (props) => {
 
 			//newFinesArr
 			if (gibddHistory.fines.status === 200 && gibddHistory.fines.fines_v2.length > 0) {
-				setNewFinesArr(gibddHistory.fines.fines_v2)
+				let fines = []
+				for (let i=0; i < gibddHistory.fines.fines_v2.length; i++) {
+					if ("status" in gibddHistory.fines.fines_v2[i] && gibddHistory.fines.fines_v2[i]. status === 1) {
+
+					} else {
+						fines.push(gibddHistory.fines.fines_v2[i])
+					}
+				}
+				setNewFinesArr(fines)
 			}
 
 
@@ -281,23 +278,16 @@ const FullHistory = (props) => {
 	}, [gibddHistory]);
 
 	return <Panel id={id}>
-		{!isPreview ? <PanelHeader
-			left={<PanelHeaderButton onClick={() => {
-				setActivePanel(previousPanel)
-				setHeight(2000)
-			}}>
-				{osName === IOS ? <Icon28ChevronBack className="pointer" /> : <Icon24Back className="pointer" />}
-			</PanelHeaderButton>}
-		>
-			История автомобиля
+		{!isPreview ? <PanelHeader>
+				Отчёт
 		</PanelHeader>
-		 : 		<PanelHeader noShadow={true}><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
+		 : 		<PanelHeader>Пример отчёта</PanelHeader>
 		}
 
-		{isPreview && <Menu myParam={myParam} getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>}
+		{/*{isPreview && <Menu myParam={myParam} getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>}*/}
 
 
-		{gibddHistory && <Group className={!isPreview ? "" : groupClass}>
+		{gibddHistory && <Group>
 
 			<Div><h1>{model}{year && ", " + year}</h1></Div>
 			<Div>Дата проверки  {isOldHistory ? gibddHistory.date : newDateFormat(wellDate)}</Div>
