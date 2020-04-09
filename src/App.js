@@ -117,9 +117,6 @@ const App = () => {
 		fetchData();
 	}, []);
 
-	const setHeight = (height) => {
-		bridge.send("VKWebAppResizeWindow", { "height": height});
-	}
 
 	const getPreviewData = () => {
 		setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
