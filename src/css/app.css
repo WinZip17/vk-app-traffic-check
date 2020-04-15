@@ -317,6 +317,10 @@ body, h1, h2, h3, h4, h5, h6, p, span {
 .fix-menu-group {
     margin-top: 45px !important;
 }
+.fix-logo {
+    margin-top: 20px !important;
+    margin-bottom: 0 !important;
+}
 
 .fix-menu-group-mozilla {
     margin-top: 45px !important;

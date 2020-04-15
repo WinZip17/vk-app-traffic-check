@@ -12,6 +12,9 @@ import main from "../img/main.jpg";
 import Cell from "@vkontakte/vkui/dist/components/Cell/Cell";
 import Icon56ShuffleOutline from '@vkontakte/icons/dist/56/shuffle_outline';
 import Icon56InfoOutline from '@vkontakte/icons/dist/56/info_outline';
+import logo from "../img/logo.png"
+
+
 
 const Home = (props) => {
 	const {id, isMobPlatform, number, errorInfo,
@@ -25,6 +28,10 @@ const Home = (props) => {
 
 	return 	<Panel id={id}>
 		<PanelHeader><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
+		<Div className='competitors-content fix-logo'>
+			<img  src={logo} alt='logo' />
+		</Div>
+
 		<Group>
 			<Div>
 				{isMobPlatform && <div className="main-img-text">
@@ -50,10 +57,10 @@ const Home = (props) => {
 			</Div>
 		</Group>
 		<Group>
-			<Cell before={<Icon56InfoOutline/>} onClick={() => setActivePanel('competitors')}>
+			<Cell className='textCenter' before={<Icon56InfoOutline/>} centered={true} onClick={() => setActivePanel('competitors')}>
 				Чем мы лучше других
 			</Cell>
-			<Cell before={<Icon56ShuffleOutline/>} onClick={() => setActivePanel('comparison')}>
+			<Cell className='textCenter' before={<Icon56ShuffleOutline/>} centered={true} onClick={() => setActivePanel('comparison')}>
 				Сравнение цен
 			</Cell>
 		</Group>

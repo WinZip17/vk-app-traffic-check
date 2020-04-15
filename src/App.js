@@ -50,8 +50,6 @@ const App = () => {
 	const [isMobPlatform, setIsMobPlatform] = useState(false);
 	const [previousPanel, setPreviousPanel] = useState('home');
 	const [price, setPrice] = useState('0');
-	const [previewDataPresent, setPreviewDataPresent] = useState(undefined);
-	const [gibddHistoryPresent, setGibddHistoryPresent] = useState(undefined);
 	const [isPreview, setIsPreview] = useState(false);
 	const [isOldHistory, setIsOldHistory] = useState(false);
 	const [idHistory, setIdHistory] = useState(null);
@@ -246,13 +244,13 @@ const App = () => {
 					onClick={() => getPreviewReport()}
 					selected={activeStory === 'FullHistory'}
 					// data-story="notifications"
-					text="Отчёт"
+					text="Пример отчёт"
 				><Icon28MagicWandOutline /></TabbarItem>
 				<TabbarItem
 					onClick={() => setActiveStory('my-checks')}
 					selected={activeStory === 'my-checks'}
 					// data-story="more"
-					text="История"
+					text="Мои проверки"
 				><Icon28HistoryForwardOutline /></TabbarItem>
 			</Tabbar>
 		}>
