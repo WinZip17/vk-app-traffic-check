@@ -10,6 +10,10 @@ import SvgBig from 'react-svg-loader!../img/big-svg.html';
 //eslint-disable-next-line import/no-webpack-loader-syntax
 import SvgBus from 'react-svg-loader!../img/bus-svg.html';
 import {damageClass, getCircleColor, getGibddHistoryDataArr, modifyUrl, newDateFormat} from "../util";
+import PanelHeaderButton from "@vkontakte/vkui/dist/components/PanelHeaderButton/PanelHeaderButton";
+import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
+import Icon24Back from '@vkontakte/icons/dist/24/back';
+
 
 export const getNewUrlImg = (url) => {
 	let index = url.split("map=")
@@ -31,7 +35,7 @@ const getSVG = (history, damage) => {
 
 
 const FullHistory = (props) => {
-	const {id,  isPreview, isOldHistory, oldHistoryArr, idHistory} = props
+	const {id,  isPreview, isOldHistory, oldHistoryArr, idHistory, setActiveStory} = props
 
 	//infoArr
 	const [previewData, setPreviewData] = useState(undefined);
@@ -277,15 +281,30 @@ const FullHistory = (props) => {
 		}
 	}, [gibddHistory]);
 
-	return <Panel id={id}>
-		{!isPreview ? <PanelHeader>
-				Отчёт
-		</PanelHeader>
-		 : 		<PanelHeader>Пример отчёта</PanelHeader>
+
+	const getPanelHeader = () => {
+		let text
+		let story
+		if (isPreview) {
+			text = 'Пример отчёта'
+			story = 'home'
+		} else if (isOldHistory) {
+			text = 'Отчёт'
+			story = 'my-checks'
+		} else {
+			text = 'Отчёт'
+			story = 'home'
 		}
+		return <PanelHeader
+			left={<PanelHeaderButton onClick={() => {
+				setActiveStory(story)
+			}}>
+				{osName === IOS ? <Icon28ChevronBack className="pointer"/> : <Icon24Back className="pointer"/>}
+			</PanelHeaderButton>}>{text}</PanelHeader>
+	}
 
-		{/*{isPreview && <Menu myParam={myParam} getPreviewReport={getPreviewReport} activePanel={activePanel} setActivePanel={setActivePanel} isMobPlatform={isMobPlatform} setPopout={setPopout}/>}*/}
-
+	return <Panel id={id}>
+		{getPanelHeader()}
 
 		{gibddHistory && <Group>
 

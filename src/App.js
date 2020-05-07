@@ -7,23 +7,28 @@ import './css/app.css';
 import './css/dtp.css';
 import Home from './panels/Home';
 import FullHistory from './panels/FullHistory';
-import {get_preview_report, getPrice, gibdd_history, gibdd_history_ios, old_history, preview_data} from "./api";
+import {
+	get_preview_report,
+	getPrice,
+	getTerms,
+	gibdd_history,
+	gibdd_history_ios,
+	old_history,
+	preview_data
+} from "./api";
 import MyChecks from "./panels/MyChecks";
 import Comparison from "./panels/Comparison";
 import Competitors from "./panels/Competitors";
 import PreviewHistiry from "./panels/PreviewHistiry";
 import bridge from '@vkontakte/vk-bridge';
-import ActionSheet from "@vkontakte/vkui/dist/components/ActionSheet/ActionSheet";
-import ActionSheetItem from "@vkontakte/vkui/dist/es6/components/ActionSheetItem/ActionSheetItem";
-import {IOS} from "@vkontakte/vkui";
 import Alert from "@vkontakte/vkui/dist/components/Alert/Alert";
 import Icon28HomeOutline from '@vkontakte/icons/dist/28/home_outline';
 import TabbarItem from "@vkontakte/vkui/dist/components/TabbarItem/TabbarItem";
 import Epic from "@vkontakte/vkui/dist/components/Epic/Epic";
 import Tabbar from "@vkontakte/vkui/dist/components/Tabbar/Tabbar";
 import Icon28HistoryForwardOutline from '@vkontakte/icons/dist/28/history_forward_outline';
-import Icon28MagicWandOutline from '@vkontakte/icons/dist/28/magic_wand_outline';
-
+import Info from "./panels/Info";
+import Icon28InfoOutline from '@vkontakte/icons/dist/28/info_outline';
 
 let app_id = 0
 let group_id = 161851419
@@ -57,6 +62,8 @@ const App = () => {
 	const [errorInfo,setErrorInfo] = useState("Некорректный VIN или госномер");
 	const [myParam,setMyParam] = useState("");
 	const [scheme,setScheme] = useState("");
+	const [emailValue,setEmailValue] = useState("");
+	const [terms,setTerms] = useState("");
 
 	useEffect(() => {
 		const urlParams = new URLSearchParams(window.location.search);
@@ -85,7 +92,7 @@ const App = () => {
 									}]}
 									onClose={() => setPopout( null )}
 								>
-									<h2>Формирование отчёта занимает от 1 до 5 минут. Отчёт будет отправлен на ваш e-mail и доступен в разделе «Мои проверки»</h2>
+									<h2>Формирование отчёта занимает от 1 до 5 минут. Отчёт будет отправлен на ваш e-mail.</h2>
 								</Alert>
 							)
 						} else {
@@ -112,9 +119,9 @@ const App = () => {
 			setPopout(null);
 		}
 		getPrice(setPrice)
+		getTerms(setTerms)
 		fetchData();
 	}, []);
-
 
 	const getPreviewData = () => {
 		setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
@@ -123,7 +130,10 @@ const App = () => {
 		preview_data(number, setPreviewData, setPopout, setIsValidNumber, setIsPreview, setErrorInfo, setActivePanel)
 	};
 
-
+	const setGlobalEmail = (value) => {
+		email = value
+		setEmailValue(value)
+	}
 
 	const getGibddHistory = () => {
 		setIsOldHistory(false)
@@ -140,16 +150,17 @@ const App = () => {
 				gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActiveStory, userId, setIsPreview)
 			} else {
 				if (myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) {
-					bridge
-						.send('VKWebAppGetEmail')
-						.then(data => {
-							// Handling received data
-							email = data.email
-							bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
-						})
-						.catch(error => {
-							// Handling an error
-						});
+					// bridge
+					// 	.send('VKWebAppGetEmail')
+					// 	.then(data => {
+					// 		email = data.email
+					// 		bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
+					// 	})
+					// 	.catch(error => {
+					// 	});
+
+					bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
+
 				} else {
 					bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
 				}
@@ -237,28 +248,33 @@ const App = () => {
 						setActivePanel('home')
 					}}
 					selected={activeStory === 'home'}
-					// data-story="feed"
-					// text="Новости"
 				><Icon28HomeOutline /></TabbarItem>
-				<TabbarItem
-					onClick={() => getPreviewReport()}
-					selected={activeStory === 'FullHistory'}
-					// data-story="notifications"
-					text="Пример отчёт"
-				><Icon28MagicWandOutline /></TabbarItem>
-				<TabbarItem
+				{/*<TabbarItem*/}
+				{/*	onClick={() => getPreviewReport()}*/}
+				{/*	selected={activeStory === 'FullHistory'}*/}
+				{/*	text="Пример отчёта"*/}
+				{/*><Icon28MagicWandOutline /></TabbarItem>*/}
+				{(myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) ? ""  : <TabbarItem
 					onClick={() => setActiveStory('my-checks')}
 					selected={activeStory === 'my-checks'}
-					// data-story="more"
 					text="Мои проверки"
-				><Icon28HistoryForwardOutline /></TabbarItem>
+				><Icon28HistoryForwardOutline /></TabbarItem>}
+				<TabbarItem
+					onClick={() => {
+						setActiveStory('info')
+					}}
+					selected={activeStory === 'info'}
+					text="Информация"
+				><Icon28InfoOutline /></TabbarItem>
+
 			</Tabbar>
 		}>
 			<View id='home' activePanel={activePanel} popout={popout}>
-				<Home id='home' errorInfo={errorInfo}
+				<Home id='home' errorInfo={errorInfo} go={go}
 					  number={number} changeNumber={changeNumber} isValidNumber={isValidNumber}
 					  getPreviewData={getPreviewData} isMobPlatform={isMobPlatform}
 					  setActivePanel={setActivePanel} price={price} setPreviousPanel={setPreviousPanel}
+					  getPreviewReport={getPreviewReport} setActiveStory={setActiveStory}
 				/>
 				<Competitors id='competitors' setActivePanel={setActivePanel}
 							 setPreviousPanel={setPreviousPanel}
@@ -270,7 +286,7 @@ const App = () => {
 							/>
 				<PreviewHistiry fetchedUser={fetchedUser} id='PreviewHistiry' go={go}
 								previewData={previewData} getGibddHistory={getGibddHistory} price={price}
-								number={number} myParam={myParam}/>
+								number={number} myParam={myParam} setEmailValue={setGlobalEmail} emailValue={emailValue}/>
 			</View>
 			<View id='my-checks' activePanel='mc' popout={popout}>
 				<MyChecks id='mc' setActiveStory={setActiveStory}
@@ -285,7 +301,13 @@ const App = () => {
 							 gibddHistory={gibddHistory}
 							 isPreview={isPreview}
 							 oldHistoryArr={oldHistoryArr}
-							 isOldHistory={isOldHistory} idHistory={idHistory}/>
+							 isOldHistory={isOldHistory}
+							 idHistory={idHistory}
+							 setActiveStory={setActiveStory}
+				/>
+			</View>
+			<View id='info' activePanel='fff' popout={popout}>
+				<Info id='fff' text={terms}/>
 			</View>
 		</Epic>
 	);

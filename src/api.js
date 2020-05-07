@@ -88,6 +88,20 @@ export const getPrice = (setPrice) => {
 
 }
 
+export const getTerms = (setTerms) => {
+    fetch(`https://data.gibdd-proverka.ru/check/auto/uterms/?key=Dq4pEfzGk4p09cnv&ios=1`)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if("error" in data) {
+            } else {
+                setTerms(data.text)
+            }
+        })
+
+}
+
 export const old_history = ( user_id, setOldHistoryArr, setActivePanel, setPopout ) => {
     fetch(`https://data.gibdd-proverka.ru/check/auto/get_user_data/?key=Dq4pEfzGk4p09cnv&user_id=${user_id}`)
         .then(function(response) {

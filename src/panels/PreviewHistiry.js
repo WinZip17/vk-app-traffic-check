@@ -8,15 +8,19 @@ import Div from "@vkontakte/vkui/dist/es6/components/Div/Div";
 import Button from "@vkontakte/vkui/dist/components/Button/Button";
 import {modifyUrl} from "../util";
 import PanelHeaderButton from "@vkontakte/vkui/dist/components/PanelHeaderButton/PanelHeaderButton";
+import Input from "@vkontakte/vkui/dist/components/Input/Input";
+import validator from 'email-validator'
+import FormLayout from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
+import bridge from "@vkontakte/vk-bridge";
 
 const osName = platform();
 
 const PreviewHistiry = (props) => {
-	const {id, go, previewData,  getGibddHistory, price, number, myParam, fetchedUser} = props
+	const {id, go, previewData,  getGibddHistory, price, number, myParam, fetchedUser, setEmailValue, emailValue } = props
 	const Hashtag = <Fragment><span className="bl_color">#</span></Fragment>
 	const [isIOS, setIsIOS] = useState(false);
 	const img = useRef(null);
-
+	const [valid, setValid] = useState(true);
 
 	useEffect(() => {
 		if (myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) {
@@ -33,6 +37,24 @@ const PreviewHistiry = (props) => {
 
 		}
 		return arr.includes(name) && previewData[name].length > 0
+	}
+
+	const onChangeEmail = (e) => {
+		setValid(validator.validate(e.target.value))
+		setEmailValue(e.target.value)
+	}
+
+	const getEmail = () => {
+		bridge
+			.send('VKWebAppGetEmail')
+			.then(data => {
+				// Handling received data
+				setEmailValue(data.email)
+				// bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
+			})
+			.catch(error => {
+				// Handling an error
+			});
 	}
 
 	return <Panel id={id}>
@@ -65,14 +87,38 @@ const PreviewHistiry = (props) => {
 				</Div>
 				<Div className='textCenter'>
 					<p>
-						Формирование отчёта занимает от 1 до 5 минут
+						Формирование отчёта занимает от 1 до 5 минут.
 					</p>
+					{isIOS && <p>
+						Заказанный отчёт придет на указанную почту.
+					</p> }
 				</Div>
 
+			{isIOS && <Div>
+					<FormLayout>
+						<Input
+							type="email"
+							top="E-mail"
+							name="email"
+							value={emailValue}
+							onChange={onChangeEmail}
+							status={valid ? 'valid' : 'error'}
+							bottom={valid ? '' : 'Введен некорректный почтовый адрес'}
+						/>
+					</FormLayout>
+					<Button mode="tertiary" onClick={getEmail} >Скопировать E-mail из профиля</Button>
+				</Div> }
+
 				<Div>
-					{isIOS ? <a target="_blank" className='text-decoration-none' href={`https://xn----8sbbfchakv0a5blnd.xn--p1ai/?vin_or_num=${number}&user_id=${fetchedUser.id}&miniapp=true`}><Button name="top" size="xl" >
+					{/*{isIOS ? <a target="_blank" className='text-decoration-none' href={`https://xn----8sbbfchakv0a5blnd.xn--p1ai/?vin_or_num=${number}&user_id=${fetchedUser.id}&miniapp=true`}><Button name="top" size="xl" >*/}
+					{/*	Купить полный отчёт*/}
+					{/*</Button></a>: <Button name="top" size="xl" onClick={getGibddHistory} >*/}
+					{/*	Купить полный отчёт*/}
+					{/*</Button>}*/}
+					{isIOS ? <Button name="top" size="xl" disabled={!valid || emailValue.length === 0} onClick={getGibddHistory} >
 						Купить полный отчёт
-					</Button></a>: <Button name="top" size="xl" onClick={getGibddHistory} >
+					</Button> :
+					<Button name="top" size="xl" onClick={getGibddHistory} >
 						Купить полный отчёт
 					</Button>}
 				</Div>

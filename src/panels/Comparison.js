@@ -38,7 +38,7 @@ const Comparison = (props) => {
 					<div className='border-price-block textCenter' >
 						<h3 className='comparison-content-header-active'>НАШ СЕРВИС</h3>
 						<p className='comparison-content-website'>САЙТ/TELEGRAM-БОТ</p>
-						<p className='comparison-content-price-active'>{price} <span className='arial'>₽</span>/отчёт</p>
+						<p className='comparison-content-price-active'>{price} <span className='arial'>&#8381;</span>/отчёт</p>
 						<p>есть <span>ГИБДД проверка авто </span> </p>
 						<p>есть данные о залогах</p>
 						<p>есть данные о пробеге</p>
@@ -57,7 +57,7 @@ const Comparison = (props) => {
 					<div className='border-price-block-pasiv textCenter'>
 						<h3 className='comparison-content-header-pasiv'>AUTOTEKA.RU</h3>
 						<p className='comparison-content-website'>САЙТ/ПРИЛОЖЕНИЕ</p>
-						<p className='comparison-content-price-pasiv'>129 <span className='arial'>₽</span>/отчёт</p>
+						<p className='comparison-content-price-pasiv'>129 <span className='arial'>&#8381;</span>/отчёт</p>
 						<p>есть <span>ГИБДД проверка авто </span> </p>
 						<p>есть данные о залогах</p>
 						<p>есть данные о пробеге</p>
@@ -78,7 +78,7 @@ const Comparison = (props) => {
 					<div className='border-price-block-pasiv textCenter'>
 						<h3 className='comparison-content-header-pasiv'>АВТОИСТОРИЯ.РФ</h3>
 						<p className='comparison-content-website'>САЙТ/ПРИЛОЖЕНИЕ</p>
-						<p className='comparison-content-price-pasiv'>199 <span className='arial'>₽</span>/отчёт</p>
+						<p className='comparison-content-price-pasiv'>199 <span className='arial'>&#8381;</span>/отчёт</p>
 						<p>есть <span>ГИБДД проверка авто </span> </p>
 						<p>есть данные о залогах</p>
 						<p>есть данные о пробеге</p>
@@ -99,7 +99,7 @@ const Comparison = (props) => {
 					<div className='border-price-block-pasiv textCenter'>
 						<h3 className='comparison-content-header-pasiv'>ADAPERIO.RU</h3>
 						<p className='comparison-content-website'>САЙТ/ПРИЛОЖЕНИЕ</p>
-						<p className='comparison-content-price-pasiv'>292  <span className='arial'>₽</span>/отчёт</p>
+						<p className='comparison-content-price-pasiv'>292  <span className='arial'>&#8381;</span>/отчёт</p>
 						<p>есть <span>ГИБДД проверка авто </span> </p>
 						<p>есть данные о залогах</p>
 						<p>есть данные о пробеге</p>
@@ -120,7 +120,7 @@ const Comparison = (props) => {
 					<div className='border-price-block-pasiv textCenter'>
 						<h3 className='comparison-content-header-pasiv'>AVTORAPORT.RU</h3>
 						<p className='comparison-content-website'>САЙТ/ПРИЛОЖЕНИЕ</p>
-						<p className='comparison-content-price-pasiv'>299  <span className='arial'>₽</span>/отчёт</p>
+						<p className='comparison-content-price-pasiv'>299  <span className='arial'>&#8381;</span>/отчёт</p>
 						<p>есть <span>ГИБДД проверка авто </span> </p>
 						<p>есть данные о залогах</p>
 						<p>есть данные о пробеге</p>
@@ -141,7 +141,7 @@ const Comparison = (props) => {
 					<div className='border-price-block-pasiv textCenter'>
 						<h3 className='comparison-content-header-pasiv'>AVTOCOD.RU</h3>
 						<p className='comparison-content-website'>САЙТ/ПРИЛОЖЕНИЕ</p>
-						<p className='comparison-content-price-pasiv'>349 <span className='arial'>₽</span>/отчёт</p>
+						<p className='comparison-content-price-pasiv'>349 <span className='arial'>&#8381;</span>/отчёт</p>
 						<p>есть <span>ГИБДД проверка авто </span> </p>
 						<p>есть данные о залогах</p>
 						<p>есть данные о пробеге</p>

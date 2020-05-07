@@ -12,14 +12,16 @@ import main from "../img/main.jpg";
 import Cell from "@vkontakte/vkui/dist/components/Cell/Cell";
 import Icon56ShuffleOutline from '@vkontakte/icons/dist/56/shuffle_outline';
 import Icon56InfoOutline from '@vkontakte/icons/dist/56/info_outline';
-import logo from "../img/logo.png"
+import logo from "../img/logo_full.jpg"
+import find_cars from "../img/find_cars.png"
 
 
 
 const Home = (props) => {
 	const {id, isMobPlatform, number, errorInfo,
 		changeNumber, isValidNumber, getPreviewData,
-		setActivePanel, price, setPreviousPanel} = props
+		setActivePanel, price, setPreviousPanel,
+		getPreviewReport, setActiveStory} = props
 
 	useEffect(() => {
 		setPreviousPanel(id)
@@ -29,7 +31,10 @@ const Home = (props) => {
 	return 	<Panel id={id}>
 		<PanelHeader><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
 		<Div className='competitors-content fix-logo'>
-			<img  src={logo} alt='logo' />
+			<div  className='home-logo-shell'>
+				<img  src={logo} alt='logo' className='home-logo'/>
+			</div>
+
 		</Div>
 
 		<Group>
@@ -40,7 +45,7 @@ const Home = (props) => {
 				</div>}
 				{!isMobPlatform && <div className="main-img-text main-img-text-desktop" >
 					<h2 className='header-text'>Узнай её прошлое, <br/><span className='subtext'>прежде чем взять</span></h2>
-					<h3 className='subtext'>Проверка истории авто по VIN <br/>или госномеру за <span className='price-text-header-desktop'>{price}<span className='arial'>₽</span></span></h3>
+					<h3 className='subtext'>Проверка истории авто по VIN <br/>или госномеру за <span className='price-text-header-desktop'>{price}<span className='arial'>	&#8381;</span></span></h3>
 				</div>}
 				<img src={main} alt='main' className="main-img" />
 			</Div>
@@ -57,11 +62,11 @@ const Home = (props) => {
 			</Div>
 		</Group>
 		<Group>
-			<Cell className='textCenter' before={<Icon56InfoOutline/>} centered={true} onClick={() => setActivePanel('competitors')}>
-				Чем мы лучше других
-			</Cell>
-			<Cell className='textCenter' before={<Icon56ShuffleOutline/>} centered={true} onClick={() => setActivePanel('comparison')}>
-				Сравнение цен
+			<Cell className='textCenter' before={<img className='icon-img' src={find_cars} alt="car"/>} centered={'true'} onClick={() => {
+				getPreviewReport()
+				setActiveStory('FullHistory')
+			}}>
+				Пример отчёта
 			</Cell>
 		</Group>
 	</Panel>
