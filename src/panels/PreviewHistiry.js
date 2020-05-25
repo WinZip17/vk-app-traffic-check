@@ -12,11 +12,12 @@ import Input from "@vkontakte/vkui/dist/components/Input/Input";
 import validator from 'email-validator'
 import FormLayout from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
 import bridge from "@vkontakte/vk-bridge";
+import Alert from "@vkontakte/vkui/dist/components/Alert/Alert";
 
 const osName = platform();
 
 const PreviewHistiry = (props) => {
-	const {id, go, previewData,  getGibddHistory, price, number, myParam, fetchedUser, setEmailValue, emailValue } = props
+	const {id, go, previewData,  getGibddHistory, price, number, myParam, fetchedUser, setEmailValue, emailValue, setActiveModal } = props
 	const Hashtag = <Fragment><span className="bl_color">#</span></Fragment>
 	const [isIOS, setIsIOS] = useState(false);
 	const img = useRef(null);
@@ -80,7 +81,7 @@ const PreviewHistiry = (props) => {
 					{getNamePreviewDataArr("image") && <img  ref={img} src={modifyUrl(previewData.image)} alt='photo' className='photo'/>}
 				</Div>
 				<Div className='textCenter'>
-					<h3>В полном отчёте за {price}₽ доступно:</h3>
+					<h3>В полном отчёте за <span className='arial'>{price} ₽</span> доступно:</h3>
 					<p>
 						{Hashtag}пробег {Hashtag}регистрации {Hashtag}ДТП {Hashtag}ограничения {Hashtag}розыск {Hashtag}данные о залогах {Hashtag}диагностическая карта {Hashtag}ОСАГО {Hashtag}штрафы {Hashtag}фотографии {Hashtag}объявления о продаже {Hashtag}профили на drive2.ru {Hashtag}проверка на работу в такси {Hashtag}характеристики авто
 					</p>
@@ -89,12 +90,12 @@ const PreviewHistiry = (props) => {
 					<p>
 						Формирование отчёта занимает от 1 до 5 минут.
 					</p>
-					{isIOS && <p>
+					<p>
 						Заказанный отчёт придет на указанную почту.
-					</p> }
+					</p>
 				</Div>
 
-			{isIOS && <Div>
+			 <Div>
 					<FormLayout>
 						<Input
 							type="email"
@@ -107,7 +108,7 @@ const PreviewHistiry = (props) => {
 						/>
 					</FormLayout>
 					<Button mode="tertiary" onClick={getEmail} >Скопировать E-mail из профиля</Button>
-				</Div> }
+				</Div>
 
 				<Div>
 					{/*{isIOS ? <a target="_blank" className='text-decoration-none' href={`https://xn----8sbbfchakv0a5blnd.xn--p1ai/?vin_or_num=${number}&user_id=${fetchedUser.id}&miniapp=true`}><Button name="top" size="xl" >*/}
@@ -115,12 +116,18 @@ const PreviewHistiry = (props) => {
 					{/*</Button></a>: <Button name="top" size="xl" onClick={getGibddHistory} >*/}
 					{/*	Купить полный отчёт*/}
 					{/*</Button>}*/}
-					{isIOS ? <Button name="top" size="xl" disabled={!valid || emailValue.length === 0} onClick={getGibddHistory} >
+					{/*{isIOS ? <Button name="top" size="xl" disabled={!valid || emailValue.length === 0} onClick={getGibddHistory} >*/}
+					{/*	Купить полный отчёт*/}
+					{/*</Button> :*/}
+					{/*<Button name="top" size="xl" onClick={getGibddHistory} >*/}
+					{/*	Купить полный отчёт*/}
+					{/*</Button>}*/}
+					<Button name="top" size="xl" disabled={!valid || emailValue.length === 0} onClick={getGibddHistory} >
 						Купить полный отчёт
-					</Button> :
-					<Button name="top" size="xl" onClick={getGibddHistory} >
-						Купить полный отчёт
-					</Button>}
+					</Button>
+					<p>
+						Пользуясь нашим сервисом, вы автоматически принимаете условия <a className='natural-link' onClick={() => setActiveModal('hard-text')}>договора оферты</a>
+					</p>
 				</Div>
 		</Group>
 	</Panel>

@@ -41,11 +41,11 @@ const Home = (props) => {
 			<Div>
 				{isMobPlatform && <div className="main-img-text">
 					<h3>Узнай её прошлое, <br/><span className='subtext'>прежде чем взять</span></h3>
-					<h5 className='subtext'>Проверка истории авто по VIN <br/>или госномеру за <span className='price-text-header'>{price}₽</span></h5>
+					<h5 className='subtext'>Проверка истории авто по VIN <br/>или госномеру за <span className='price-text-header arial'>{price} ₽</span></h5>
 				</div>}
 				{!isMobPlatform && <div className="main-img-text main-img-text-desktop" >
 					<h2 className='header-text'>Узнай её прошлое, <br/><span className='subtext'>прежде чем взять</span></h2>
-					<h3 className='subtext'>Проверка истории авто по VIN <br/>или госномеру за <span className='price-text-header-desktop'>{price}<span className='arial'>	&#8381;</span></span></h3>
+					<h3 className='subtext'>Проверка истории авто по VIN <br/>или госномеру за <span className='price-text-header-desktop'><span className='arial'>{price}	₽</span></span></h3>
 				</div>}
 				<img src={main} alt='main' className="main-img" />
 			</Div>

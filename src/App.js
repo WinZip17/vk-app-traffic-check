@@ -29,6 +29,13 @@ import Tabbar from "@vkontakte/vkui/dist/components/Tabbar/Tabbar";
 import Icon28HistoryForwardOutline from '@vkontakte/icons/dist/28/history_forward_outline';
 import Info from "./panels/Info";
 import Icon28InfoOutline from '@vkontakte/icons/dist/28/info_outline';
+import ModalPageHeader from "@vkontakte/vkui/dist/components/ModalPageHeader/ModalPageHeader";
+import ModalPage from "@vkontakte/vkui/dist/components/ModalPage/ModalPage";
+import ModalRoot from "@vkontakte/vkui/dist/components/ModalRoot/ModalRoot";
+import PanelHeaderButton from "@vkontakte/vkui/dist/components/PanelHeaderButton/PanelHeaderButton";
+import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
+import Icon24Dismiss from '@vkontakte/icons/dist/24/dismiss';
+import Div from "@vkontakte/vkui/dist/components/Div/Div";
 
 let app_id = 0
 let group_id = 161851419
@@ -64,6 +71,7 @@ const App = () => {
 	const [scheme,setScheme] = useState("");
 	const [emailValue,setEmailValue] = useState("");
 	const [terms,setTerms] = useState("");
+	const [activeModal,setActiveModal] = useState(null);
 
 	useEffect(() => {
 		const urlParams = new URLSearchParams(window.location.search);
@@ -87,7 +95,7 @@ const App = () => {
 								<Alert
 									actions={[{
 										title: 'Хорошо',
-										autoclose: true,
+										autoclose: false,
 										action: () => setPopout( null )
 									}]}
 									onClose={() => setPopout( null )}
@@ -149,22 +157,7 @@ const App = () => {
 				setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 				gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActiveStory, userId, setIsPreview)
 			} else {
-				if (myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) {
-					// bridge
-					// 	.send('VKWebAppGetEmail')
-					// 	.then(data => {
-					// 		email = data.email
-					// 		bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
-					// 	})
-					// 	.catch(error => {
-					// 	});
-
-					bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
-
-				} else {
-					bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
-				}
-			}
+				bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})			}
 		}
 	};
 
@@ -238,6 +231,33 @@ const App = () => {
 		gibdd_history_ios(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, userId, mail)
 	}
 
+	const createMarkup = (text) => {
+		return {__html: text}
+	}
+
+	const modal = (
+		<ModalRoot
+			activeModal={activeModal}
+			onClose={() => setActiveModal(null)}
+		>
+			<ModalPage
+				id='hard-text'
+				onClose={() => setActiveModal(null)}
+				header={
+					<ModalPageHeader
+						left={!isIos && <PanelHeaderButton onClick={() => setActiveModal(null)}><Icon24Cancel /></PanelHeaderButton>}
+						right={isIos && <PanelHeaderButton onClick={() => setActiveModal(null)}><Icon24Dismiss /></PanelHeaderButton>}
+					>
+						Договор оферты
+					</ModalPageHeader>
+				}
+			>
+				<Div>
+					<div dangerouslySetInnerHTML={createMarkup(terms)}/>
+				</Div>
+			</ModalPage>
+		</ModalRoot>
+	);
 
 	return (
 		<Epic activeStory={activeStory} tabbar={
@@ -269,7 +289,7 @@ const App = () => {
 
 			</Tabbar>
 		}>
-			<View id='home' activePanel={activePanel} popout={popout}>
+			<View id='home' activePanel={activePanel} popout={popout} modal={modal}>
 				<Home id='home' errorInfo={errorInfo} go={go}
 					  number={number} changeNumber={changeNumber} isValidNumber={isValidNumber}
 					  getPreviewData={getPreviewData} isMobPlatform={isMobPlatform}
@@ -286,7 +306,9 @@ const App = () => {
 							/>
 				<PreviewHistiry fetchedUser={fetchedUser} id='PreviewHistiry' go={go}
 								previewData={previewData} getGibddHistory={getGibddHistory} price={price}
-								number={number} myParam={myParam} setEmailValue={setGlobalEmail} emailValue={emailValue}/>
+								number={number} myParam={myParam} setEmailValue={setGlobalEmail} emailValue={emailValue}
+								setActiveModal={setActiveModal}
+				/>
 			</View>
 			<View id='my-checks' activePanel='mc' popout={popout}>
 				<MyChecks id='mc' setActiveStory={setActiveStory}

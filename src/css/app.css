@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap');
+
 #root {
     height: 100%;
 }
@@ -378,7 +380,7 @@ body, h1, h2, h3, h4, h5, h6, p, span {
 }
 
 .arial {
-    font-family: Arial, sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
 }
 
 .icon-img {
@@ -390,4 +392,10 @@ body, h1, h2, h3, h4, h5, h6, p, span {
 }
 .home-logo-shell {
     width: 40%;
+}
+
+
+.natural-link {
+    color: #528bcc;
+    text-decoration: underline;
 }
