@@ -276,8 +276,6 @@ const FullHistory = (props) => {
 				}
 				setNewFinesArr(fines)
 			}
-
-
 		}
 	}, [gibddHistory]);
 
@@ -328,11 +326,11 @@ const FullHistory = (props) => {
 			<Div>
 				<p className='fix-margin'><span className='text-bold'>Сводные данные</span></p>
 				{ptsCount && <p><span className={!ptsCount ? getCircleColor(0) : getCircleColor(ptsCount)}> </span> <i>Количество записей в ПТС: </i><span>{" " + ptsCount}</span></p>}
-				<p><span className={dtpCount && dtpCount > 0 ? getCircleColor(3) : getCircleColor(1)}> </span><i>ДТП: </i> {dtpCount && dtpCount > 0  ? <span>{" " + dtpCount}</span> : " 0"}</p>
+				{gibddHistory.dtp.status !== 202  && <p><span className={dtpCount && dtpCount > 0 ? getCircleColor(3) : getCircleColor(1)}> </span><i>ДТП: </i> {dtpCount && dtpCount > 0  ? <span>{" " + dtpCount}</span> : " 0"}</p>}
 				{mileages && <p><i>Пробег: </i><span>{mileages[gibddHistory.mileages.mileages.length - 1].mileage / 1000}<span> тыс. км  </span> ({mileages[gibddHistory.mileages.mileages.length - 1].date})</span></p>}
-				<p><span className={restrict ? getCircleColor(3) : getCircleColor(1)}> </span><i>Ограничения ГИБДД: </i> {restrict ? <span>{restrict[restrict.length - 1].restrict_type + "  "} ({restrict[restrict.length - 1].restrict_osn + "  " + restrict[restrict.length - 1].region_name})</span>: " Нет"}</p>
+				{gibddHistory.restrict.status !== 202 && <p><span className={restrict ? getCircleColor(3) : getCircleColor(1)}> </span><i>Ограничения ГИБДД: </i> {restrict ? <span>{restrict[restrict.length - 1].restrict_type + "  "} ({restrict[restrict.length - 1].restrict_osn + "  " + restrict[restrict.length - 1].region_name})</span>: " Нет"}</p>}
 				<p><span className={zalogi ? getCircleColor(3) : getCircleColor(1)}> </span><i>Залог: </i> {zalogi ? <span>{zalogi.map((zalogi, index) => <div key={index}><p>В залоге {zalogi.pledgees} c {zalogi.register_date}</p></div>)}</span> : " Нет"}</p>
-				<p><span className={wanted ? getCircleColor(3) : getCircleColor(1)}> </span><i>Розыск: </i> {wanted ? <span>{wanted.map((wanted, index) => <div key={index}><span>В розыске с {wanted.date_add}, {wanted.region}</span></div>)}</span> : " Нет"}</p>
+				{gibddHistory.wanted.status !== 202 && <p><span className={wanted ? getCircleColor(3) : getCircleColor(1)}> </span><i>Розыск: </i> {wanted ? <span>{wanted.map((wanted, index) => <div key={index}><span>В розыске с {wanted.date_add}, {wanted.region}</span></div>)}</span> : " Нет"}</p>}
 				<p><span className={newFinesArr.length > 0 ? getCircleColor(3) : getCircleColor(1)}> </span><i>Неоплаченные штрафы: </i> {newFinesArr.length > 0 ? <span>{newFinesArr.length}</span> : " 0"}</p>
 				{diagnose_cards && <p>{diagnose_cards.length === 1 ? <i>Диагностическая карта: </i>  : <i>Диагностические карты: </i>}<span>{diagnose_cards.map((card, index) => card.number.length > 0 && <span key={index}>№{card.number}{card.start_date.length > 0 && card.end_date.length > 0 && ", "} {card.start_date.length > 0 && card.start_date + " - "} {card.start_date.length > 0 && card.end_date + "  "}</span>)}</span></p>}
 				<p><span className={taxi ? getCircleColor(3) : getCircleColor(1)}> </span> <i> Такси: </i>{taxi ? "Да" : " Нет"}</p>

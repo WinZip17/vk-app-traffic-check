@@ -43,20 +43,20 @@ export const gibdd_history = (number, setGibddHistory, setPopout, setIsValidNumb
 }
 
 export const gibdd_history_ios = (number, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, user_id = 0, mail ) => {
-    let url = user_id === 0 ? `https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv` : `https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv&user_id=${user_id}&ios=1&email=${mail}`
+    let url = user_id === 0 ? `https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv&ios=1&email=${mail}` : `https://data.gibdd-proverka.ru/check/auto/?vin_grz=${number}&key=Dq4pEfzGk4p09cnv&user_id=${user_id}&ios=1&email=${mail}`
     fetch(url)
         .then(function(response) {
-            return response.json();
+            // return response.json();
         })
         .then(function(data) {
-            if("error" in data) {
-                setIsValidNumber(false)
-                setPopout(null)
-            } else {
-                // setGibddHistory(data)
-                // setActivePanel('FullHistory')
-                // setPopout(null)
-            }
+            // if("error" in data) {
+            //     setIsValidNumber(false)
+            //     setPopout(null)
+            // } else {
+            //     setGibddHistory(data)
+            //     setActivePanel('FullHistory')
+            //     setPopout(null)
+            // }
         })
 
 }

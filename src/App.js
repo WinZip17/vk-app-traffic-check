@@ -91,18 +91,7 @@ const App = () => {
 					if (data.status) {
 						if (email) {
 							getInfoIos(email)
-							setPopout(
-								<Alert
-									actions={[{
-										title: 'Хорошо',
-										autoclose: false,
-										action: () => setPopout( null )
-									}]}
-									onClose={() => setPopout( null )}
-								>
-									<h2>Формирование отчёта занимает от 1 до 5 минут. Отчёт будет отправлен на ваш e-mail.</h2>
-								</Alert>
-							)
+							setPopout(alertResult)
 						} else {
 							setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 							getInfo()
@@ -146,18 +135,17 @@ const App = () => {
 	const getGibddHistory = () => {
 		setIsOldHistory(false)
 		setIsPreview(false)
-		if (number && number === 'О111ЕХ102' ) {
-			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
-			gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActiveStory, userId, setIsPreview)
-		} else if (number && number === 'SALVA1BD8CH641467' ) {
-			setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
-			gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActiveStory, userId, setIsPreview)
+		if (price.toString() === "0" || number === 'О111ЕХ102'  || number === 'SALVA1BD8CH641467') {
+			// setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
+			// gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActiveStory, userId, setIsPreview)
+			if (email) {
+				getInfoIos(email)
+				setPopout(alertResult)
+				setNumber('')
+				newNumder = 0
+			}
 		} else {
-			if (price.toString() === "0") {
-				setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
-				gibdd_history(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActiveStory, userId, setIsPreview)
-			} else {
-				bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})			}
+			bridge.send("VKWebAppOpenPayForm", {"app_id": +app_id, "action": "pay-to-group", "params": {"amount" : price, "description" : `Оплата проверки истории авто. ${number > 11 ? "VIN" + number : "Госномер:" + number}`, 'group_id' : group_id }})
 		}
 	};
 
@@ -259,6 +247,18 @@ const App = () => {
 		</ModalRoot>
 	);
 
+	const alertResult = (
+		<Alert
+			actions={[{
+				title: 'Хорошо',
+				autoclose: false,
+				action: () => setPopout( null )
+			}]}
+			onClose={() => setPopout( null )}
+		>
+			{isIos ? <h2>Формирование отчёта занимает от 1 до 5 минут. Отчёт будет отправлен на ваш e-mail.</h2> : <h2>Формирование отчёта занимает от 1 до 5 минут. Отчёт будет отправлен на ваш e-mail и доступен в разделе "Мои проверки".</h2>}
+		</Alert>
+	)
 	return (
 		<Epic activeStory={activeStory} tabbar={
 			<Tabbar>
@@ -315,6 +315,7 @@ const App = () => {
 						  setPreviousPanel={setPreviousPanel}
 						  getOldHistory={getOldHistory} oldHistoryArr={oldHistoryArr}
 						  popout={popout}
+						  setPopout={setPopout}
 						  setIdHistory={setIdHistory}
 						  setIsOldHistory={setIsOldHistory}/>
 			</View>
