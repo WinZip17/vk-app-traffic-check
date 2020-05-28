@@ -1,5 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect} from 'react';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
 import Button from '@vkontakte/vkui/dist/components/Button/Button';
@@ -20,11 +19,12 @@ import find_cars from "../img/find_cars.png"
 const Home = (props) => {
 	const {id, isMobPlatform, number, errorInfo,
 		changeNumber, isValidNumber, getPreviewData,
-		setActivePanel, price, setPreviousPanel,
+		setHeight, price, setPreviousPanel,
 		getPreviewReport, setActiveStory} = props
 
 	useEffect(() => {
 		setPreviousPanel(id)
+		setHeight(750)
 	}, []);
 
 
@@ -71,19 +71,6 @@ const Home = (props) => {
 		</Group>
 	</Panel>
 
-};
-
-Home.propTypes = {
-	id: PropTypes.string.isRequired,
-	go: PropTypes.func.isRequired,
-	fetchedUser: PropTypes.shape({
-		photo_200: PropTypes.string,
-		first_name: PropTypes.string,
-		last_name: PropTypes.string,
-		city: PropTypes.shape({
-			title: PropTypes.string,
-		}),
-	}),
 };
 
 export default Home;

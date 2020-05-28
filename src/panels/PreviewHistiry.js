@@ -12,16 +12,27 @@ import Input from "@vkontakte/vkui/dist/components/Input/Input";
 import validator from 'email-validator'
 import FormLayout from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
 import bridge from "@vkontakte/vk-bridge";
-import Alert from "@vkontakte/vkui/dist/components/Alert/Alert";
 
 const osName = platform();
 
 const PreviewHistiry = (props) => {
-	const {id, go, previewData,  getGibddHistory, price, number, myParam, fetchedUser, setEmailValue, emailValue, setActiveModal } = props
+	const {id, go, previewData,  getGibddHistory, price, number, myParam, fetchedUser, setEmailValue, emailValue, setActiveModal, setHeight } = props
 	const Hashtag = <Fragment><span className="bl_color">#</span></Fragment>
 	const [isIOS, setIsIOS] = useState(false);
 	const img = useRef(null);
 	const [valid, setValid] = useState(true);
+	const [isBlocked, setIsBlocked] = useState(false);
+
+
+	useEffect(() => {
+		const setHightFunc = () => {
+			if (previewData.image && previewData.image.length > 0 && img && img.current.height > 0) {
+				setHeight(850 + img.current.height)
+			}
+		}
+		setTimeout(setHightFunc, 200);
+	}, [previewData, img]);
+
 
 	useEffect(() => {
 		if (myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) {
@@ -41,6 +52,7 @@ const PreviewHistiry = (props) => {
 	}
 
 	const onChangeEmail = (e) => {
+		setIsBlocked(false)
 		setValid(validator.validate(e.target.value))
 		setEmailValue(e.target.value)
 	}
@@ -122,7 +134,10 @@ const PreviewHistiry = (props) => {
 					{/*<Button name="top" size="xl" onClick={getGibddHistory} >*/}
 					{/*	Купить полный отчёт*/}
 					{/*</Button>}*/}
-					<Button name="top" size="xl" disabled={!valid || emailValue.length === 0} onClick={getGibddHistory} >
+					<Button name="top" size="xl" disabled={!valid || emailValue.length === 0 || isBlocked} onClick={() => {
+						setIsBlocked(true)
+						getGibddHistory()
+					}} >
 						Купить полный отчёт
 					</Button>
 					<p>

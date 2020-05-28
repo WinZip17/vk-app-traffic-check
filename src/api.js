@@ -119,3 +119,21 @@ export const old_history = ( user_id, setOldHistoryArr, setActivePanel, setPopou
         })
 
 }
+
+export const SetOldHstoryPanel = ( user_id, setOldHistoryArr, setActivePanel, setPopout ) => {
+    fetch(`https://data.gibdd-proverka.ru/check/auto/get_user_data/?key=Dq4pEfzGk4p09cnv&user_id=${user_id}`)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if("error" in data) {
+                // setIsValidNumber(false)
+                setPopout(null)
+            } else {
+                setOldHistoryArr(data)
+                setActivePanel('my-checks')
+                setPopout(null)
+            }
+        })
+
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Group} from '@vkontakte/vkui';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
@@ -6,7 +6,11 @@ import Div from "@vkontakte/vkui/dist/components/Div/Div";
 
 
 const Info = (props) => {
-	const { id, text } = props
+	const { id, text, setHeight } = props
+
+	useEffect(() => {
+		setHeight(4050)
+	}, []);
 
 	const createMarkup = (text) => {
 		return {__html: text}

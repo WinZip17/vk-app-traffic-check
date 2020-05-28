@@ -35,12 +35,15 @@ const getSVG = (history, damage) => {
 
 
 const FullHistory = (props) => {
-	const {id,  isPreview, isOldHistory, oldHistoryArr, idHistory, setActiveStory} = props
+	const {id,  isPreview, isOldHistory, oldHistoryArr, idHistory, setActiveStory, setHeight} = props
 
 	//infoArr
 	const [previewData, setPreviewData] = useState(undefined);
 	const [gibddHistory, setGibddHistory] = useState(undefined);
 
+	useEffect(() => {
+		setHeight(4050)
+	}, []);
 
 	useEffect(() => {
 		if (isOldHistory && idHistory !== null) {

@@ -10,11 +10,12 @@ import Alert from "@vkontakte/vkui/dist/components/Alert/Alert";
 
 const MyChecks = (props) => {
 	const {id, setActiveStory, setPreviousPanel,
-		getOldHistory, oldHistoryArr, popout, setIdHistory, setIsOldHistory, setPopout} = props
+		getOldHistory, oldHistoryArr, popout, setIdHistory, setIsOldHistory, setPopout, setHeight} = props
 
 	const [oldHistoryArrRevers, seOldHistoryArrRevers] = useState([]);
 	useEffect(() => {
 		setPreviousPanel(id)
+		setHeight(1000)
 		getOldHistory()
 	}, []);
 

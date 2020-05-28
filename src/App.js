@@ -14,7 +14,7 @@ import {
 	gibdd_history,
 	gibdd_history_ios,
 	old_history,
-	preview_data
+	preview_data, SetOldHstoryPanel
 } from "./api";
 import MyChecks from "./panels/MyChecks";
 import Comparison from "./panels/Comparison";
@@ -43,12 +43,6 @@ let userId = ""
 let newNumder = 0
 let isIos = false
 let email = null
-
-export function get_name_browser(){
-	let ua = navigator.userAgent;
-	if (ua.search(/Firefox/) > 0) return true;
-	return false;
-}
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
@@ -92,6 +86,8 @@ const App = () => {
 						if (email) {
 							getInfoIos(email)
 							setPopout(alertResult)
+							setNumber('')
+							newNumder = 0
 						} else {
 							setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
 							getInfo()
@@ -118,7 +114,15 @@ const App = () => {
 		getPrice(setPrice)
 		getTerms(setTerms)
 		fetchData();
+		setHeight(1000)
 	}, []);
+
+
+
+	const setHeight = (height) => {
+		bridge.send("VKWebAppResizeWindow", { "height": height});
+	}
+
 
 	const getPreviewData = () => {
 		setPopout(<div className='spinner-shell'><ScreenSpinner size='large' /></div>)
@@ -247,14 +251,21 @@ const App = () => {
 		</ModalRoot>
 	);
 
+	const closeAlert = () => {
+		setPopout( null )
+		if (!isIos) {
+			SetOldHstoryPanel(fetchedUser.id, setOldHistoryArr, setActiveStory, setPopout)
+		}
+	}
+
 	const alertResult = (
 		<Alert
 			actions={[{
 				title: 'Хорошо',
 				autoclose: false,
-				action: () => setPopout( null )
+				action: ()  => closeAlert()
 			}]}
-			onClose={() => setPopout( null )}
+			onClose={ ()  => closeAlert()}
 		>
 			{isIos ? <h2>Формирование отчёта занимает от 1 до 5 минут. Отчёт будет отправлен на ваш e-mail.</h2> : <h2>Формирование отчёта занимает от 1 до 5 минут. Отчёт будет отправлен на ваш e-mail и доступен в разделе "Мои проверки".</h2>}
 		</Alert>
@@ -266,6 +277,7 @@ const App = () => {
 					onClick={() => {
 						setActiveStory('home')
 						setActivePanel('home')
+						setHeight(1000)
 					}}
 					selected={activeStory === 'home'}
 				><Icon28HomeOutline /></TabbarItem>
@@ -275,13 +287,18 @@ const App = () => {
 				{/*	text="Пример отчёта"*/}
 				{/*><Icon28MagicWandOutline /></TabbarItem>*/}
 				{(myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) ? ""  : <TabbarItem
-					onClick={() => setActiveStory('my-checks')}
+					// onClick={() => setActiveStory('my-checks')}
+					onClick={() => {
+						setHeight(1000)
+						SetOldHstoryPanel(fetchedUser.id, setOldHistoryArr, setActiveStory, setPopout)
+					}}
 					selected={activeStory === 'my-checks'}
 					text="Мои проверки"
 				><Icon28HistoryForwardOutline /></TabbarItem>}
 				<TabbarItem
 					onClick={() => {
 						setActiveStory('info')
+						setHeight(4000)
 					}}
 					selected={activeStory === 'info'}
 					text="Информация"
@@ -295,19 +312,12 @@ const App = () => {
 					  getPreviewData={getPreviewData} isMobPlatform={isMobPlatform}
 					  setActivePanel={setActivePanel} price={price} setPreviousPanel={setPreviousPanel}
 					  getPreviewReport={getPreviewReport} setActiveStory={setActiveStory}
+					  setHeight={setHeight}
 				/>
-				<Competitors id='competitors' setActivePanel={setActivePanel}
-							 setPreviousPanel={setPreviousPanel}
-							 getPreviewReport={getPreviewReport} price={price} isMobPlatform={isMobPlatform}
-				/>
-				<Comparison id='comparison' setActivePanel={setActivePanel}
-							setPreviousPanel={setPreviousPanel}
-							isMobPlatform={isMobPlatform} getPreviewReport={getPreviewReport} price={price}
-							/>
 				<PreviewHistiry fetchedUser={fetchedUser} id='PreviewHistiry' go={go}
 								previewData={previewData} getGibddHistory={getGibddHistory} price={price}
 								number={number} myParam={myParam} setEmailValue={setGlobalEmail} emailValue={emailValue}
-								setActiveModal={setActiveModal}
+								setActiveModal={setActiveModal} setHeight={setHeight}
 				/>
 			</View>
 			<View id='my-checks' activePanel='mc' popout={popout}>
@@ -317,7 +327,9 @@ const App = () => {
 						  popout={popout}
 						  setPopout={setPopout}
 						  setIdHistory={setIdHistory}
-						  setIsOldHistory={setIsOldHistory}/>
+						  setIsOldHistory={setIsOldHistory}
+						  setHeight={setHeight}
+				/>
 			</View>
 			<View id='FullHistory' activePanel='fh' popout={popout}>
 				<FullHistory id='fh'
@@ -327,10 +339,11 @@ const App = () => {
 							 isOldHistory={isOldHistory}
 							 idHistory={idHistory}
 							 setActiveStory={setActiveStory}
+							 setHeight={setHeight}
 				/>
 			</View>
 			<View id='info' activePanel='fff' popout={popout}>
-				<Info id='fff' text={terms}/>
+				<Info id='fff' text={terms} setHeight={setHeight}/>
 			</View>
 		</Epic>
 	);
