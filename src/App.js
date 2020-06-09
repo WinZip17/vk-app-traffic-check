@@ -237,8 +237,8 @@ const App = () => {
 				onClose={() => setActiveModal(null)}
 				header={
 					<ModalPageHeader
-						left={!isIos && <PanelHeaderButton onClick={() => setActiveModal(null)}><Icon24Cancel /></PanelHeaderButton>}
-						right={isIos && <PanelHeaderButton onClick={() => setActiveModal(null)}><Icon24Dismiss /></PanelHeaderButton>}
+						left={!isIos && <PanelHeaderButton className='pointer' onClick={() => setActiveModal(null)}><Icon24Cancel /></PanelHeaderButton>}
+						right={isIos && <PanelHeaderButton className='pointer' onClick={() => setActiveModal(null)}><Icon24Dismiss /></PanelHeaderButton>}
 					>
 						Договор оферты
 					</ModalPageHeader>
@@ -274,6 +274,7 @@ const App = () => {
 		<Epic activeStory={activeStory} tabbar={
 			<Tabbar>
 				<TabbarItem
+					className='pointer'
 					onClick={() => {
 						setActiveStory('home')
 						setActivePanel('home')
@@ -287,7 +288,7 @@ const App = () => {
 				{/*	text="Пример отчёта"*/}
 				{/*><Icon28MagicWandOutline /></TabbarItem>*/}
 				{(myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) ? ""  : <TabbarItem
-					// onClick={() => setActiveStory('my-checks')}
+					className='pointer'
 					onClick={() => {
 						setHeight(1000)
 						SetOldHstoryPanel(fetchedUser.id, setOldHistoryArr, setActiveStory, setPopout)
@@ -296,13 +297,14 @@ const App = () => {
 					text="Мои проверки"
 				><Icon28HistoryForwardOutline /></TabbarItem>}
 				<TabbarItem
+					className='pointer'
 					onClick={() => {
 						setActiveStory('info')
 						setHeight(4000)
 					}}
 					selected={activeStory === 'info'}
 					text="Информация"
-				><Icon28InfoOutline /></TabbarItem>
+				><Icon28InfoOutline  /></TabbarItem>
 
 			</Tabbar>
 		}>
@@ -312,7 +314,7 @@ const App = () => {
 					  getPreviewData={getPreviewData} isMobPlatform={isMobPlatform}
 					  setActivePanel={setActivePanel} price={price} setPreviousPanel={setPreviousPanel}
 					  getPreviewReport={getPreviewReport} setActiveStory={setActiveStory}
-					  setHeight={setHeight}
+					  setHeight={setHeight} myParam={myParam}
 				/>
 				<PreviewHistiry fetchedUser={fetchedUser} id='PreviewHistiry' go={go}
 								previewData={previewData} getGibddHistory={getGibddHistory} price={price}

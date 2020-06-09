@@ -390,12 +390,21 @@ body, h1, h2, h3, h4, h5, h6, p, span {
 .home-logo {
     width: 100%;
 }
+
 .home-logo-shell {
     width: 40%;
+}
+
+.home-logo-shell-desktop {
+    width: 20%;
 }
 
 
 .natural-link {
     color: #528bcc;
     text-decoration: underline;
+}
+
+.Alert__btn {
+    cursor: pointer;
 }

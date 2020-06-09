@@ -345,7 +345,7 @@ const FullHistory = (props) => {
 			</div></Div>}
 
 			{dtpArr.length > 0 && <Div><div> <p><span className='text-bold'>История ДТП (ГИБДД)</span></p></div>
-				{dtpArr.map((accidents, index) => <div key={index}>{index + 1 }) {" " + accidents.accident_type + ", "}{accidents.accident_date_time + ", "}{accidents.region_name + ""} <br/> {accidents.damage_image.length === 0 && accidents.damage_points.length > 0 && getSVG(previewData, accidents.damage_points) } {accidents.damage_image.length > 0 && <img className='img-margin' src={getNewUrlImg(accidents.damage_image[0])} alt='damage' />} </div>)}
+				{dtpArr.map((accidents, index) => <div key={index}>{index + 1 }) {" " + accidents.accident_type + ", "}{accidents.accident_date_time + ", "}{accidents.region_name + ", "}{accidents.damage_image.length > 0 && <a target='_blank' href={accidents.damage_image}>схема повреждений</a> } </div>)}
 			</Div>}
 
 			{mileages && <Div><p><span className='text-bold'>История пробега</span></p><div>

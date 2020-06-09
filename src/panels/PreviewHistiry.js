@@ -119,7 +119,7 @@ const PreviewHistiry = (props) => {
 							bottom={valid ? '' : 'Введен некорректный почтовый адрес'}
 						/>
 					</FormLayout>
-					<Button mode="tertiary" onClick={getEmail} >Скопировать E-mail из профиля</Button>
+					<Button mode="tertiary" className='pointer' onClick={getEmail} >Скопировать E-mail из профиля</Button>
 				</Div>
 
 				<Div>
@@ -134,7 +134,7 @@ const PreviewHistiry = (props) => {
 					{/*<Button name="top" size="xl" onClick={getGibddHistory} >*/}
 					{/*	Купить полный отчёт*/}
 					{/*</Button>}*/}
-					<Button name="top" size="xl" disabled={!valid || emailValue.length === 0 || isBlocked} onClick={() => {
+					<Button className='pointer' name="top" size="xl" disabled={!valid || emailValue.length === 0 || isBlocked} onClick={() => {
 						setIsBlocked(true)
 						getGibddHistory()
 					}} >

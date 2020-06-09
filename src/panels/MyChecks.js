@@ -38,6 +38,7 @@ const MyChecks = (props) => {
 						setIsOldHistory(true)
 					} else {
 						setPopout(<Alert
+							className='pointer'
 							actions={[{
 								title: 'Хорошо',
 								autoclose: false,

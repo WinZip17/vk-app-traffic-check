@@ -20,18 +20,17 @@ const Home = (props) => {
 	const {id, isMobPlatform, number, errorInfo,
 		changeNumber, isValidNumber, getPreviewData,
 		setHeight, price, setPreviousPanel,
-		getPreviewReport, setActiveStory} = props
+		getPreviewReport, setActiveStory, myParam} = props
 
 	useEffect(() => {
 		setPreviousPanel(id)
 		setHeight(750)
 	}, []);
 
-
 	return 	<Panel id={id}>
 		<PanelHeader><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
 		<Div className='competitors-content fix-logo'>
-			<div  className='home-logo-shell'>
+			<div  className={`${myParam === 'desktop_web' ? 'home-logo-shell-desktop' : 'home-logo-shell' }`}>
 				<img  src={logo} alt='logo' className='home-logo'/>
 			</div>
 
@@ -62,7 +61,7 @@ const Home = (props) => {
 			</Div>
 		</Group>
 		<Group>
-			<Cell className='textCenter' before={<img className='icon-img' src={find_cars} alt="car"/>} centered={'true'} onClick={() => {
+			<Cell className='textCenter pointer' before={<img className='icon-img' src={find_cars} alt="car"/>} centered={'true'} onClick={() => {
 				getPreviewReport()
 				setActiveStory('FullHistory')
 			}}>
