@@ -22,7 +22,7 @@
 }
 
 .pointer {
-    cursor: pointer;
+    cursor: pointer!important;
 }
 
 .panel-header-link {
@@ -367,6 +367,7 @@ body, h1, h2, h3, h4, h5, h6, p, span {
     width: 100%;
 }
 
+
 .ActionSheet   {
     opacity: 1;
 }
@@ -408,3 +409,7 @@ body, h1, h2, h3, h4, h5, h6, p, span {
 .Alert__btn {
     cursor: pointer;
 }
+
+/*.alert-fix-mozilla > PopoutWrapper__container {*/
+/*    height: 10%;*/
+/*}*/

@@ -44,11 +44,18 @@ let newNumder = 0
 let isIos = false
 let email = null
 
+// export function get_name_browser(){
+// 	let ua = navigator.userAgent;
+// 	if (ua.search(/Firefox/) > 0) return true;
+// 	return false;
+// }
+
+
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
 	const [activeStory, setActiveStory] = useState('home');
 	const [fetchedUser, setUser] = useState(null);
-	const [popout, setPopout] = useState(<div className='spinner-shell'><ScreenSpinner size='large' /></div>); //<div className='spinner-shell'><ScreenSpinner size='large' /></div>
+	const [popout, setPopout] = useState(<div className='spinner-shell'><ScreenSpinner size='large' /></div>);  //<div className='spinner-shell'><ScreenSpinner size='large' /></div>
 	const [previewData, setPreviewData] = useState(undefined);
 	const [gibddHistory, setGibddHistory] = useState(undefined);
 	const [number, setNumber] = useState('');
@@ -279,19 +286,16 @@ const App = () => {
 						setActiveStory('home')
 						setActivePanel('home')
 						setHeight(1000)
+						!isMobPlatform && window.scrollTo(0,0)
 					}}
 					selected={activeStory === 'home'}
 				><Icon28HomeOutline /></TabbarItem>
-				{/*<TabbarItem*/}
-				{/*	onClick={() => getPreviewReport()}*/}
-				{/*	selected={activeStory === 'FullHistory'}*/}
-				{/*	text="Пример отчёта"*/}
-				{/*><Icon28MagicWandOutline /></TabbarItem>*/}
 				{(myParam === "mobile_iphone" || myParam === "mobile_iphone_messenger" ) ? ""  : <TabbarItem
 					className='pointer'
 					onClick={() => {
 						setHeight(1000)
 						SetOldHstoryPanel(fetchedUser.id, setOldHistoryArr, setActiveStory, setPopout)
+						!isMobPlatform && window.scrollTo(0,0)
 					}}
 					selected={activeStory === 'my-checks'}
 					text="Мои проверки"
@@ -301,6 +305,7 @@ const App = () => {
 					onClick={() => {
 						setActiveStory('info')
 						setHeight(4000)
+						!isMobPlatform && window.scrollTo(0,0)
 					}}
 					selected={activeStory === 'info'}
 					text="Информация"

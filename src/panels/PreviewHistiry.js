@@ -141,7 +141,7 @@ const PreviewHistiry = (props) => {
 						Купить полный отчёт
 					</Button>
 					<p>
-						Пользуясь нашим сервисом, вы автоматически принимаете условия <a className='natural-link' onClick={() => setActiveModal('hard-text')}>договора оферты</a>
+						Пользуясь нашим сервисом, вы автоматически принимаете условия <a className='natural-link pointer' onClick={() => setActiveModal('hard-text')}>договора оферты</a>
 					</p>
 				</Div>
 		</Group>
