@@ -227,7 +227,7 @@ const App = () => {
 	}
 
 	const getInfoIos = (mail) => {
-		gibdd_history_ios(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, userId, mail)
+		gibdd_history_ios(newNumder, setGibddHistory, setPopout, setIsValidNumber, setActivePanel, userId, mail, price)
 	}
 
 	const createMarkup = (text) => {

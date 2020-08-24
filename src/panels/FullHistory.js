@@ -282,7 +282,6 @@ const FullHistory = (props) => {
 		}
 	}, [gibddHistory]);
 
-
 	const getPanelHeader = () => {
 		let text
 		let story

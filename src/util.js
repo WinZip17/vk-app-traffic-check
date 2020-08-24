@@ -32,7 +32,7 @@ export const damageClass = (arrDtp) => {
 }
 
 export const modifyUrl = (url) => {
-    if (url.indexOf("http:") != -1) {
+    if (url.indexOf("http:") !== -1) {
         return "https" + url.slice(4)
     } else {
         return url

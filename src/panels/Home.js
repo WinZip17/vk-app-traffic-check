@@ -28,7 +28,7 @@ const Home = (props) => {
 	}, []);
 
 	return 	<Panel id={id}>
-		<PanelHeader><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
+		<PanelHeader><a target="_BLANK" className='panel-header-link' href="https://easy-vin.ru ">easy-vin.ru</a></PanelHeader>
 		<Div className='competitors-content fix-logo'>
 			<div  className={`${myParam === 'desktop_web' ? 'home-logo-shell-desktop' : 'home-logo-shell' }`}>
 				<img  src={logo} alt='logo' className='home-logo'/>

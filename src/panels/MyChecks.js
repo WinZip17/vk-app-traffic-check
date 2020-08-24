@@ -24,7 +24,7 @@ const MyChecks = (props) => {
 	}, [oldHistoryArr]);
 
 	return <Panel id={id}>
-		<PanelHeader><a target="_BLANK" className='panel-header-link' href="https://xn----8sbbfchakv0a5blnd.xn--p1ai/">ГИБДД-проверка.рф</a></PanelHeader>
+		<PanelHeader><a target="_BLANK" className='panel-header-link' href="https://easy-vin.ru ">easy-vin.ru</a></PanelHeader>
 		{oldHistoryArrRevers && oldHistoryArrRevers.length > 0 ? <Group>
 			{oldHistoryArrRevers.map((auto, index) => <Cell
 				before={<Avatar size={60} src={getPhoto(oldHistoryArrRevers[index])} className='auto-ico'/>}
