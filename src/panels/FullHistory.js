@@ -89,6 +89,7 @@ const FullHistory = (props) => {
 	const [drive2Arr, setDrive2Arr] = useState([]);
 	const [autoruArr, setAutoruArr] = useState([]);
 	const [newFinesArr, setNewFinesArr] = useState([]);
+	const [extraArr, setExtraArr] = useState([]);
 
 
 	const getNamePreviewDataArr = (name) => {
@@ -279,8 +280,35 @@ const FullHistory = (props) => {
 				}
 				setNewFinesArr(fines)
 			}
+
+			//extraArr
+			if ('extra' in gibddHistory && Object.keys(gibddHistory.extra).length > 0) {
+				setExtraArr(Object.keys(gibddHistory.extra))
+			}
+
 		}
 	}, [gibddHistory]);
+
+	const getExtra = (name, key) => {
+		const valueArr = Object.entries(gibddHistory.extra[name]).filter(e => e.length > 0)
+		const result = []
+		if (valueArr.length > 0) {
+			valueArr.map((value, index) => {
+				if (value[1] && value[1].length > 0) {
+					result.push(<span><a target="_blank" key={index} href={value[1]}>{value[0]}{index + 1 !== valueArr.length ? ', ' : ''}</a></span>)
+				} else {
+					result.push(<span key={index}>{value[0]}{index + 1 !== valueArr.length ? ', ' : ''}</span>)
+				}
+			})
+		} else {
+			result.push(<p>Нет данных</p>)
+		}
+		return (
+			<Div key={key}><div> <p><span className='text-bold'>{name}</span></p></div>
+				{result.map((r, i) => <span key={i}>{r}</span>)}
+			</Div>
+		)
+	}
 
 	const getPanelHeader = () => {
 		let text
@@ -324,6 +352,7 @@ const FullHistory = (props) => {
 			{power && <Div><span><i>Мощность двигателя: </i>{power + " л.c."}</span></Div> }
 			{engine_number && <Div><span><i>№ двигателя: </i>{engine_number}</span></Div>}
 			{engine_type && <Div><span><i>Тип двигателя: </i>{engine_type}</span></Div>}
+			{extraArr.map((e, index) => getExtra(e, index))}
 
 			<Div>
 				<p className='fix-margin'><span className='text-bold'>Сводные данные</span></p>
@@ -368,6 +397,11 @@ const FullHistory = (props) => {
 			{newFinesArr.length > 0 && <Div><div> <p><span className='text-bold'>Список неоплаченных штрафов</span></p></div>
 				{newFinesArr.map((fines, index) => <div key={index}><p>{index + 1 }) {"date_post" in fines && `Штраф отправлен ${fines.date_post}`}{"date_decis" in fines && `, Нарушение от ${fines.date_decis}`}{"koap_text" in fines && fines.koap_text.length > 0 && ", " + fines.koap_text}{"div_addr" in fines && fines.div_addr.length > 0 && ", " + fines.div_addr}{fines.summa.toString().length > 0 && <span>, <span className='text-bold'>{fines.summa} ₽</span></span>}</p></div>)}
 			</Div>}
+
+
+			{/*{extraArr.length > 0 && <Div><div> <p><span className='text-bold'>Список отзывных кампаний</span></p></div>*/}
+			{/*	{extraArr.map((fines, index) => <div key={index}><p>{index + 1 }) {"date_post" in fines && `Штраф отправлен ${fines.date_post}`}{"date_decis" in fines && `, Нарушение от ${fines.date_decis}`}{"koap_text" in fines && fines.koap_text.length > 0 && ", " + fines.koap_text}{"div_addr" in fines && fines.div_addr.length > 0 && ", " + fines.div_addr}{fines.summa.toString().length > 0 && <span>, <span className='text-bold'>{fines.summa} ₽</span></span>}</p></div>)}*/}
+			{/*</Div>}*/}
 
 		</Group>}
 	</Panel>
